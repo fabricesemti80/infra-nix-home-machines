@@ -46,6 +46,12 @@
 
     # Define user configurations
     users = {
+      fs = {
+        email = "fabrice@fabricesemti.com";
+        fullName = "Fabrice Semti";
+        gitKey = "YOUR_GIT_KEY";
+        name = "fs";
+      };
       nabokikh = {
         avatar = ./files/avatar/face;
         email = "alexander.nabokikh@olx.pl";
@@ -95,6 +101,7 @@
       };
   in {
     nixosConfigurations = {
+      newmachine = mkNixosConfiguration "nixos" "fs";
       energy = mkNixosConfiguration "energy" "nabokikh";
       nabokikh-z13 = mkNixosConfiguration "nabokikh-z13" "nabokikh";
     };
@@ -104,6 +111,7 @@
     };
 
     homeConfigurations = {
+      "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
       "nabokikh@energy" = mkHomeConfiguration "x86_64-linux" "nabokikh" "energy";
       "nabokikh@nabokikh-mac" = mkHomeConfiguration "aarch64-darwin" "nabokikh" "nabokikh-mac";
       "nabokikh@nabokikh-z13" = mkHomeConfiguration "x86_64-linux" "nabokikh" "nabokikh-z13";
