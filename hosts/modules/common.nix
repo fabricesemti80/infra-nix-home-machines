@@ -52,7 +52,7 @@
   networking.networkmanager.enable = true;
 
   # Timezone
-  time.timeZone = "Europe/Warsaw";
+  time.timeZone = "Europe/London";
 
   # Internationalization
   i18n.defaultLocale = "en_US.UTF-8";
@@ -74,7 +74,7 @@
   # X11 settings
   services.xserver = {
     enable = true;
-    xkb.layout = "pl";
+    xkb.layout = "us";
     xkb.variant = "";
     excludePackages = with pkgs; [xterm];
     displayManager.gdm.enable = true;
