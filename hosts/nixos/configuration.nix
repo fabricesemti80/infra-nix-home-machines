@@ -12,18 +12,18 @@
       ./hardware-configuration.nix
     ];
 
-  # Enable some features
-  nix = {
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-    };
-  };
+#  # Enable some features
+#  nix = {
+#    settings = {
+#      experimental-features = [ "nix-command" "flakes" ];
+#    };
+#  };
 
 
-  # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+#  # Bootloader.
+# boot.loader.grub.enable = true;
+# boot.loader.grub.device = "/dev/sda";
+#  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -33,39 +33,39 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+#  networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Europe/London";
+#  time.timeZone = "Europe/London";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
+#  # Select internationalisation properties.
+#  i18n.defaultLocale = "en_GB.UTF-8";
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
-  };
+#  i18n.extraLocaleSettings = {
+#    LC_ADDRESS = "en_GB.UTF-8";
+#    LC_IDENTIFICATION = "en_GB.UTF-8";
+#    LC_MEASUREMENT = "en_GB.UTF-8";
+#    LC_MONETARY = "en_GB.UTF-8";
+#    LC_NAME = "en_GB.UTF-8";
+#    LC_NUMERIC = "en_GB.UTF-8";
+#    LC_PAPER = "en_GB.UTF-8";
+#    LC_TELEPHONE = "en_GB.UTF-8";
+#   LC_TIME = "en_GB.UTF-8";
+#  };
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+#  # Enable the X11 windowing system.
+#  # You can disable this if you're only using the Wayland session.
+#  services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+#  # Enable the KDE Plasma Desktop Environment.
+#  services.displayManager.sddm.enable = true;
+#  services.desktopManager.plasma6.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
+#  # Configure keymap in X11
+#  services.xserver.xkb = {
+#    layout = "us";
+#    variant = "";
+#  };
 
   # Configure console keymap
   console.keyMap = "us";
@@ -101,13 +101,13 @@
       kdePackages.kate
     #  thunderbird
     ];
-    openssh.authorizedKeys.keys = [
-	    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJpVWYmXPpqVmlHdixDR//vdfD+sryvYmpH2Dj1/Otx fabrice@fabricesemti.com"
-	    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDl0ivGFV8D/M53/qvRRkfxkKgY3635xDiiLQwFgrWon fabrice@fabricesemti.com"
-	    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX2Y3nmVHNxNCNV+WXHeBEcXFS0XYDnNWxzm9oAIyFa fabrice@fabricesemti.com"
-	    # note: ssh-copy-id will add user@your-machine after the public key
-	    # but we can remove the "@your-machine" part
-	  ];	
+#    openssh.authorizedKeys.keys = [
+#	    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJpVWYmXPpqVmlHdixDR//vdfD+sryvYmpH2Dj1/Otx fabrice@fabricesemti.com"
+#	    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDl0ivGFV8D/M53/qvRRkfxkKgY3635xDiiLQwFgrWon fabrice@fabricesemti.com"
+#	    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX2Y3nmVHNxNCNV+WXHeBEcXFS0XYDnNWxzm9oAIyFa fabrice@fabricesemti.com"
+#	    # note: ssh-copy-id will add user@your-machine after the public key
+#	    # but we can remove the "@your-machine" part
+#	  ];	
   };
 
   # Install firefox.
