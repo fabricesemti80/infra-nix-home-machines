@@ -47,6 +47,7 @@
     # Define user configurations
     users = {
       fs = {
+        avatar = ./files/avatar/face;
         email = "fabrice@fabricesemti.com";
         fullName = "Fabrice Semti";
         gitKey = "YOUR_GIT_KEY";
@@ -101,7 +102,7 @@
       };
   in {
     nixosConfigurations = {
-      newmachine = mkNixosConfiguration "nixos" "fs";
+      nixos = mkNixosConfiguration "nixos" "fs";
       energy = mkNixosConfiguration "energy" "nabokikh";
       nabokikh-z13 = mkNixosConfiguration "nabokikh-z13" "nabokikh";
     };

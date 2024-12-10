@@ -70,8 +70,8 @@
   # Configure console keymap
   console.keyMap = "us";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # # Enable CUPS to print documents.
+  # services.printing.enable = true;
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
