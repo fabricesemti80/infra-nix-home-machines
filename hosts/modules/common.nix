@@ -149,6 +149,7 @@
     gcc
     glib
     gnumake
+    home-manager
     jq
     killall
     kubectl
