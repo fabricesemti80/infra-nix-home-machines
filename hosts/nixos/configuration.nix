@@ -2,15 +2,21 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [ 
-      ../modules/common.nix
+  inputs,
+  hostname,
+  ...
+}: {
+  imports = [
+    inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-gpu-amd
+    inputs.hardware.nixosModules.common-pc-ssd
 
-      ./hardware-configuration.nix
-    ];
+    ./hardware-configuration.nix
+    ../modules/common.nix
+    ../modules/hyprland.nix
+    # ../modules/steam.nix
+  ];
 
 #  # Enable some features
 #  nix = {
