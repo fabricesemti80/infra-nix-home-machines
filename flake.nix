@@ -114,7 +114,7 @@
 
     homeConfigurations = {
       "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
-      "fs@fabrice-mac" = mkHomeConfiguration "x86_64-linux" "fs" "fabrice-mac";
+      "fs@fabrice-mac" = mkHomeConfiguration "aarch64-darwin" "fs" "fabrice-mac";
       "nabokikh@energy" = mkHomeConfiguration "x86_64-linux" "nabokikh" "energy";
       "nabokikh@nabokikh-mac" = mkHomeConfiguration "aarch64-darwin" "nabokikh" "nabokikh-mac";
       "nabokikh@nabokikh-z13" = mkHomeConfiguration "x86_64-linux" "nabokikh" "nabokikh-z13";
