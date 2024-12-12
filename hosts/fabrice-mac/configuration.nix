@@ -129,6 +129,7 @@
    # du-dust
     eza
     fd
+    home-manager
     jq
   #  kubectl
   #  lazydocker
@@ -157,7 +158,7 @@
       "aerospace"
       "anki"
       "brave-browser"
-      "dozer"
+    #  "dozer"
       "obs"
       "raycast"
     ];
