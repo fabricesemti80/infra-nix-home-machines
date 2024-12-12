@@ -85,7 +85,7 @@
         _FXSortFoldersFirst = true;
       };
       dock = {
-        autohide = true;
+        autohide = false;
         expose-animation-duration = 0.15;
         show-recents = false;
         showhidden = true;
