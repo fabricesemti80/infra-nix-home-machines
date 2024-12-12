@@ -126,7 +126,7 @@
    # colima
    # delta
     docker
-   # du-dust
+    du-dust
     eza
     fd
     home-manager
@@ -158,7 +158,7 @@
       "aerospace"
       "anki"
       "brave-browser"
-    #  "dozer"
+      "dozer"
       "obs"
       "raycast"
     ];
