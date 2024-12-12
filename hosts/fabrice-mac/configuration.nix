@@ -131,10 +131,10 @@
     fd
     home-manager
     jq
-  #  kubectl
-  #  lazydocker
-  #  nh
-  #  openconnect
+    kubectl
+    lazydocker
+    nh
+    openconnect
     pipenv
     ripgrep
     telegram-desktop
