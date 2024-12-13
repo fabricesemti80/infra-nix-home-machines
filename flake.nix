@@ -31,6 +31,16 @@
 
     # Homebrew
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    zsh-autosuggestions = {
+      url = "github:zsh-users/zsh-autosuggestions";
+      flake = false;
+    };
+    zsh-history-substring-search = {
+      url = "github:zsh-users/zsh-history-substring-search";
+      flake = false;
+    };
+
   };
 
   outputs = {
@@ -40,6 +50,8 @@
     home-manager,
     nix-homebrew,
     nixpkgs,
+    zsh-autosuggestions,
+    zsh-history-substring-search,
     ...
   } @ inputs: let
     inherit (self) outputs;

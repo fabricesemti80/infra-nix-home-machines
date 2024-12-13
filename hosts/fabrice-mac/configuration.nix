@@ -160,11 +160,7 @@
       "aerospace"
       "anki"
       "brave-browser"
-<<<<<<< HEAD
       "dozer"
-=======
-      #  "dozer"
->>>>>>> eb8d968 (dock adjustments)
       "obs"
       "raycast"
     ];
