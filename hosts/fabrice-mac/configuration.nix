@@ -92,9 +92,10 @@
         persistent-apps = [
           "/Applications/Brave Browser.app"
           "${pkgs.alacritty}/Applications/Alacritty.app"
-          "${pkgs.telegram-desktop}/Applications/Telegram.app"
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          #"${pkgs.telegram-desktop}/Applications/Telegram.app"
         ];
-        tilesize = 30;
+        tilesize = 60;
         wvous-bl-corner = 1;
         wvous-br-corner = 1;
         wvous-tl-corner = 1;
@@ -122,9 +123,9 @@
   # System packages
   environment.systemPackages = with pkgs; [
     (python3.withPackages (ps: with ps; [pip virtualenv]))
-   # awscli2
-   # colima
-   # delta
+    # awscli2
+    colima
+    delta
     docker
     du-dust
     eza
@@ -137,9 +138,10 @@
     openconnect
     pipenv
     ripgrep
-    telegram-desktop
-   # terraform
-   # terragrunt
+    # telegram-desktop
+    # terraform
+    # terragrunt
+    vscode
   ];
 
   # Zsh configuration
@@ -158,7 +160,11 @@
       "aerospace"
       "anki"
       "brave-browser"
+<<<<<<< HEAD
       "dozer"
+=======
+      #  "dozer"
+>>>>>>> eb8d968 (dock adjustments)
       "obs"
       "raycast"
     ];
@@ -171,4 +177,3 @@
   # Used for backwards compatibility, please read the changelog before changing.
   system.stateVersion = 5;
 }
-
