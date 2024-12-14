@@ -93,7 +93,7 @@
           "/Applications/Brave Browser.app"
           "${pkgs.alacritty}/Applications/Alacritty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          #"${pkgs.telegram-desktop}/Applications/Telegram.app"
+          "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
         tilesize = 60;
         wvous-bl-corner = 1;
@@ -124,6 +124,7 @@
   environment.systemPackages = with pkgs; [
     (python3.withPackages (ps: with ps; [pip virtualenv]))
     # awscli2
+    bartender
     colima
     delta
     docker
@@ -132,9 +133,11 @@
     fd
     home-manager
     jq
+    just
     kubectl
     lazydocker
     nh
+    obsidian
     openconnect
     pipenv
     ripgrep
@@ -160,7 +163,7 @@
       "aerospace"
       "anki"
       "brave-browser"
-      "dozer"
+      # "dozer"
       "obs"
       "raycast"
     ];
