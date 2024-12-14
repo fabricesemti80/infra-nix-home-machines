@@ -121,31 +121,34 @@
   };
 
   # System packages
-  environment.systemPackages = with pkgs; [
-    (python3.withPackages (ps: with ps; [pip virtualenv]))
-    # awscli2
-    bartender
-    colima
-    delta
-    docker
-    du-dust
-    eza
-    fd
-    home-manager
-    jq
-    just
-    kubectl
-    lazydocker
-    nh
-    obsidian
-    openconnect
-    pipenv
-    ripgrep
-    # telegram-desktop
-    # terraform
-    # terragrunt
-    vscode
-  ];
+  environment = {
+      systemPackages = with pkgs; [
+      (python3.withPackages (ps: with ps; [pip virtualenv]))
+      # awscli2
+      bartender
+      colima
+      delta
+      docker
+      du-dust
+      eza
+      fd
+      home-manager
+      jq
+      just
+      kubectl
+      lazydocker
+      nh
+      obsidian
+      openconnect
+      pipenv
+      ripgrep
+      # telegram-desktop
+      # terraform
+      # terragrunt
+      vscode
+    ];
+    
+  };
 
   # Zsh configuration
   programs.zsh.enable = true;

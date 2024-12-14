@@ -57,21 +57,19 @@
     inherit (self) outputs;
 
     # Define user configurations
-    users = {
-      fs = {
-        avatar = ./files/avatar/face;
-        email = "fabrice@fabricesemti.com";
-        fullName = "Fabrice Semti";
-        gitKey = "YOUR_GIT_KEY";
-        name = "fs";
-      };
-      nabokikh = {
-        avatar = ./files/avatar/face;
-        email = "alexander.nabokikh@olx.pl";
-        fullName = "Alexander Nabokikh";
-        gitKey = "C5810093";
-        name = "nabokikh";
-      };
+    users = {  
+        fs = {
+          avatar = ./files/avatar/face;
+          email = "fabrice@fabricesemti.com";
+          fullName = "Fabrice Semti";
+          gitKey = "YOUR_GIT_KEY";
+          name = "fs";
+          sshKeys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJpVWYmXPpqVmlHdixDR//vdfD+sryvYmpH2Dj1/Otx fabrice@fabricesemti.com"
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDl0ivGFV8D/M53/qvRRkfxkKgY3635xDiiLQwFgrWon fabrice@fabricesemti.com"
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX2Y3nmVHNxNCNV+WXHeBEcXFS0XYDnNWxzm9oAIyFa fabrice@fabricesemti.com"
+          ];
+        };      
     };
 
     # Function for NixOS system configuration
@@ -115,21 +113,15 @@
   in {
     nixosConfigurations = {
       nixos = mkNixosConfiguration "nixos" "fs";
-      energy = mkNixosConfiguration "energy" "nabokikh";
-      nabokikh-z13 = mkNixosConfiguration "nabokikh-z13" "nabokikh";
     };
 
     darwinConfigurations = {
-      "nabokikh-mac" = mkDarwinConfiguration "nabokikh-mac" "nabokikh";
       "fabrice-mac" = mkDarwinConfiguration "fabrice-mac" "fs";
     };
 
     homeConfigurations = {
       "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
       "fs@fabrice-mac" = mkHomeConfiguration "aarch64-darwin" "fs" "fabrice-mac";
-      "nabokikh@energy" = mkHomeConfiguration "x86_64-linux" "nabokikh" "energy";
-      "nabokikh@nabokikh-mac" = mkHomeConfiguration "aarch64-darwin" "nabokikh" "nabokikh-mac";
-      "nabokikh@nabokikh-z13" = mkHomeConfiguration "x86_64-linux" "nabokikh" "nabokikh-z13";
     };
 
     overlays = import ./overlays {inherit inputs;};

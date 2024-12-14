@@ -141,6 +141,7 @@
     anki
     awscli2
     brave
+    coreutils-prefixed
     delta
     dig
     docker-compose
