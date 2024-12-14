@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:  {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
   # Zsh shell configuration
   programs.zsh = {
     enable = true;
@@ -12,6 +18,10 @@
       {
         name = "zsh-autosuggestions";
         src = inputs.zsh-autosuggestions;
+      }
+      {
+        name = "zsh-history-substring-search";
+        src = inputs.zsh-history-substring-search;
       }
     ];
 
@@ -95,7 +105,7 @@
       export SAVEHIST=10000
       setopt HIST_IGNORE_DUPS
       setopt HIST_IGNORE_SPACE
-      setopt SHARE_HISTORY      
+      setopt SHARE_HISTORY
     '';
   };
 }
