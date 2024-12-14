@@ -10,7 +10,7 @@
     ../modules/go.nix
     ../modules/gpg.nix
     ../modules/home.nix
-    ../modules/krew.nix
+    # ../modules/krew.nix #! causes errors
     ../modules/lazygit.nix
     ../modules/neovim.nix
     ../modules/saml2aws.nix
