@@ -2,7 +2,6 @@
   # Starship configuration
   programs.starship = {
     enable = true;
-    catppuccin.enable = true;
     enableZshIntegration = true;
     settings = {
       add_newline = false;
@@ -13,10 +12,10 @@
         disabled = true;
       };
       docker_context = {
-        symbol = " ";
+        symbol = " ";
       };
       golang = {
-        symbol = " ";
+        symbol = " ";
       };
       kubernetes = {
         disabled = false;
@@ -31,21 +30,24 @@
         ];
       };
       lua = {
-        symbol = " ";
+        symbol = " ";
       };
       package = {
-        symbol = " ";
+        symbol = " ";
       };
       php = {
-        symbol = " ";
+        symbol = " ";
       };
       python = {
-        symbol = " ";
+        symbol = " ";
       };
       terraform = {
-        symbol = " ";
+        symbol = " ";
       };
       right_format = "$kubernetes";
     };
   };
+
+  # New top-level Catppuccin configuration
+  catppuccin.starship.enable = true;
 }
