@@ -1,34 +1,26 @@
 # Justfile for Nix Darwin and Home Manager system management
 
-# Default recipe (shows available commands)
+# Determine the hostname dynamically
+hostname := `hostname`
+
+# Default recipe: Shows available commands
 default:
     @just --list
 
-# Define the hostname dynamically
-hostname := `hostname`
-
-# Install Nix
-install-nix:
-    @echo "Installing Nix..."
-    sudo curl -L https://nixos.org/nix/install | sh -s -- --daemon --yes
-    @echo "Nix installation complete."
-
-# Install nix-darwin
-install-nix-darwin:
-    @echo "Installing nix-darwin..."
-    nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .#{{hostname}}
-    @echo "nix-darwin installation complete."
-
-# Bootstrap macOS setup
-bootstrap-mac: install-nix install-nix-darwin
-    @echo "Bootstrap process complete!"
-
-# Task: Switch Nix Darwin configuration
+# Switch Nix Darwin configuration dynamically
 darwin-switch:
+    nix run nix-darwin -- switch --flake .#{{hostname}}
+
+# Switch Nix Darwin configuration for macvm-fs
+darwin-switch-macvm-fs:
     nix run nix-darwin -- switch --flake .#macvm-fs
 
-# Switch Home Manager configuration
+# Switch Home Manager configuration dynamically
 home-switch:
+    home-manager switch --flake .#fs@{{hostname}}
+
+# Switch Home Manager configuration for macvm-fs
+home-switch-macvm-fs:
     home-manager switch --flake .#fs@macvm-fs
 
 # Update flake inputs
@@ -40,18 +32,20 @@ clean:
     nix-collect-garbage -d
     home-manager expire-generations "-7 days"
 
-# Build Darwin configuration without switching
+# Build Darwin configuration dynamically without switching
 darwin-build:
+    nix run nix-darwin -- build --flake .#{{hostname}}
+
+# Build Darwin configuration for macvm-fs without switching
+darwin-build-macvm-fs:
     nix run nix-darwin -- build --flake .#macvm-fs
 
-# Task: Rebuild darwin configuration
-darwin-rebuild:
-    @echo "Rebuilding darwin configuration..."
-    darwin-rebuild switch --flake .#{{hostname}}
-    @echo "Darwin rebuild complete."
-
-# Build Home Manager configuration without switching
+# Build Home Manager configuration dynamically without switching
 home-build:
+    home-manager build --flake .#fs@{{hostname}}
+
+# Build Home Manager configuration for macvm-fs without switching
+home-build-macvm-fs:
     home-manager build --flake .#fs@macvm-fs
 
 # Show current system and home manager configurations
@@ -70,5 +64,9 @@ verify-flake:
 repl:
     nix repl .#
 
-# Quick system and home update (combination of update and switch commands)
+# Quick system and home update dynamically (combination of update and switch commands)
 quick-update: update darwin-switch home-switch
+
+# Quick system and home update for macvm-fs
+quick-update-macvm-fs: update darwin-switch-macvm-fs home-switch-macvm-fs
+
