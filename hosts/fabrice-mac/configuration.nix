@@ -215,6 +215,9 @@
     onActivation.cleanup = "zap"; # Aggressive cleanup of unused packages
   };
 
+  # Set hostname
+  networking.hostName = "macvm-fs";
+
   # System state version (for backwards compatibility)
   system.stateVersion = 5;
 }
