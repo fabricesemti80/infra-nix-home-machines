@@ -115,12 +115,12 @@
     };
 
     darwinConfigurations = {
-      "fabrice-mac" = mkDarwinConfiguration "fabrice-mac" "fs";
+      "macvm-fs" = mkDarwinConfiguration "macvm-fs" "fs";
     };
 
     homeConfigurations = {
       "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
-      "fs@fabrice-mac" = mkHomeConfiguration "aarch64-darwin" "fs" "fabrice-mac";
+      "fs@macvm-fs" = mkHomeConfiguration "aarch64-darwin" "fs" "macvm-fs";
     };
 
     overlays = import ./overlays {inherit inputs;};

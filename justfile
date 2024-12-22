@@ -6,11 +6,11 @@ default:
 
 # Switch Nix Darwin configuration
 darwin-switch:
-    nix run nix-darwin -- switch --flake .#fabrice-mac
+    nix run nix-darwin -- switch --flake .#macvm-fs
 
 # Switch Home Manager configuration
 home-switch:
-    home-manager switch --flake .#fs@fabrice-mac
+    home-manager switch --flake .#fs@macvm-fs
 
 # Update flake inputs
 update:
@@ -23,11 +23,11 @@ clean:
 
 # Build Darwin configuration without switching
 darwin-build:
-    nix run nix-darwin -- build --flake .#fabrice-mac
+    nix run nix-darwin -- build --flake .#macvm-fs
 
 # Build Home Manager configuration without switching
 home-build:
-    home-manager build --flake .#fs@fabrice-mac
+    home-manager build --flake .#fs@macvm-fs
 
 # Show current system and home manager configurations
 show-config:
