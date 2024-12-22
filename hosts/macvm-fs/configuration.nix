@@ -202,6 +202,7 @@
     enable = true;
     casks = [
       # GUI applications to install via Homebrew
+      "1password"
       "aerospace" # Window manager
       "anki" # Flashcard app
       "brave-browser" # Web browser

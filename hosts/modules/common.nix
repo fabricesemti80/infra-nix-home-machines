@@ -138,8 +138,6 @@
   # System packages
   environment.systemPackages = with pkgs; [
     (python3.withPackages (ps: with ps; [pip virtualenv]))
-    "1password-gui"
-    "1password"
     anki
     awscli2
     brave
