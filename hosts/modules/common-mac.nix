@@ -1,15 +1,10 @@
-{
-  pkgs,
-  outputs,
-  userConfig,
-  ...
-}: {
-  
+{pkgs, ...}: {
   # System packages to install
   environment = {
     systemPackages = with pkgs; [
       (python3.withPackages (ps: with ps; [pip virtualenv])) # Python with common packages
       bartender # Menu bar organization
+      cmatrix
       colima # Docker alternative for macOS
       delta # Better git diff
       docker # Container platform
@@ -26,6 +21,7 @@
       openconnect # VPN client
       pipenv # Python environment manager
       ripgrep # Fast grep alternative
+      tree
       vscode # Code editor
     ];
   };
@@ -48,5 +44,4 @@
     ];
     onActivation.cleanup = "zap"; # Aggressive cleanup of unused packages
   };
-
 }
