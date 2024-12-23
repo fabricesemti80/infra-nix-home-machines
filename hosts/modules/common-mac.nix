@@ -44,4 +44,5 @@
     ];
     onActivation.cleanup = "zap"; # Aggressive cleanup of unused packages
   };
+
 }
