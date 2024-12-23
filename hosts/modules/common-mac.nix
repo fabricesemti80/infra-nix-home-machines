@@ -9,6 +9,7 @@
       delta # Better git diff
       docker # Container platform
       du-dust # Disk usage analyzer
+      duf
       eza # Modern ls replacement
       fd # Find alternative
       home-manager # User environment manager

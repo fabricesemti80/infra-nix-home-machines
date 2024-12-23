@@ -6,6 +6,7 @@
 }: {
   imports = [
     ../modules/avatar.nix # Import the avatar module
+    ../modules/common-mac.nix
   ];
 
   # Homebrew package manager configuration for macOS
