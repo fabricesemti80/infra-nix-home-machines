@@ -9,7 +9,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     ./hardware-configuration.nix
-    ../modules/common.nix
+    ../modules/common-nixos.nix
     ../modules/hyprland.nix
     # ../modules/steam.nix
   ];
