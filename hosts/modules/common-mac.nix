@@ -17,6 +17,7 @@
       kubectl # Kubernetes CLI
       lazydocker # Docker TUI
       nh # Nix helper
+      numi
       obsidian # Note-taking app
       openconnect # VPN client
       pipenv # Python environment manager
@@ -44,5 +45,4 @@
     ];
     onActivation.cleanup = "zap"; # Aggressive cleanup of unused packages
   };
-
 }
