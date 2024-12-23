@@ -168,6 +168,7 @@
     telegram-desktop
     terraform
     terragrunt
+    tree
     tesseract
     unzip
     wl-clipboard

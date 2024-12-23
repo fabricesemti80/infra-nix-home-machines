@@ -6,7 +6,6 @@
 }: {
   imports = [
     ../modules/avatar.nix # Import the avatar module
-    ../modules/common-mac.nix # Mac packages
   ];
 
   # Homebrew package manager configuration for macOS
@@ -218,7 +217,7 @@
   # };
 
   # Set hostname
-  networking.hostName = "macvm-fs";
+  networking.hostName = "macpro-fs";
 
   # System state version (for backwards compatibility)
   system.stateVersion = 5;

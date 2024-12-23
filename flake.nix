@@ -111,16 +111,18 @@
       };
   in {
     nixosConfigurations = {
-      nixos = mkNixosConfiguration "nixos" "fs";
+      "nixos" = mkNixosConfiguration "nixos" "fs";
     };
 
     darwinConfigurations = {
       "macvm-fs" = mkDarwinConfiguration "macvm-fs" "fs";
+      "macpro-fs" = mkDarwinConfiguration "macpro-fs" "fs";
     };
 
     homeConfigurations = {
       "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
       "fs@macvm-fs" = mkHomeConfiguration "aarch64-darwin" "fs" "macvm-fs";
+      "fs@macpro-fs" = mkHomeConfiguration "aarch64-darwin" "fs" "macpro-fs";
     };
 
     overlays = import ./overlays {inherit inputs;};
