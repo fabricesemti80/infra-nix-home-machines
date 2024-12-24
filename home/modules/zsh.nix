@@ -1,8 +1,30 @@
-{...}: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
   # Zsh shell configuration
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    autosuggestion.enable = true;
+
+    syntaxHighlighting.enable = true;
+
+    # Optional: Use zsh-autosuggestions and zsh-history-substring-search plugins
+    plugins = [
+      {
+        name = "zsh-autosuggestions";
+        src = inputs.zsh-autosuggestions;
+      }
+      {
+        name = "zsh-history-substring-search";
+        src = inputs.zsh-history-substring-search;
+      }
+    ];
+
     shellAliases = {
       ff = "fastfetch";
 
@@ -73,6 +95,17 @@
       autoload -z edit-command-line
       zle -N edit-command-line
       bindkey "^e" edit-command-line
+
+      # Enable history substring search
+      bindkey '^[[A' history-substring-search-up
+      bindkey '^[[B' history-substring-search-down
+
+      # Increase history size and configure history behavior
+      export HISTSIZE=10000
+      export SAVEHIST=10000
+      setopt HIST_IGNORE_DUPS
+      setopt HIST_IGNORE_SPACE
+      setopt SHARE_HISTORY
     '';
   };
 }

@@ -4,13 +4,14 @@
     enable = true;
     userName = userConfig.fullName;
     userEmail = userConfig.email;
-    signing = {
-      key = userConfig.gitKey;
-      signByDefault = true;
-    };
+    #FIXME: need to repair signing key setup
+    # signing = {
+    #   key = userConfig.gitKey;
+    #   signByDefault = true;
+    # };
+    
     delta = {
       enable = true;
-      catppuccin.enable = true;
       options = {
         keep-plus-minus-markers = true;
         light = false;
@@ -23,4 +24,7 @@
       pull.rebase = "true";
     };
   };
+
+  # New top-level Catppuccin configuration
+  catppuccin.delta.enable = true;
 }

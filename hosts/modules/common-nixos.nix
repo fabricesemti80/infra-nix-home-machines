@@ -33,8 +33,9 @@
   # Nix settings
   nix.settings = {
     experimental-features = "nix-command flakes";
-    auto-optimise-store = true;
+    # auto-optimise-store = true;
   };
+  nix.optimise.automatic = true;
 
   # Boot settings
   boot = {
@@ -52,7 +53,7 @@
   networking.networkmanager.enable = true;
 
   # Timezone
-  time.timeZone = "Europe/Warsaw";
+  time.timeZone = "Europe/London";
 
   # Internationalization
   i18n.defaultLocale = "en_US.UTF-8";
@@ -74,7 +75,7 @@
   # X11 settings
   services.xserver = {
     enable = true;
-    xkb.layout = "pl";
+    xkb.layout = "us";
     xkb.variant = "";
     excludePackages = with pkgs; [xterm];
     displayManager.gdm.enable = true;
@@ -106,6 +107,14 @@
     extraGroups = ["networkmanager" "wheel" "docker"];
     isNormalUser = true;
     shell = pkgs.zsh;
+    ## TODO: move the keys to variable in the `flake.nix`
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJpVWYmXPpqVmlHdixDR//vdfD+sryvYmpH2Dj1/Otx fabrice@fabricesemti.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDl0ivGFV8D/M53/qvRRkfxkKgY3635xDiiLQwFgrWon fabrice@fabricesemti.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX2Y3nmVHNxNCNV+WXHeBEcXFS0XYDnNWxzm9oAIyFa fabrice@fabricesemti.com"
+      # note: ssh-copy-id will add user@your-machine after the public key
+      # but we can remove the "@your-machine" part
+    ];
   };
 
   # Set User's avatar
@@ -132,6 +141,7 @@
     anki
     awscli2
     brave
+    coreutils-prefixed
     delta
     dig
     docker-compose
@@ -141,6 +151,7 @@
     gcc
     glib
     gnumake
+    home-manager
     jq
     killall
     kubectl
@@ -157,6 +168,7 @@
     telegram-desktop
     terraform
     terragrunt
+    tree
     tesseract
     unzip
     wl-clipboard

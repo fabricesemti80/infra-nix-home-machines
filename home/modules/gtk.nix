@@ -6,9 +6,9 @@
   # GTK theme configuration
   gtk = {
     enable = true;
-    catppuccin = {
-      enable = true;
-      gnomeShellTheme = true;
+    theme = {
+      name = "Catppuccin-Mocha-Standard-Blue-Dark";
+      package = pkgs.catppuccin-gtk;
     };
     iconTheme = {
       name = "Tela-circle-dark";

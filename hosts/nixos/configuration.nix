@@ -4,12 +4,14 @@
   ...
 }: {
   imports = [
-    inputs.hardware.nixosModules.lenovo-thinkpad-z13-gen1
+    inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-gpu-amd
+    inputs.hardware.nixosModules.common-pc-ssd
 
     ./hardware-configuration.nix
-    ../modules/common.nix
+    ../modules/common-nixos.nix
     ../modules/hyprland.nix
-    ../modules/laptop.nix
+    # ../modules/steam.nix
   ];
 
   # Set hostname

@@ -31,6 +31,15 @@
 
     # Homebrew
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    zsh-autosuggestions = {
+      url = "github:zsh-users/zsh-autosuggestions";
+      flake = false;
+    };
+    zsh-history-substring-search = {
+      url = "github:zsh-users/zsh-history-substring-search";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -40,18 +49,25 @@
     home-manager,
     nix-homebrew,
     nixpkgs,
+    zsh-autosuggestions,
+    zsh-history-substring-search,
     ...
   } @ inputs: let
     inherit (self) outputs;
 
     # Define user configurations
     users = {
-      nabokikh = {
-        avatar = ./files/avatar/face;
-        email = "alexander.nabokikh@olx.pl";
-        fullName = "Alexander Nabokikh";
-        gitKey = "C5810093";
-        name = "nabokikh";
+      fs = {
+        avatar = ./files/avatar/face.png;
+        email = "fabrice@fabricesemti.com";
+        fullName = "Fabrice Semti";
+        gitKey = "YOUR_GIT_KEY";
+        name = "fs";
+        sshKeys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJpVWYmXPpqVmlHdixDR//vdfD+sryvYmpH2Dj1/Otx fabrice@fabricesemti.com"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDl0ivGFV8D/M53/qvRRkfxkKgY3635xDiiLQwFgrWon fabrice@fabricesemti.com"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX2Y3nmVHNxNCNV+WXHeBEcXFS0XYDnNWxzm9oAIyFa fabrice@fabricesemti.com"
+        ];
       };
     };
 
@@ -95,18 +111,18 @@
       };
   in {
     nixosConfigurations = {
-      energy = mkNixosConfiguration "energy" "nabokikh";
-      nabokikh-z13 = mkNixosConfiguration "nabokikh-z13" "nabokikh";
+      "nixos" = mkNixosConfiguration "nixos" "fs";
     };
 
     darwinConfigurations = {
-      "nabokikh-mac" = mkDarwinConfiguration "nabokikh-mac" "nabokikh";
+      "macvm-fs" = mkDarwinConfiguration "macvm-fs" "fs";
+      "macpro-fs" = mkDarwinConfiguration "macpro-fs" "fs";
     };
 
     homeConfigurations = {
-      "nabokikh@energy" = mkHomeConfiguration "x86_64-linux" "nabokikh" "energy";
-      "nabokikh@nabokikh-mac" = mkHomeConfiguration "aarch64-darwin" "nabokikh" "nabokikh-mac";
-      "nabokikh@nabokikh-z13" = mkHomeConfiguration "x86_64-linux" "nabokikh" "nabokikh-z13";
+      "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
+      "fs@macvm-fs" = mkHomeConfiguration "aarch64-darwin" "fs" "macvm-fs";
+      "fs@macpro-fs" = mkHomeConfiguration "aarch64-darwin" "fs" "macpro-fs";
     };
 
     overlays = import ./overlays {inherit inputs;};
