@@ -37,7 +37,7 @@
       "aerospace" # Window manager
       # "anki" # Flashcard app
       "brave-browser" # Web browser
-      "obs" # Streaming software
+      "orbstack" # Docker desktop alternative
       "raycast" # Spotlight replacement
     ];
     taps = [
