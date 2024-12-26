@@ -39,6 +39,7 @@
       "brave-browser" # Web browser
       "orbstack" # Docker desktop alternative
       "raycast" # Spotlight replacement
+      "whatsapp"
     ];
     taps = [
       # Additional Homebrew repositories
