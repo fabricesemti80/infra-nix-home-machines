@@ -183,9 +183,9 @@ To add a new machine with a new user to your NixOS or nix-darwin configuration, 
    ```sh
 
    nix run nix-darwin -- switch --flake .\newmachine
-   ~~darwin-rebuild switch --flake .#newmachine~~
-
    ```
+
+   > follow this with a reboot
 
    c. Build and switch to the new Home Manager configuration:
 
@@ -207,7 +207,7 @@ This setup includes a wide range of custom modules and configurations to enhance
 
 ### System Modules (in `hosts/modules/`)
 
-- `common.nix`: Common system configurations
+- `common-*.nix`: Common system configurations for NixOS or nix-darwin (macOS).
 - `corectrl.nix`: CoreCtrl for AMD GPU management
 - `gnome.nix`: GNOME desktop environment
 - `hyprland.nix`: Hyprland window manager
