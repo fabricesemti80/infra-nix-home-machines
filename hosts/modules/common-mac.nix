@@ -3,6 +3,7 @@
   environment = {
     systemPackages = with pkgs; [
       (python3.withPackages (ps: with ps; [pip virtualenv])) # Python with common packages
+      _1password-cli
       bartender # Menu bar organization
       cmatrix
       colima # Docker alternative for macOS
