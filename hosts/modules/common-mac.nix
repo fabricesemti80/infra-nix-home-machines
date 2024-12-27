@@ -38,6 +38,7 @@
       "aerospace" # Window manager
       # "anki" # Flashcard app
       "brave-browser" # Web browser
+      "openlens"
       "orbstack" # Docker desktop alternative
       "raycast" # Spotlight replacement
       "whatsapp"
