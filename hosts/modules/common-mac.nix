@@ -3,7 +3,7 @@
   environment = {
     systemPackages = with pkgs; [
       (python3.withPackages (ps: with ps; [pip virtualenv])) # Python with common packages
-      _1password-cli
+      # _1password-cli
       bartender # Menu bar organization
       cmatrix
       colima # Docker alternative for macOS
@@ -35,9 +35,11 @@
     casks = [
       # GUI applications to install via Homebrew
       "1password"
+      "1password-cli"
       "aerospace" # Window manager
       # "anki" # Flashcard app
       "brave-browser" # Web browser
+      # "ghostty"
       "openlens"
       "orbstack" # Docker desktop alternative
       "raycast" # Spotlight replacement
