@@ -40,6 +40,7 @@
       # "anki" # Flashcard app
       "brave-browser" # Web browser
       # "ghostty"
+      "notion"
       "openlens"
       "orbstack" # Docker desktop alternative
       "raycast" # Spotlight replacement
