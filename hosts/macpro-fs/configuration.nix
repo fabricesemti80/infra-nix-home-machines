@@ -132,6 +132,11 @@
         type = "png"; # Screenshot format
         disable-shadow = true; # Disable window shadows in screenshots
       };
+
+      # Menu bar
+      menuExtraClock = {
+        Show24Hour = true;
+      };
     };
 
     # Keyboard settings
