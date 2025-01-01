@@ -114,6 +114,7 @@
         persistent-apps = [
           # Apps that persist in the dock
           "/Applications/Brave Browser.app"
+          "/Applications/OrbStack.app"
           "${pkgs.alacritty}/Applications/Alacritty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
