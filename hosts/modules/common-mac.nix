@@ -39,7 +39,7 @@
       "aerospace" # Window manager
       # "anki" # Flashcard app
       "brave-browser" # Web browser
-      # "ghostty"
+      "capacities"
       "notion"
       "openlens"
       "orbstack" # Docker desktop alternative
