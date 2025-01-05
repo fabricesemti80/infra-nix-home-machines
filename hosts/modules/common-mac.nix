@@ -44,6 +44,7 @@
       "openlens"
       "orbstack" # Docker desktop alternative
       "raycast" # Spotlight replacement
+      "stats"
       "whatsapp"
     ];
     taps = [
