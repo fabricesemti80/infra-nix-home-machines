@@ -45,6 +45,7 @@
       "orbstack" # Docker desktop alternative
       "raycast" # Spotlight replacement
       "stats"
+      "vmware-fusion"
       "whatsapp"
     ];
     taps = [
