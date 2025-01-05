@@ -2,6 +2,7 @@
   imports = [
     ../modules/common.nix
     ../modules/darwin-aerospace.nix
+    ../modules/karabiner.nix
   ];
 
   # Enable home-manager

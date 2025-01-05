@@ -3,7 +3,7 @@
   environment = {
     systemPackages = with pkgs; [
       (python3.withPackages (ps: with ps; [pip virtualenv])) # Python with common packages
-      # _1password-cli
+
       bartender # Menu bar organization
       cmatrix
       colima # Docker alternative for macOS
@@ -33,20 +33,36 @@
   homebrew = {
     enable = true;
     casks = [
-      # GUI applications to install via Homebrew
+
+      ## Security
       "1password"
       "1password-cli"
+
+      ## Workflow
       "aerospace" # Window manager
+      "raycast" # Spotlight replacement
+      # "hyperkey" # Keyboard manager
+      "stats" # System monitor
+      "vmware-fusion" # Virtualization
+
+      ## Productivity & PKM
+      "anytype" # Note-taking app
       # "anki" # Flashcard app
+      "capacities" # Note-taking app
+      "notion" # Note-taking app
+
+      ## Interwebs & communication
       "brave-browser" # Web browser
-      "capacities"
-      "notion"
+      "whatsapp"
+
+      ##  DevOps
       "openlens"
       "orbstack" # Docker desktop alternative
-      "raycast" # Spotlight replacement
-      "stats"
-      "vmware-fusion"
-      "whatsapp"
+
+      ## Utilities
+      "appcleaner" # Application uninstaller
+      "karabiner-elements" # Keyboard customization
+
     ];
     taps = [
       # Additional Homebrew repositories

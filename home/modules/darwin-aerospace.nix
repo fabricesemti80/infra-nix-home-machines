@@ -37,12 +37,12 @@
 
     # Main mode bindings
     [mode.main.binding]
-    # Launch applications
-    alt-shift-enter = 'exec-and-forget open -na alacritty'
-    alt-shift-b = 'exec-and-forget open -a "Brave Browser"'
-    # alt-shift-t = 'exec-and-forget open -a "Telegram"'
-    alt-shift-f = 'exec-and-forget open -a Finder'
-    alt-shift-o = 'exec-and-forget open -a Obsidian'
+    # # Launch applications
+    # alt-shift-enter = 'exec-and-forget open -na alacritty'111
+    # alt-shift-b = 'exec-and-forget open -a "Brave Browser"'
+    # # alt-shift-t = 'exec-and-forget open -a "Telegram"'
+    # alt-shift-f = 'exec-and-forget open -a Finder'
+    # alt-shift-o = 'exec-and-forget open -a Obsidian'
 
     # Window management
     alt-q = "close"
@@ -67,26 +67,26 @@
     alt-shift-equal = 'resize smart +50'
 
     # Workspace management
-    ctrl-1 = 'workspace 1'
-    ctrl-2 = 'workspace 2'
-    ctrl-3 = 'workspace 3'
-    ctrl-4 = 'workspace 4'
-    ctrl-5 = 'workspace 5'
-    ctrl-6 = 'workspace 6'
-    ctrl-7 = 'workspace 7'
-    ctrl-8 = 'workspace 8'
-    ctrl-9 = 'workspace 9'
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
+    alt-9 = 'workspace 9'
 
     # Move windows to workspaces
-    ctrl-shift-1 = 'move-node-to-workspace 1'
-    ctrl-shift-2 = 'move-node-to-workspace 2'
-    ctrl-shift-3 = 'move-node-to-workspace 3'
-    ctrl-shift-4 = 'move-node-to-workspace 4'
-    ctrl-shift-5 = 'move-node-to-workspace 5'
-    ctrl-shift-6 = 'move-node-to-workspace 6'
-    ctrl-shift-7 = 'move-node-to-workspace 7'
-    ctrl-shift-8 = 'move-node-to-workspace 8'
-    ctrl-shift-9 = 'move-node-to-workspace 9'
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+    alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
+    alt-shift-9 = 'move-node-to-workspace 9'
 
     # Workspace navigation
     alt-tab = 'workspace-back-and-forth'
