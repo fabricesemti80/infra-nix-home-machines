@@ -116,6 +116,7 @@
     alt-shift-l = ['join-with right', 'mode main']
 
     # Window detection rules
+    ## find app IDs with 'osascript -e 'id of app "Code"' or 'osascript -e 'id of app "Brave Browser"'
     [[on-window-detected]]
     if.app-id = 'com.brave.Browser'
     run = 'move-node-to-workspace 1'
@@ -125,15 +126,11 @@
     run = 'move-node-to-workspace 2'
 
     [[on-window-detected]]
-    if.app-id = 'com.tdesktop.Telegram'
+    if.app-id = 'com.microsoft.VSCode'
     run = 'move-node-to-workspace 3'
 
     [[on-window-detected]]
-    if.app-id = 'com.obsproject.obs-studio'
+    if.app-id = 'md.obsidian'
     run = 'move-node-to-workspace 4'
-
-    [[on-window-detected]]
-    if.app-id = 'us.zoom.xos'
-    run = 'move-node-to-workspace 5'
   '';
 }
