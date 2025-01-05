@@ -16,11 +16,13 @@
       home-manager # User environment manager
       jq # JSON processor
       just # Command runner
-      kubectl # Kubernetes CLI
+
+      ## Kubernetes
+      # kubectl # Kubernetes CLI
+
       lazydocker # Docker TUI
       nh # Nix helper
       numi
-      obsidian # Note-taking app
       openconnect # VPN client
       pipenv # Python environment manager
       ripgrep # Fast grep alternative
@@ -41,11 +43,12 @@
       ## Workflow
       "aerospace" # Window manager
       "raycast" # Spotlight replacement
-      # "hyperkey" # Keyboard manager
+      "jordanbaird-ice" # Menu bar customization
       "stats" # System monitor
       "vmware-fusion" # Virtualization
 
       ## Productivity & PKM
+      "obsidian" # Note-taking app
       "anytype" # Note-taking app
       # "anki" # Flashcard app
       "capacities" # Note-taking app
@@ -58,6 +61,7 @@
       ##  DevOps
       "openlens"
       "orbstack" # Docker desktop alternative
+      "wezterm" # Terminal emulator
 
       ## Utilities
       "appcleaner" # Application uninstaller
