@@ -116,13 +116,13 @@
     alt-shift-l = ['join-with right', 'mode main']
 
     # Window detection rules
-    ## find app IDs with 'osascript -e 'id of app "Code"' or 'osascript -e 'id of app "Brave Browser"'
+    ## find app IDs with   --> osascript -e 'id of app "Code"'
     [[on-window-detected]]
     if.app-id = 'com.brave.Browser'
     run = 'move-node-to-workspace 1'
 
     [[on-window-detected]]
-    if.app-id = 'org.alacritty'
+    if.app-id = 'com.github.wez.wezterm'
     run = 'move-node-to-workspace 2'
 
     [[on-window-detected]]
