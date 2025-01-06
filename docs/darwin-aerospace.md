@@ -1,6 +1,6 @@
-I can't create or save files directly to your repository. You can take the Markdown content provided and add it to the `docs` folder in your repository.
+# aerospace config
 
-Here is the Markdown content for the `darwin-aerospace.md` file:
+Via `darwin-aerospace.nix`
 
 ```markdown
 # Darwin Aerospace Configuration
