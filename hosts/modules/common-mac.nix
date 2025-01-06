@@ -35,15 +35,14 @@
   homebrew = {
     enable = true;
     casks = [
-
       ## Security
       "1password"
       "1password-cli"
 
       ## Workflow
       "aerospace" # Window manager
+      "bartender" # Menu bar customization
       "raycast" # Spotlight replacement
-      "jordanbaird-ice" # Menu bar customization
       "stats" # System monitor
       "vmware-fusion" # Virtualization
 
@@ -66,7 +65,6 @@
       ## Utilities
       "appcleaner" # Application uninstaller
       "karabiner-elements" # Keyboard customization
-
     ];
     taps = [
       # Additional Homebrew repositories
