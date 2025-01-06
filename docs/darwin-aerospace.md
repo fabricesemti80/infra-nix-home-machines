@@ -1,8 +1,4 @@
-# Aerospace config
 
-This document provides an overview of the Tmux configuration defined in the `darwin-aerospace.nix` file.
-
-```markdown
 # Darwin Aerospace Configuration
 
 This document provides an overview of the AeroSpace configuration defined in the `darwin-aerospace.nix` file.
@@ -98,7 +94,3 @@ This document provides an overview of the AeroSpace configuration defined in the
 - **Alacritty** (`org.alacritty`): Move to Workspace 2
 - **VSCode** (`com.microsoft.VSCode`): Move to Workspace 3
 - **Obsidian** (`md.obsidian`): Move to Workspace 4
-
-```
-
-You can create a new file named `darwin-aerospace.md` in the `docs` folder of your repository and paste the above content into it.
