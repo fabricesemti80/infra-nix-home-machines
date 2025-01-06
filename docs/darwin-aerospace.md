@@ -1,6 +1,6 @@
-# aerospace config
+# Aerospace config
 
-Via `darwin-aerospace.nix`
+This document provides an overview of the Tmux configuration defined in the `darwin-aerospace.nix` file.
 
 ```markdown
 # Darwin Aerospace Configuration
