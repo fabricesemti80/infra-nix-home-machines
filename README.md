@@ -221,6 +221,7 @@ This setup includes a wide range of custom modules and configurations to enhance
 1. Terminal and Shell:
 
    - `alacritty.nix`: Alacritty terminal emulator
+   - `wezterm.nix`: Alternative to Alacritty
    - `atuin.nix`: Shell history sync
    - `zsh.nix`: Zsh shell configuration
    - `tmux.nix`: Terminal multiplexer
