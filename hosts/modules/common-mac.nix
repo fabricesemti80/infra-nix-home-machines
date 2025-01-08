@@ -62,7 +62,7 @@
       "openlens"
       "orbstack" # Docker desktop alternative
       "wezterm" # Terminal emulator
-      "alacritty" # Terminal emulator
+      # "alacritty" # Terminal emulator
 
       ## Utilities
       "appcleaner" # Application uninstaller
