@@ -9,8 +9,9 @@
       colima # Docker alternative for macOS
       delta # Better git diff
       docker # Container platform
+      docker-compose # Docker compose
       du-dust # Disk usage analyzer
-      duf
+      duf # Disk usage analyzer
       eza # Modern ls replacement
       fd # Find alternative
       home-manager # User environment manager
@@ -61,11 +62,14 @@
       "openlens"
       "orbstack" # Docker desktop alternative
       "wezterm" # Terminal emulator
+      "alacritty" # Terminal emulator
 
       ## Utilities
       "appcleaner" # Application uninstaller
       "karabiner-elements" # Keyboard customization
       "hyperkey" # Keyboard customization
+      "little-snitch" # Firewall
+
     ];
     taps = [
       # Additional Homebrew repositories
