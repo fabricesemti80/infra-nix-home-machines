@@ -65,6 +65,7 @@
       ## Utilities
       "appcleaner" # Application uninstaller
       "karabiner-elements" # Keyboard customization
+      "hyperkey" # Keyboard customization
     ];
     taps = [
       # Additional Homebrew repositories
