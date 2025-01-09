@@ -1,80 +1,94 @@
-{pkgs, ...}: {
-  # System packages to install
+{ pkgs, ... }: {
   environment = {
     systemPackages = with pkgs; [
-      (python3.withPackages (ps: with ps; [pip virtualenv])) # Python with common packages
+      # Development Tools
+      delta          # Enhanced git diff viewer with syntax highlighting
+      lazydocker    # Terminal UI for Docker management
 
-      bartender # Menu bar organization
-      cmatrix
-      colima # Docker alternative for macOS
-      delta # Better git diff
-      docker # Container platform
-      docker-compose # Docker compose
-      du-dust # Disk usage analyzer
-      duf # Disk usage analyzer
-      eza # Modern ls replacement
-      fd # Find alternative
-      home-manager # User environment manager
-      jq # JSON processor
-      just # Command runner
+      # Language-Specific Tools
+      (python3.withPackages (ps: with ps; [pip virtualenv]))  # Python development environment
+      pipenv        # Python dependency management tool
 
-      ## Kubernetes
-      # kubectl # Kubernetes CLI
+      # System Utilities
+      du-dust       # Intuitive disk usage analyzer
+      duf           # Disk usage statistics utility
+      home-manager  # Nix user environment manager
+      nh            # Nix command wrapper and helper
+      openconnect   # VPN client compatible with Cisco AnyConnect
+      tree          # Directory structure viewer
 
-      lazydocker # Docker TUI
-      nh # Nix helper
-      numi
-      openconnect # VPN client
-      pipenv # Python environment manager
-      ripgrep # Fast grep alternative
-      tree
-      vscode # Code editor
+      # Modern CLI Replacements
+      eza           # Modern replacement for ls
+      fd            # User-friendly alternative to find
+      ripgrep       # Fast alternative to grep
+
+      # Task Runners and Processors
+      jq            # Command-line JSON processor
+      just          # Modern command runner alternative to make
+
+      # Miscellaneous
+      cmatrix       # Terminal based "The Matrix" like animation
     ];
   };
 
-  # Configure Homebrew
   homebrew = {
     enable = true;
-    casks = [
-      ## Security
-      "1password"
-      "1password-cli"
 
-      ## Workflow
-      "aerospace" # Window manager
-      "bartender" # Menu bar customization
-      "raycast" # Spotlight replacement
-      "stats" # System monitor
-      "vmware-fusion" # Virtualization
+    # Homebrew package types:
+    # - brews: Command line tools and libraries, installed from source/binary, located in /usr/local/Cellar
+    # - casks: GUI applications with graphical interfaces, pre-built binaries, installed to /Applications
 
-      ## Productivity & PKM
-      "obsidian" # Note-taking app
-      "anytype" # Note-taking app
-      # "anki" # Flashcard app
-      "capacities" # Note-taking app
-      "notion" # Note-taking app
-
-      ## Interwebs & communication
-      "brave-browser" # Web browser
-      "whatsapp"
-
-      ##  DevOps
-      "openlens"
-      "orbstack" # Docker desktop alternative
-      "wezterm" # Terminal emulator
-      # "alacritty" # Terminal emulator
-
-      ## Utilities
-      "appcleaner" # Application uninstaller
-      "karabiner-elements" # Keyboard customization
-      "hyperkey" # Keyboard customization
-      "little-snitch" # Firewall
-
-    ];
+    # Homebrew Additional Repositories
     taps = [
-      # Additional Homebrew repositories
+      "FelixKratz/formulae"
       "nikitabobko/tap"
     ];
-    onActivation.cleanup = "zap"; # Aggressive cleanup of unused packages
+
+    # Command Line Tools (brews)
+    brews = [
+      "docker"          # Containerization platform
+      "docker-compose"  # Multi-container Docker applications
+      "sketchybar"     # Customizable macOS menubar replacement
+    ];
+
+    casks = [
+      # Authentication & Security
+      "1password"         # Password manager
+      "1password-cli"     # 1Password command-line tool
+
+      # System Enhancement
+      "aerospace"         # Window manager for macOS
+      "hyperkey"         # Hyper key modifier functionality
+      "karabiner-elements" # Keyboard customization
+      "raycast"          # Spotlight replacement and productivity tool
+      "stats"            # System monitoring menubar app
+
+      # Development Environment
+      "openlens"         # Kubernetes IDE and management
+      "orbstack"         # Lightweight Docker desktop alternative
+      "visual-studio-code" # Modern code editor
+      "vmware-fusion"    # Virtualization platform
+      "wezterm"          # GPU-accelerated terminal emulator
+
+      # Knowledge Management
+      "anytype"          # Local-first note-taking system
+      "capacities"       # Visual note-taking and organization
+      "notion"           # All-in-one workspace
+      "obsidian"         # Markdown knowledge base
+
+      # Internet & Communication
+      "brave-browser"    # Privacy-focused web browser
+      "whatsapp"         # Messaging platform
+
+      # Utilities
+      "appcleaner"       # Thorough app uninstaller
+      # "bartender"        # Menu bar icon organization
+      "numi"           # Calculator and unit converter
+
+      # Fonts
+      "font-hack-nerd-font"  # Nerd font for programming"
+    ];
+
+    onActivation.cleanup = "zap";  # Remove outdated versions and unused packages
   };
 }
