@@ -15,7 +15,14 @@
     # You can use it to add commands that run after AeroSpace startup.
     # 'after-startup-command' is run after 'after-login-command'
     # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-    after-startup-command = []
+    after-startup-command = ['exec-and-forget sketchybar --topmost on']
+
+    # Notify Sketchybar about workspace change
+    exec-on-workspace-change = ['/bin/bash', '-c',
+      'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+      'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
+    ]
+
 
     # Start AeroSpace at login
     start-at-login = true
@@ -164,14 +171,26 @@
     alt-shift-k = ['join-with up', 'mode main']
     alt-shift-l = ['join-with right', 'mode main']
 
+    # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+    [workspace-to-monitor-force-assignment]
+    1 = [ 'secondary', 'main', 'built-in']
+    2 = 'main'
+    3 = 'main'
+    4 = 'main'
+    5 = 'main'
+
     # Window detection rules
     ## find app IDs with   --> osascript -e 'id of app "Code"' or 'aerospace list-apps'
     [[on-window-detected]]
     if.app-id = 'com.brave.Browser'
-    run = 'move-node-to-workspace 1'
+    run = ['move-node-to-workspace 1']
 
     [[on-window-detected]]
     if.app-id = 'com.github.wez.wezterm'
+    run = 'move-node-to-workspace 2'
+
+    [[on-window-detected]]
+    if.app-id = 'org.alacritty'
     run = 'move-node-to-workspace 2'
 
     [[on-window-detected]]
