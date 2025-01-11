@@ -48,7 +48,10 @@
     brews = [
       "docker"          # Containerization platform
       "docker-compose"  # Multi-container Docker applications
-      "sketchybar"     # Customizable macOS menubar replacement
+      # "sketchybar"     # Customizable macOS menubar replacement
+      "lua"
+      "switchaudio-osx"
+      "nowplaying-cli"
     ];
 
     casks = [
@@ -67,7 +70,8 @@
       "openlens"         # Kubernetes IDE and management
       "orbstack"         # Lightweight Docker desktop alternative
       "visual-studio-code" # Modern code editor
-      "vmware-fusion"    # Virtualization platform
+      # "vmware-fusion"    # Virtualization platform
+      "parallels" # Virtualization platform
       "wezterm"          # GPU-accelerated terminal emulator
 
       # Knowledge Management
@@ -86,9 +90,19 @@
       "numi"           # Calculator and unit converter
 
       # Fonts
-      "font-hack-nerd-font"  # Nerd font for programming"
+      "font-hack-nerd-font"  # Nerd font for programming
+      "sf-symbols"
+      "font-sf-mono"
+      "font-sf-pro"
     ];
 
     onActivation.cleanup = "zap";  # Remove outdated versions and unused packages
   };
+
+  #   services.sketchybar = {
+  #   enable = true;
+  #   package = pkgs.sketchybar;
+  # };
+
 }
+
