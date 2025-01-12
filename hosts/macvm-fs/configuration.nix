@@ -6,8 +6,12 @@
 }: {
   imports = [
     ../modules/avatar.nix # Import the avatar module
-    ../modules/packages-mac.nix # Mac packages
-    # ../modules/common-mac.nix # Mac packages #TODO: re-enable applications!
+
+    ../modules/common-mac-packages.nix # Mac packages
+
+    ../modules/common-mac-homebrew.nix # Mac homebrew
+    ../modules/vm-mac-homebrew.nix # Mac homebrew
+
   ];
 
   # Homebrew package manager configuration for macOS
