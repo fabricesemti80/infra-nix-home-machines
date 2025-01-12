@@ -1,4 +1,36 @@
 { pkgs, ... }: {
+  environment = {
+    systemPackages = with pkgs; [
+      # Development Tools
+      delta          # Enhanced git diff viewer with syntax highlighting
+      lazydocker    # Terminal UI for Docker management
+
+      # Language-Specific Tools
+      (python3.withPackages (ps: with ps; [pip virtualenv]))  # Python development environment
+      pipenv        # Python dependency management tool
+
+      # System Utilities
+      du-dust       # Intuitive disk usage analyzer
+      duf           # Disk usage statistics utility
+      home-manager  # Nix user environment manager
+      nh            # Nix command wrapper and helper
+      openconnect   # VPN client compatible with Cisco AnyConnect
+      tree          # Directory structure viewer
+
+      # Modern CLI Replacements
+      eza           # Modern replacement for ls
+      fd            # User-friendly alternative to find
+      ripgrep       # Fast alternative to grep
+
+      # Task Runners and Processors
+      jq            # Command-line JSON processor
+      just          # Modern command runner alternative to make
+
+      # Miscellaneous
+      cmatrix       # Terminal based "The Matrix" like animation
+    ];
+  };
+
 
   homebrew = {
     enable = true;
@@ -9,7 +41,6 @@
 
     # Homebrew Additional Repositories
     taps = [
-      "FelixKratz/formulae"
       "nikitabobko/tap"
     ];
 
@@ -31,18 +62,11 @@
       "raycast"          # Spotlight replacement and productivity tool
       "stats"            # System monitoring menubar app
       "sketchybar"     # Customizable macOS menubar replacement
-      "lua"
-      "switchaudio-osx"
-      "nowplaying-cli"
-      "sf-symbols"
-      "font-sf-mono"
-      "font-sf-pro"
 
       # Development Environment
       "openlens"         # Kubernetes IDE and management
       "orbstack"         # Lightweight Docker desktop alternative
       "visual-studio-code" # Modern code editor
-      "parallels" # Virtualization platform
       "wezterm"          # GPU-accelerated terminal emulator
 
       # Knowledge Management
@@ -68,10 +92,4 @@
     onActivation.cleanup = "zap";  # Remove outdated versions and unused packages
   };
 
-    services.sketchybar = {
-    enable = true;
-    package = pkgs.sketchybar;
-  };
-
 }
-

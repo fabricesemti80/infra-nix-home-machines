@@ -7,11 +7,9 @@
   imports = [
     ../modules/avatar.nix # Import the avatar module
 
-    ../modules/common-mac-packages.nix # Mac packages
+    ../modules/mac-common.nix
 
-    ../modules/common-mac-homebrew.nix # Mac homebrew
-    ../modules/vm-mac-homebrew.nix # Mac homebrew
-
+    ../modules/mac-vm.nix
   ];
 
   # Homebrew package manager configuration for macOS
