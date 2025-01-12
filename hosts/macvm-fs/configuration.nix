@@ -6,6 +6,7 @@
 }: {
   imports = [
     ../modules/avatar.nix # Import the avatar module
+    ../modules/packages-mac.nix # Mac packages
     # ../modules/common-mac.nix # Mac packages #TODO: re-enable applications!
   ];
 
