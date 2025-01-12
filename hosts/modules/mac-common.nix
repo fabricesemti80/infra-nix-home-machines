@@ -61,7 +61,6 @@
       # "karabiner-elements" # Keyboard customization
       "raycast"          # Spotlight replacement and productivity tool
       "stats"            # System monitoring menubar app
-      "sketchybar"     # Customizable macOS menubar replacement
 
       # Development Environment
       "openlens"         # Kubernetes IDE and management
