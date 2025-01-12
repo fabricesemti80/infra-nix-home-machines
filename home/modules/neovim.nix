@@ -28,6 +28,7 @@ in {
       shellcheck
       shfmt
       stylua
+      telescope
       terraform-ls
       tflint
       vscode-langservers-extracted

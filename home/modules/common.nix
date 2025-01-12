@@ -18,6 +18,7 @@
     ../modules/starship.nix
     ../modules/tmux.nix
     ../modules/zsh.nix
+    ../modules/wezterm.nix
   ];
 
   # Nixpkgs configuration

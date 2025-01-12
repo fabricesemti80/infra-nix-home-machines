@@ -46,13 +46,13 @@
   # Enable TouchID authentication for sudo commands
   security.pam.enableSudoTouchIdAuth = true;
 
-  # System-wide macOS settings and preferences
+  # System-wide macOS settings and preferences - https://daiderd.com/nix-darwin/manual/index.html
   system = {
     # Various macOS default settings
     defaults = {
       # Global mouse settings
       ".GlobalPreferences" = {
-        "com.apple.mouse.scaling" = -1.0; # Disable mouse acceleration
+        # "com.apple.mouse.scaling" = -1.0; # Disable mouse acceleration
       };
 
       # Global system preferences
@@ -96,6 +96,13 @@
         ShowStatusBar = true;
         _FXShowPosixPathInTitle = true; # Show full path in Finder title
         _FXSortFoldersFirst = true; # Sort folders before files
+
+        # Remove items after 30 days
+        FXRemoveOldTrashItems = true;
+
+        # Change the default folder shown in Finder windows.
+        # “Other” corresponds to the value of NewWindowTargetPath. The default is unset (“Recents”). Type: null or one of “Computer”, “OS volume”, “Home”, “Desktop”, “Documents”, “Recents”, “iCloud Drive”, “Other”
+        NewWindowTarget = "Home";
       };
 
       # Dock preferences
@@ -105,11 +112,14 @@
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
         persistent-apps = [
+
           # Apps that persist in the dock
           "/Applications/Brave Browser.app"
+          "/Applications/OrbStack.app"
           "${pkgs.alacritty}/Applications/Alacritty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
+
         ];
         tilesize = 60; # Dock icon size
         # Disable hot corners
@@ -124,6 +134,11 @@
         location = "/Users/${userConfig.name}/Downloads/temp"; # Screenshot save location
         type = "png"; # Screenshot format
         disable-shadow = true; # Disable window shadows in screenshots
+      };
+
+      # Menu bar
+      menuExtraClock = {
+        Show24Hour = true;
       };
     };
 
