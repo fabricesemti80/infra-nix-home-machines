@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ../modules/home.nix
     ../modules/common.nix
     ../modules/darwin-aerospace.nix
     # ../modules/karabiner.nix

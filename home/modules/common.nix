@@ -9,7 +9,6 @@
     ../modules/git.nix
     ../modules/go.nix
     ../modules/gpg.nix
-    ../modules/home.nix
     # ../modules/krew.nix #! causes errors
     ../modules/lazygit.nix
     ../modules/neovim.nix

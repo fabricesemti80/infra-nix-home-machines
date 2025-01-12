@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ../modules/home.nix
     # ../modules/common.nix #TODO: re-enable applications!
     # ../modules/darwin-aerospace.nix  #TODO: re-enable aerospace
   ];
