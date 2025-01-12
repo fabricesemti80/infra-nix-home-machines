@@ -114,16 +114,16 @@
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
-        # persistent-apps = [ #TODO: review persistent apps
+        persistent-apps = [ #TODO: review persistent apps
 
-        #   # Apps that persist in the dock
-        #   "/Applications/Brave Browser.app"
-        #   "/Applications/OrbStack.app"
-        #   "${pkgs.alacritty}/Applications/Alacritty.app"
-        #   "${pkgs.vscode}/Applications/Visual Studio Code.app"
-        #   "${pkgs.obsidian}/Applications/Obsidian.app"
+          # Apps that persist in the dock
+          "/Applications/Brave Browser.app"
+          "/Applications/OrbStack.app"
+          "${pkgs.alacritty}/Applications/Alacritty.app"
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          "${pkgs.obsidian}/Applications/Obsidian.app"
 
-        # ];
+        ];
         tilesize = 60; # Dock icon size
         # Disable hot corners
         wvous-bl-corner = 1;
