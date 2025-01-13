@@ -67,7 +67,8 @@
       "openlens"         # Kubernetes IDE and management
       "orbstack"         # Lightweight Docker desktop alternative
       "visual-studio-code" # Modern code editor
-      "wezterm"          # GPU-accelerated terminal emulator
+      # "wezterm"          # GPU-accelerated terminal emulator
+      "ghostty" # Terminal alternative
 
       # Knowledge Management
       "anytype"          # Local-first note-taking system
