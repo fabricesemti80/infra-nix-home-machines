@@ -94,6 +94,9 @@
       "sf-symbols"
       "font-sf-mono"
       "font-sf-pro"
+
+      # Networking
+      "angry-ip-scanner"  # Network scanner
     ];
 
     onActivation.cleanup = "zap";  # Remove outdated versions and unused packages
