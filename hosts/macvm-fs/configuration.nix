@@ -5,10 +5,12 @@
   ...
 }: {
   imports = [
-    ../modules/avatar.nix # Import the avatar module
+    # Shared Mac apps and configs
+    ../modules/avatar.nix
+    ../modules/mac-common.nix      
 
-    ../modules/mac-common.nix
-
+    # Specific app to this device
+    ../modules/jankyborders.nix    
     ../modules/sketchybar.nix
   ];
 
