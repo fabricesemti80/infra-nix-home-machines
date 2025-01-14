@@ -43,6 +43,7 @@
     # Homebrew Additional Repositories
     taps = [
       "nikitabobko/tap"
+      "FelixKratz/formulae"
     ];
 
     # Command Line Tools (brews)
@@ -62,6 +63,7 @@
       # "karabiner-elements" # Keyboard customization
       "raycast"          # Spotlight replacement and productivity tool
       "stats"            # System monitoring menubar app
+      "borders"          # Highlight borders - https://github.com/FelixKratz/JankyBorders?tab=readme-ov-file#jankyborders
 
       # Development Environment
       "openlens"         # Kubernetes IDE and management
