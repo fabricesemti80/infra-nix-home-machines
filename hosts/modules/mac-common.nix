@@ -84,6 +84,7 @@
       "appcleaner"       # Thorough app uninstaller
       # "bartender"        # Menu bar icon organization
       "numi"           # Calculator and unit converter
+      "angry-ip-scanner"         # IP address lookup
 
       # Fonts
       "font-hack-nerd-font"  # Nerd font for programming
