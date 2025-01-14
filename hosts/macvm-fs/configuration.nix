@@ -9,7 +9,7 @@
 
     ../modules/mac-common.nix
 
-    ../modules/mac-vm.nix
+    ../modules/sketchybar.nix
   ];
 
   # Homebrew package manager configuration for macOS
