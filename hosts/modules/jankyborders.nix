@@ -14,17 +14,19 @@
     brews = [
       "borders"          # Highlight borders - https://github.com/FelixKratz/JankyBorders?tab=readme-ov-file#jankyborders
     ];
-
-    # Enable the borders service
-    services.borders = {
-      enable = true;
-      options = [
-        "active_color=0xffe1e3e4"
-        "inactive_color=0xff494d64"
-        "width=5.0"
-      ];
-    };
-
   };
+
+  # Enable the borders service
+  services.borders = {
+    enable = true;
+    options = [
+      "active_color=0xffe1e3e4"
+      "inactive_color=0xff494d64"
+      "width=5.0"
+    ];
+  };
+
+}
+
 
 }
