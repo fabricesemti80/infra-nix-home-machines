@@ -9,6 +9,8 @@
 
     ../modules/mac-common.nix
 
+    ../modules/jankyborders.nix
+
     ../modules/mac-laptop.nix
   ];
 
