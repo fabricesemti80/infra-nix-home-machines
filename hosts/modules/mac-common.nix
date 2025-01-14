@@ -43,7 +43,6 @@
     # Homebrew Additional Repositories
     taps = [
       "nikitabobko/tap"
-      "FelixKratz/formulae"
     ];
 
 
@@ -51,8 +50,6 @@
       # Command Line Tools (brews)
       "docker"          # Containerization platform
       "docker-compose"  # Multi-container Docker applications
-
-      "borders"          # Highlight borders - https://github.com/FelixKratz/JankyBorders?tab=readme-ov-file#jankyborders
     ];
 
     casks = [
