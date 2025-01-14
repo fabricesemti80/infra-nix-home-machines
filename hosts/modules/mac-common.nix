@@ -46,10 +46,13 @@
       "FelixKratz/formulae"
     ];
 
-    # Command Line Tools (brews)
+
     brews = [
+      # Command Line Tools (brews)
       "docker"          # Containerization platform
       "docker-compose"  # Multi-container Docker applications
+
+      "borders"          # Highlight borders - https://github.com/FelixKratz/JankyBorders?tab=readme-ov-file#jankyborders
     ];
 
     casks = [
@@ -63,7 +66,6 @@
       # "karabiner-elements" # Keyboard customization
       "raycast"          # Spotlight replacement and productivity tool
       "stats"            # System monitoring menubar app
-      "borders"          # Highlight borders - https://github.com/FelixKratz/JankyBorders?tab=readme-ov-file#jankyborders
 
       # Development Environment
       "openlens"         # Kubernetes IDE and management
