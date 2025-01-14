@@ -1,3 +1,7 @@
+# # ? Run at start commands:
+# # ? - defaults write -g NSWindowShouldDragOnGesture -bool true
+# # ? https://nikitabobko.github.io/AeroSpace/goodies#move-by-dragging-any-part-of-the-window
+
 # Place a copy of this config to ~/.aerospace.toml
 # After that, you can edit ~/.aerospace.toml to your liking
 
@@ -52,10 +56,6 @@ on-focus-changed = "move-mouse window-lazy-center"
     3 = 'main'
     4 = 'main'
     5 = 'main'
-
-# Allow moving windows by holding `ctrl + cmd` and dragging any part of the window
-# See: defaults write -g NSWindowShouldDragOnGesture -bool true
-defaults write -g NSWindowShouldDragOnGesture -bool true
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
