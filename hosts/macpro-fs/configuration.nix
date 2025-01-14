@@ -5,12 +5,14 @@
   ...
 }: {
   imports = [
-    ../modules/avatar.nix          # Import the avatar module
+    # Shared Mac apps and configs
+    ../modules/avatar.nix
+    ../modules/mac-common.nix      
 
-    ../modules/mac-common.nix      # Shared Mac apps 
-
-    ../modules/jankyborders.nix    # Specific app to this device
-    ../modules/parallels.nix       # Specific app to this device
+    # Specific app to this device
+    ../modules/jankyborders.nix    
+    ../modules/sketchybar.nix
+    ../modules/parallels.nix
   ];
 
   # Homebrew package manager configuration for macOS
