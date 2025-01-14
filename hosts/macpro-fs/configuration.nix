@@ -115,11 +115,14 @@
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
         persistent-apps = [
-
           # Apps that persist in the dock
+
+          ## direct installs
           "/Applications/Brave Browser.app"
           "/Applications/OrbStack.app"
-          "${pkgs.alacritty}/Applications/Alacritty.app"
+          "/Applications/Ghostty.app"
+
+          ## Home Manager packages
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
 
