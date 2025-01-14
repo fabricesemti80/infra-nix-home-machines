@@ -53,6 +53,10 @@ on-focus-changed = "move-mouse window-lazy-center"
     4 = 'main'
     5 = 'main'
 
+# Allow moving windows by holding `ctrl + cmd` and dragging any part of the window
+# See: defaults write -g NSWindowShouldDragOnGesture -bool true
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
