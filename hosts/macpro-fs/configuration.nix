@@ -11,7 +11,6 @@
 
     ../modules/jankyborders.nix    # Specific app to this device
     ../modules/parallels.nix       # Specific app to this device
-
   ];
 
   # Homebrew package manager configuration for macOS
