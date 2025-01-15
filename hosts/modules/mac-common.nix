@@ -69,7 +69,7 @@
       "orbstack"                       # Lightweight Docker desktop alternative
       "visual-studio-code"             # Modern code editor
       # "wezterm"                      # GPU-accelerated terminal emulator
-      "ghostty"                        # Terminal alternative
+      "ghostty"                        # Terminal alternative --> https://ghostty.zerebos.com/
 
       # Knowledge Management
       "anytype"                        # Local-first note-taking system
