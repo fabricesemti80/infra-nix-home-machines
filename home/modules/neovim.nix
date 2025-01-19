@@ -24,7 +24,7 @@ in {
       nodePackages.bash-language-server
       nodePackages.prettier
       pyright
-      ruff
+      # ruff #TODO: moved to brew-s
       shellcheck
       shfmt
       stylua
