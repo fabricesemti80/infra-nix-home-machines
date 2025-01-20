@@ -3,8 +3,12 @@
   environment = {
     systemPackages = with pkgs; [
       # Development Tools
+      ansible                          # Configuration management tool
       delta                            # Enhanced git diff viewer with syntax highlighting
+      direnv                           # Environment variable manager
       lazydocker                       # Terminal UI for Docker management
+      packer                           # Infrastructure as code tool for image building
+      terraform                         # Infrastructure as code tool for infrastructure provisioning
 
       # Language-Specific Tools
       (python3.withPackages (ps: with ps; [pip virtualenv]))    # Python development environment
@@ -50,12 +54,20 @@
       # Command Line Tools (brews)
       "docker"                         # Containerization platform
       "docker-compose"                 # Multi-container Docker applications
+
+      # coding
+      "ruff"                           # Python linter
     ];
 
     casks = [
+
+
       # Authentication & Security
       "1password"                      # Password manager
       "1password-cli"                  # 1Password command-line tool
+
+      # Work stuff
+      "citrix-workspace"               # Citrix Workspace client
 
       # System Enhancement
       "aerospace"                      # Window manager for macOS
@@ -64,17 +76,18 @@
       "raycast"                        # Spotlight replacement and productivity tool
       "stats"                          # System monitoring menubar app
 
-      # Development Environment
+      # Dev tools
       "openlens"                       # Kubernetes IDE and management
       "orbstack"                       # Lightweight Docker desktop alternative
       "visual-studio-code"             # Modern code editor
       # "wezterm"                      # GPU-accelerated terminal emulator
-      "ghostty"                        # Terminal alternative --> https://ghostty.zerebos.com/
+      "ghostty"                        # Terminal alternative --> https://ghostty.zerebos.com/ #TODO: develop config
+      "termius"                        # SSH session manager
 
       # Knowledge Management
-      "anytype"                        # Local-first note-taking system
+      # "anytype"                        # Local-first note-taking system
       "capacities"                     # Visual note-taking and organization
-      "notion"                         # All-in-one workspace
+      # "notion"                         # All-in-one workspace
       "obsidian"                       # Markdown knowledge base
 
       # Internet & Communication
@@ -85,6 +98,7 @@
       "angry-ip-scanner"               # IP address lookup
       "appcleaner"                     # Thorough app uninstaller
       #"bartender"                     # Menu bar icon organization #! superseeded by Sketcybar
+      "daisydisk"                        # Disk space usage visualization
       "numi"                           # Calculator and unit converter
       "tailscale"                      # Zero trust VPN
 
