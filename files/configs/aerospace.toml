@@ -216,33 +216,33 @@ alt-shift-l = ['join-with right', 'mode main']
 ## Browser
 [[on-window-detected]]
 if.app-id = 'com.brave.Browser'
-run = ['move-node-to-workspace 1']
+run = ['move-node-to-workspace B']
 
 ## Code
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCode'
-run = 'move-node-to-workspace 2'
+run = 'move-node-to-workspace V'
 
 ## Terminals
 [[on-window-detected]]
-if.app-id = 'com.github.wez.wezterm'
-run = 'move-node-to-workspace 3'
+if.app-id = 'om.mitchellh.ghostty'
+run = 'move-node-to-workspace T'
 
-[[on-window-detected]]
-if.app-id = 'org.alacritty'
-run = 'move-node-to-workspace 3'
+# [[on-window-detected]]
+# if.app-id = 'org.alacritty'
+# run = 'move-node-to-workspace 3'
 
 ## Messaging
 [[on-window-detected]]
 if.app-id = 'net.whatsapp.WhatsApp'
-run = 'move-node-to-workspace 4'
+run = 'move-node-to-workspace M'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run = 'move-node-to-workspace 4'
+run = 'move-node-to-workspace M'
 
-## Notes
-[[on-window-detected]]
-if.app-id = 'md.obsidian'
-run = 'move-node-to-workspace 5'
+# ## Notes
+# [[on-window-detected]]
+# if.app-id = 'md.obsidian'
+# run = 'move-node-to-workspace 5'
 
