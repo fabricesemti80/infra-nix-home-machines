@@ -77,6 +77,7 @@
       "stats"                          # System monitoring menubar app
 
       # Dev tools
+      "cursor"                         # AI-powered editor
       "openlens"                       # Kubernetes IDE and management
       "orbstack"                       # Lightweight Docker desktop alternative
       "visual-studio-code"             # Modern code editor
