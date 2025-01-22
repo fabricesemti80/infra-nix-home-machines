@@ -83,6 +83,9 @@
       # kubectl auto-complete
       source <(kubectl completion zsh)
 
+      # direnv hook
+      eval "$(direnv hook zsh)"
+
       # bindings
       bindkey -v
       bindkey '^A' beginning-of-line
