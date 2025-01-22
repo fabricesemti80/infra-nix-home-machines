@@ -30,6 +30,7 @@
       # Task Runners and Processors
       jq                               # Command-line JSON processor
       just                             # Modern command runner alternative to make
+      go-task                          # Task runner for Go projects
 
       # Miscellaneous
       cmatrix                          # Terminal based "The Matrix" like animation
@@ -102,6 +103,7 @@
       "daisydisk"                        # Disk space usage visualization
       "numi"                           # Calculator and unit converter
       "tailscale"                      # Zero trust VPN
+      "xnapper"                        # Screen recorder
 
       # Fonts
       "font-hack-nerd-font"            # Nerd font for programming
