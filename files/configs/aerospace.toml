@@ -223,6 +223,10 @@ run = 'move-node-to-workspace T'
 if.app-id = 'com.termius-dmg.mac'
 run = 'move-node-to-workspace T'
 
+[[on-window-detected]]
+if.app-id = 'dev.warp.Warp-Stable'
+run = 'move-node-to-workspace T'
+
 ## C ==> CODE EDITORS
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCode'
