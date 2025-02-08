@@ -6,7 +6,7 @@ in {
     enable = true;
     package = pkgs.neovim-unwrapped;
     defaultEditor = true;
-    withNodeJs = true;
+    withNodeJs = false; #TODO: removed this on 8/2/2025 due to bug
     withPython3 = true;
     withRuby = true;
 
