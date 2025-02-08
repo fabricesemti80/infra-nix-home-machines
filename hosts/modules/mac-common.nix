@@ -101,7 +101,8 @@
       # Utilities
       "angry-ip-scanner" # IP address lookup
       "appcleaner" # Thorough app uninstaller
-      #"bartender"                     # Menu bar icon organization #! superseeded by Sketcybar
+      #"bartender"                     # Menu bar icon organization #! superseeded by Sketcybari
+      "hiddenbar" # Bartender alternative
       "daisydisk" # Disk space usage visualization
       "numi" # Calculator and unit converter
       "tailscale" # Zero trust VPN
