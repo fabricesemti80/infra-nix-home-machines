@@ -97,14 +97,16 @@
       # Internet & Communication
       "brave-browser" # Privacy-focused web browser
       "whatsapp" # Messaging platform
+      "zen-browser" # Privacy-focused web browser"
 
       # Utilities
       "angry-ip-scanner" # IP address lookup
       "appcleaner" # Thorough app uninstaller
       #"bartender"                     # Menu bar icon organization #! superseeded by Sketcybari
       "hiddenbar" # Bartender alternative
-      "daisydisk" # Disk space usage visualization
+      # "daisydisk" # Disk space usage visualization
       "numi" # Calculator and unit converter
+      "sensei" # System cleaner and performance optimizer
       "tailscale" # Zero trust VPN
       "xnapper" # Screen recorder
 

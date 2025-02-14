@@ -40,8 +40,8 @@
   nix.optimise.automatic = true; # Automatically optimize nix store
   nix.package = pkgs.nix; # Use the nix package from pkgs
 
-  # Enable the Nix daemon service
-  services.nix-daemon.enable = true;
+  # # Enable the Nix daemon service
+  # services.nix-daemon.enable = true;
 
   # Configure the user account
   users.users.${userConfig.name} = {
