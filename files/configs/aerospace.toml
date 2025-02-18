@@ -217,6 +217,10 @@ run = 'move-node-to-workspace B'
 if.app-id = 'com.apple.Safari'
 run = 'move-node-to-workspace B'
 
+[[on-window-detected]]
+if.app-id = 'pp.zen-browser.zen'
+run = 'move-node-to-workspace B'
+
 ## T ==> TERMINALS
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
