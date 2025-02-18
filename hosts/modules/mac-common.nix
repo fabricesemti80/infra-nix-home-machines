@@ -78,19 +78,19 @@
       "stats" # System monitoring menubar app
 
       # Dev tools
-      "cursor" # AI-powered editor
+      # "cursor" # AI-powered editor
       "lm-studio" # local AI runner
-      "openlens" # Kubernetes IDE and management
+      # "openlens" # Kubernetes IDE and management
       "orbstack" # Lightweight Docker desktop alternative
       "visual-studio-code" # Modern code editor
       # "wezterm"                      # GPU-accelerated terminal emulator
-      "ghostty" # Terminal alternative --> https://ghostty.zerebos.com/ #TODO: develop config
+      # "ghostty" # Terminal alternative --> https://ghostty.zerebos.com/ #TODO: develop config
       "termius" # SSH session manager
       "warp"
 
       # Knowledge Management
       # "anytype"                        # Local-first note-taking system
-      "capacities" # Visual note-taking and organization
+      # "capacities" # Visual note-taking and organization
       # "notion"                         # All-in-one workspace
       "obsidian" # Markdown knowledge base
 
@@ -100,15 +100,15 @@
       "zen-browser" # Privacy-focused web browser"
 
       # Utilities
-      "angry-ip-scanner" # IP address lookup
+      # "angry-ip-scanner" # IP address lookup
       "appcleaner" # Thorough app uninstaller
-      #"bartender"                     # Menu bar icon organization #! superseeded by Sketcybari
+      #"bartender"                     # Menu bar icon organization #! superseeded by HiddenBar
       "hiddenbar" # Bartender alternative
       # "daisydisk" # Disk space usage visualization
       "numi" # Calculator and unit converter
-      "sensei" # System cleaner and performance optimizer
       "tailscale" # Zero trust VPN
-      "xnapper" # Screen recorder
+      "shottr" # Screen recording
+      # "xnapper" # Screen recorder
 
       # Fonts
       "font-hack-nerd-font" # Nerd font for programming
