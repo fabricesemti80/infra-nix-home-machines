@@ -48,6 +48,7 @@
     # Homebrew Additional Repositories
     taps = [
       "nikitabobko/tap"
+      "powershell/tap"
     ];
 
     brews = [
@@ -85,6 +86,7 @@
       "visual-studio-code" # Modern code editor
       # "wezterm"                      # GPU-accelerated terminal emulator
       # "ghostty" # Terminal alternative --> https://ghostty.zerebos.com/ #TODO: develop config
+      "powershell" # PowerShell
       "termius" # SSH session manager
       "warp"
 
