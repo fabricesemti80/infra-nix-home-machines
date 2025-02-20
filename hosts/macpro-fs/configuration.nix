@@ -120,13 +120,16 @@
         persistent-apps = [
           # Apps that persist in the dock
 
-          ## direct installs
-          "/Applications/Brave Browser.app"
+          # "/Applications/Brave Browser.app"
+          "/Applications/Zen Browser.app"
           # "/Applications/OrbStack.app"
-          "/Applications/Ghostty.app"
+          # "/Applications/Ghostty.app"
+          "/Applications/Warp.app"
+          # "/Applications/Visual Studio Code"
+          "/Applications/Parallels Desktop.app"
 
           # ## Home Manager packages
-          # "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
           # "${pkgs.obsidian}/Applications/Obsidian.app"
 
         ];
