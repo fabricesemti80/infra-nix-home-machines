@@ -105,6 +105,7 @@
       # "angry-ip-scanner" # IP address lookup
       "appcleaner" # Thorough app uninstaller
       #"bartender"                     # Menu bar icon organization #! superseeded by HiddenBar
+      "fliqlo" # Digital clock screensaver
       "hiddenbar" # Bartender alternative
       # "daisydisk" # Disk space usage visualization
       "numi" # Calculator and unit converter
