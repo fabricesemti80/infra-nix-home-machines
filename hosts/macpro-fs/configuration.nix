@@ -131,7 +131,6 @@
           # ## Home Manager packages
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           # "${pkgs.obsidian}/Applications/Obsidian.app"
-
         ];
         tilesize = 60; # Dock icon size
         # Disable hot corners
