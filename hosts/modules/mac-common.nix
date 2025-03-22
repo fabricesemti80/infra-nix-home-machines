@@ -5,6 +5,7 @@
       ansible # Configuration management tool
       delta # Enhanced git diff viewer with syntax highlighting
       direnv # Environment variable manager
+      hcp # HashiCorp Cloud Platform CLI
       lazydocker # Terminal UI for Docker management
       packer # Infrastructure as code tool for image building
       terraform # Infrastructure as code tool for infrastructure provisioning
@@ -102,6 +103,7 @@
       "zen-browser" # Privacy-focused web browser"
 
       # Utilities
+      "alcove" # Dynamic island changer
       # "angry-ip-scanner" # IP address lookup
       "appcleaner" # Thorough app uninstaller
       #"bartender"                     # Menu bar icon organization #! superseeded by HiddenBar
