@@ -9,6 +9,7 @@
       lazydocker # Terminal UI for Docker management
       packer # Infrastructure as code tool for image building
       terraform # Infrastructure as code tool for infrastructure provisioning
+      terraformer # Terraform state management tool
       pre-commit # Git pre-commit hook manager
 
       # Language-Specific Tools
