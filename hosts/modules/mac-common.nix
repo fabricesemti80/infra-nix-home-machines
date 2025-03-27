@@ -3,6 +3,7 @@
     systemPackages = with pkgs; [
       # Development Tools
       ansible # Configuration management tool
+      awscli2 # AWS Command Line Interface
       delta # Enhanced git diff viewer with syntax highlighting
       direnv # Environment variable manager
       hcp # HashiCorp Cloud Platform CLI
