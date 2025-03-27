@@ -290,16 +290,16 @@ run = 'move-node-to-workspace P'
 if.app-id = 'com.microsoft.rdc.macos'
 run = 'move-node-to-workspace P'
 
-## W ==> WORK
+## W ==> WINDOWS & WORK
 [[on-window-detected]]
 if.app-id = 'com.citrix.receiver.icaviewer.mac'
 run = 'move-node-to-workspace W'
 
-## O ==> OrbStack
 [[on-window-detected]]
-if.app-id = 'com.citrix.receiver.icaviewer.mac'
-run = 'move-node-to-workspace O'
+if.app-id = 'com.microsoft.rdc.macos'
+run = 'move-node-to-workspace W'
 
+## O ==> OrbStack
 [[on-window-detected]]
 if.app-id = 'dev.kdrag0n.MacVirt'
 run = 'move-node-to-workspace O'
