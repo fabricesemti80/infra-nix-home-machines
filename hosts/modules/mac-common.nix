@@ -2,7 +2,7 @@
   environment = {
     systemPackages = with pkgs; [
       # Development Tools
-      ansible # Configuration management tool
+      # ansible # Configuration management tool
       awscli2 # AWS Command Line Interface
       delta # Enhanced git diff viewer with syntax highlighting
       direnv # Environment variable manager
@@ -14,7 +14,9 @@
       pre-commit # Git pre-commit hook manager
 
       # Language-Specific Tools
+
       (python3.withPackages (ps: with ps; [pip virtualenv])) # Python development environment
+
       pipenv # Python dependency management tool
 
       # System Utilities
@@ -56,6 +58,7 @@
 
     brews = [
       # Command Line Tools (brews)
+      "ansible" # Configuration management tool
       "docker" # Containerization platform
       "docker-compose" # Multi-container Docker applications
 
