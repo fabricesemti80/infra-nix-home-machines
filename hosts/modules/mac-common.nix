@@ -107,6 +107,9 @@
       "whatsapp" # Messaging platform
       "zen-browser" # Privacy-focused web browser"
 
+      # Media
+      "iina" # Media player
+
       # Utilities
       "alcove" # Dynamic island changer
       # "angry-ip-scanner" # IP address lookup
