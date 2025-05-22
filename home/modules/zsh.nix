@@ -79,7 +79,7 @@
       la = "eza -abhl --icons --group-directories-first"; # all list
       lt = "eza --tree --level=2 --icons"; # tree
     };
-    initExtra = ''
+    initContent = ''
       # kubectl auto-complete
       source <(kubectl completion zsh)
 
