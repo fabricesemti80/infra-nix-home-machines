@@ -9,11 +9,11 @@ default:
 
 # Switch Nix Darwin configuration dynamically
 darwin-switch:
-    nix run nix-darwin -- switch --flake .#{{hostname}}
+    sudo nix run nix-darwin -- switch --flake .#{{hostname}}
 
 # Switch Nix Darwin configuration for macvm-fs
 darwin-switch-macvm-fs:
-    nix run nix-darwin -- switch --flake .#macvm-fs
+    sudo nix run nix-darwin -- switch --flake .#macvm-fs
 
 # Switch Home Manager configuration dynamically
 home-switch:

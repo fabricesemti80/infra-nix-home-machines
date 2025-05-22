@@ -15,7 +15,12 @@
 
       # Language-Specific Tools
 
-      (python3.withPackages (ps: with ps; [pip virtualenv])) # Python development environment
+     (python3.withPackages (ps: with ps; [
+        pip
+        virtualenv
+        jmespath  # Added jmespath
+        dnspython  # Added dnspython
+      ]))
 
       pipenv # Python dependency management tool
 
@@ -40,6 +45,7 @@
 
       # Miscellaneous
       cmatrix # Terminal based "The Matrix" like animation
+      sshpass
     ];
   };
 
@@ -99,7 +105,7 @@
       # Knowledge Management
       # "anytype"                        # Local-first note-taking system
       # "capacities" # Visual note-taking and organization
-      # "notion"                         # All-in-one workspace
+      "notion"                         # All-in-one workspace
       "obsidian" # Markdown knowledge base
 
       # Internet & Communication
