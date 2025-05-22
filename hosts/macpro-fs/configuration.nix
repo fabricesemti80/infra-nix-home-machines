@@ -54,7 +54,6 @@
 
   # System-wide macOS settings and preferences - https://daiderd.com/nix-darwin/manual/index.html
   system = {
-    primaryUser = "${userConfig.name}";
     # Various macOS default settings
     defaults = {
       # Global mouse settings
@@ -167,7 +166,7 @@
     };
 
     # Declare primary user
-    primaryUser
+    primaryUser = "${userConfig.name}";
   };
 
   # Post-activation script to set custom keyboard shortcuts
