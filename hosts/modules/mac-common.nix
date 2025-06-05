@@ -76,6 +76,7 @@
     ];
 
     casks = [
+
       # Authentication & Security
       "1password" # Password manager
       "1password-cli" # 1Password command-line tool
@@ -117,7 +118,7 @@
       "iina" # Media player
 
       # Utilities
-      "alcove" # Dynamic island changer
+      # "alcove" # Dynamic island changer
       # "angry-ip-scanner" # IP address lookup
       "appcleaner" # Thorough app uninstaller
       #"bartender"                     # Menu bar icon organization #! superseeded by HiddenBar
