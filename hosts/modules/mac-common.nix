@@ -1,60 +1,53 @@
 {pkgs, ...}: {
   environment = {
     systemPackages = with pkgs; [
-      # Development Tools
-      # ansible # Configuration management tool
-      awscli2 # AWS Command Line Interface
+      #* Development Tools
+      awscli2 # AWS Command Line Interface for managing AWS services
       delta # Enhanced git diff viewer with syntax highlighting
-      direnv # Environment variable manager
-      hcp # HashiCorp Cloud Platform CLI
-      lazydocker # Terminal UI for Docker management
+      direnv # Environment variable manager for project-specific environments
+      hcp # HashiCorp Cloud Platform CLI for managing HashiCorp cloud resources
+      lazydocker # Terminal UI for Docker management and monitoring
       packer # Infrastructure as code tool for image building
+      pre-commit # Git pre-commit hook manager for code quality checks
       terraform # Infrastructure as code tool for infrastructure provisioning
-      terraformer # Terraform state management tool
-      pre-commit # Git pre-commit hook manager
+      terraformer # Terraform state management tool for importing existing resources
 
-      # Language-Specific Tools
-
-     (python3.withPackages (ps: with ps; [
-        pip
-        virtualenv
-        jmespath  # Added jmespath
-        dnspython  # Added dnspython
+      #* Language-Specific Tools
+      (python3.withPackages (ps: with ps; [
+        dnspython  # DNS toolkit for Python
+        jmespath  # JSON query language for Python
+        pip  # Python package installer
+        virtualenv  # Python virtual environment creator
       ]))
-
       pipenv # Python dependency management tool
 
-      # System Utilities
-      du-dust # Intuitive disk usage analyzer
-      duf # Disk usage statistics utility
+      #* System Utilities
+      du-dust # Intuitive disk usage analyzer with visual output
+      duf # Disk usage statistics utility with friendly UI
       home-manager # Nix user environment manager
       nh # Nix command wrapper and helper
       openconnect # VPN client compatible with Cisco AnyConnect
+      sshpass # Non-interactive ssh password authentication
       tree # Directory structure viewer
 
-      # Modern CLI Replacements
-      eza # Modern replacement for ls
+      #* Modern CLI Replacements
+      eza # Modern replacement for ls with more features
       fd # User-friendly alternative to find
-      ripgrep # Fast alternative to grep
+      ripgrep # Fast alternative to grep with better syntax
 
-      # Task Runners and Processors
+      #* Task Runners and Processors
+      go-task # Task runner for Go projects
       jq # Command-line JSON processor
       just # Modern command runner alternative to make
-      go-task # Task runner for Go projects
       yq # Command-line YAML processor
 
-      # Miscellaneous
+      #* Miscellaneous
       cmatrix # Terminal based "The Matrix" like animation
-      sshpass
     ];
   };
 
   homebrew = {
     enable = true;
-
-    # Homebrew package types:
-    # - brews: Command line tools and libraries, installed from source/binary, located in /usr/local/Cellar
-    # - casks: GUI applications with graphical interfaces, pre-built binaries, installed to /Applications
 
     # Homebrew Additional Repositories
     taps = [
@@ -63,74 +56,59 @@
     ];
 
     brews = [
-      # Command Line Tools (brews)
+      #* Command Line Tools
       "ansible" # Configuration management tool
       "docker" # Containerization platform
       "docker-compose" # Multi-container Docker applications
 
-      # coding
-      "ruff" # Python linter
-
-      # Frontend Development
+      #* Coding Tools
       "hugo" # Static site generator
+      "ruff" # Fast Python linter
     ];
 
     casks = [
-
-      # Authentication & Security
+      #* Authentication & Security
       "1password" # Password manager
       "1password-cli" # 1Password command-line tool
 
-      # Work stuff
-      "citrix-workspace" # Citrix Workspace client
+      #* Work Tools
+      "citrix-workspace" # Citrix Workspace client for remote applications
 
-      # System Enhancement
+      #* System Enhancement
       "aerospace" # Window manager for macOS
-      # "hyperkey"                     # Hyper key modifier functionality
-      # "karabiner-elements"           # Keyboard customization
       "raycast" # Spotlight replacement and productivity tool
       "stats" # System monitoring menubar app
 
-      # Dev tools
-      # "cursor" # AI-powered editor
-      "lm-studio" # local AI runner
-      # "openlens" # Kubernetes IDE and management
-      "orbstack" # Lightweight Docker desktop alternative
-      "visual-studio-code" # Modern code editor
-      # "wezterm"                      # GPU-accelerated terminal emulator
-      # "ghostty" # Terminal alternative --> https://ghostty.zerebos.com/ #TODO: develop config
-      "powershell" # PowerShell
-      "termius" # SSH session manager
-      "warp"
-
-      # Knowledge Management
-      # "anytype"                        # Local-first note-taking system
-      # "capacities" # Visual note-taking and organization
-      "notion"                         # All-in-one workspace
+      #* Dev Tools
+      "lm-studio" # Local AI model runner
       "obsidian" # Markdown knowledge base
+      "orbstack" # Lightweight Docker desktop alternative
+      "powershell" # Cross-platform automation and configuration tool
+      "termius" # SSH session manager
+      "vagrant" # Tool for building and managing virtual machine environments
+      "visual-studio-code" # Modern code editor
+      "warp" # Modern terminal with AI features
 
-      # Internet & Communication
+      #* Knowledge Management
+      "notion" # All-in-one workspace for notes and collaboration
+
+      #* Internet & Communication
       "brave-browser" # Privacy-focused web browser
       "whatsapp" # Messaging platform
-      "zen-browser" # Privacy-focused web browser"
+      "zen-browser" # Privacy-focused web browser
 
-      # Media
-      "iina" # Media player
+      #* Media
+      "iina" # Modern media player for macOS
 
-      # Utilities
-      # "alcove" # Dynamic island changer
-      # "angry-ip-scanner" # IP address lookup
+      #* Utilities
       "appcleaner" # Thorough app uninstaller
-      #"bartender"                     # Menu bar icon organization #! superseeded by HiddenBar
       "fliqlo" # Digital clock screensaver
-      "hiddenbar" # Bartender alternative
-      # "daisydisk" # Disk space usage visualization
+      "hiddenbar" # Menu bar icon organization tool
       "numi" # Calculator and unit converter
+      "shottr" # Screen capture and annotation tool
       "tailscale" # Zero trust VPN
-      "shottr" # Screen recording
-      # "xnapper" # Screen recorder
 
-      # Fonts
+      #* Fonts
       "font-hack-nerd-font" # Nerd font for programming
     ];
 
