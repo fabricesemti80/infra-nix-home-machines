@@ -95,7 +95,7 @@
       #* Internet & Communication
       "brave-browser" # Privacy-focused web browser
       "whatsapp" # Messaging platform
-      "zen-browser" # Privacy-focused web browser
+      # "zen-browser" # Privacy-focused web browser
 
       #* Media
       "iina" # Modern media player for macOS

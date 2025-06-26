@@ -10,7 +10,7 @@
     ../modules/mac-common.nix
 
     # Specific app to this device
-    ../modules/jankyborders.nix
+    # ../modules/jankyborders.nix
     # ../modules/sketchybar.nix
     ../modules/parallels.nix
   ];
