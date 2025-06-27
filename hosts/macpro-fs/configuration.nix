@@ -121,7 +121,8 @@
           # Apps that persist in the dock
 
           # "/Applications/Brave Browser.app"
-          "/Applications/Zen Browser.app"
+          # "/Applications/Zen Browser.app" # brew
+          "/Applications/Zen.app" # app store
           # "/Applications/OrbStack.app"
           # "/Applications/Ghostty.app"
           "/Applications/Warp.app"

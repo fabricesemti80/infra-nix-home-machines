@@ -63,6 +63,7 @@
 
       #* Coding Tools
       "hugo" # Static site generator
+      "nodejs" # JavaScript runtime
       "ruff" # Fast Python linter
     ];
 
@@ -80,6 +81,7 @@
       "stats" # System monitoring menubar app
 
       #* Dev Tools
+      # "docker-desktop" # Docker desktop for macOS
       "lm-studio" # Local AI model runner
       "obsidian" # Markdown knowledge base
       "orbstack" # Lightweight Docker desktop alternative
@@ -101,7 +103,7 @@
       "iina" # Modern media player for macOS
 
       #* Utilities
-      "appcleaner" # Thorough app uninstaller
+      # "appcleaner" # Thorough app uninstaller
       "fliqlo" # Digital clock screensaver
       "hiddenbar" # Menu bar icon organization tool
       "numi" # Calculator and unit converter
