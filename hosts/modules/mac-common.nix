@@ -77,6 +77,7 @@
 
       #* System Enhancement
       "aerospace" # Window manager for macOS
+      "commander-one" # Window manager for macOS
       "raycast" # Spotlight replacement and productivity tool
       "stats" # System monitoring menubar app
 
