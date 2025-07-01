@@ -2,6 +2,7 @@
   environment = {
     systemPackages = with pkgs; [
       #* Development Tools
+      ansible
       awscli2 # AWS Command Line Interface for managing AWS services
       delta # Enhanced git diff viewer with syntax highlighting
       direnv # Environment variable manager for project-specific environments
@@ -48,6 +49,11 @@
 
   homebrew = {
     enable = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "zap"; # Remove outdated versions and unused packages
+      upgrade = true;
+    };
 
     # Homebrew Additional Repositories
     taps = [
@@ -57,8 +63,7 @@
 
     brews = [
       #* Command Line Tools
-      "ansible" # Configuration management tool
-      "docker" # Containerization platform
+      # "ansible" # Configuration management tool      "docker" # Containerization platform
       "docker-compose" # Multi-container Docker applications
 
       #* Coding Tools
@@ -115,6 +120,6 @@
       "font-hack-nerd-font" # Nerd font for programming
     ];
 
-    onActivation.cleanup = "zap"; # Remove outdated versions and unused packages
+
   };
 }
