@@ -15,7 +15,10 @@
     hardware.url = "github:nixos/nixos-hardware";
 
     # Global catppuccin theme
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # NixOS Spicetify
     spicetify-nix = {
@@ -30,7 +33,10 @@
     };
 
     # Homebrew
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     zsh-autosuggestions = {
       url = "github:zsh-users/zsh-autosuggestions";
