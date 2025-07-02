@@ -113,6 +113,7 @@
 
       # Dock preferences
       dock = {
+        orientation = "bottom";
         autohide = true; # Automatically hide the dock
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
@@ -120,14 +121,15 @@
         persistent-apps = [
           # Apps that persist in the dock
 
-          # "/Applications/Brave Browser.app"
+          "/Applications/Brave Browser.app"
+          "/Applications/Commander One.app"
           # "/Applications/Zen Browser.app" # brew
-          "/Applications/Zen.app" # app store
+          # "/Applications/Zen.app" # app store
           # "/Applications/OrbStack.app"
           # "/Applications/Ghostty.app"
-          "/Applications/Warp.app"
+          # "/Applications/Warp.app"
           # "/Applications/Visual Studio Code"
-          "/Applications/Parallels Desktop.app"
+          # "/Applications/Parallels Desktop.app"
 
           # ## Home Manager packages
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
