@@ -62,6 +62,9 @@
     ];
 
     brews = [
+      #* AI
+      "gemini-cli" # AI-powered search engine
+
       #* Command Line Tools
       # "ansible" # Configuration management tool      "docker" # Containerization platform
       "docker-compose" # Multi-container Docker applications
@@ -73,6 +76,7 @@
     ];
 
     casks = [
+
       #* Authentication & Security
       "1password" # Password manager
       "1password-cli" # 1Password command-line tool
