@@ -113,7 +113,7 @@
 
       # Dock preferences
       dock = {
-        orientation = "bottom";
+        orientation = "right";
         autohide = true; # Automatically hide the dock
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications

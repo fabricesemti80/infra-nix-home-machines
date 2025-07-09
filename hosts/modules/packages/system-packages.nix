@@ -13,6 +13,9 @@
       terraform # Infrastructure as code tool for infrastructure provisioning
       terraformer # Terraform state management tool for importing existing resources
 
+      #* Networking
+      doggo # DNS client
+
       #* Language-Specific Tools
       (python3.withPackages (ps: with ps; [
         dnspython  # DNS toolkit for Python

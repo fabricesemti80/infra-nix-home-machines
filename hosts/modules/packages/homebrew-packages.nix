@@ -70,8 +70,7 @@
       "hiddenbar" # Menu bar icon organization tool
       "numi" # Calculator and unit converter
       "shottr" # Screen capture and annotation tool
-      "tailscale" # Zero trust VPN
-
+      # "tailscale" # Zero trust VPNk #! installed from App Store
       #* Fonts
       "font-hack-nerd-font" # Nerd font for programming
     ];
