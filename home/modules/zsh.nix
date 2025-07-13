@@ -46,6 +46,7 @@
       gco = "git checkout";
       ggl = "git pull";
       ggp = "git push";
+     tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale";
 
       # Kubectl aliases
       k = "kubectl";
@@ -76,7 +77,7 @@
       kdelsec = "kubectl delete secret";
     };
 
-    initExtra = ''
+    initContent = ''
       # kubectl auto-complete
       source <(kubectl completion zsh)
 
