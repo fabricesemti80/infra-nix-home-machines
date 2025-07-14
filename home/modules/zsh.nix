@@ -27,16 +27,28 @@
 
     shellAliases = {
       ff = "fastfetch";
+      ld = "lazydocker";
+      lg = "lazygit";
+      repo = "cd $HOME/Documents/repositories";
+      temp = "cd $HOME/Downloads/temp";
+      v = "nvim";
+      vi = "nvim";
+      vim = "nvim";
+      ls = "eza --icons always"; # default view
+      ll = "eza -bhl --icons --group-directories-first"; # long list
+      la = "eza -abhl --icons --group-directories-first"; # all list
+      lt = "eza --tree --level=2 --icons"; # tree
 
-      # git
+      # Git aliases
       gaa = "git add --all";
       gcam = "git commit --all --message";
       gcl = "git clone";
       gco = "git checkout";
       ggl = "git pull";
       ggp = "git push";
+     tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale";
 
-      # kubectl
+      # Kubectl aliases
       k = "kubectl";
       kgno = "kubectl get node";
       kdno = "kubectl describe node";
@@ -63,25 +75,14 @@
       kgsec = "kubectl get secret";
       kdsec = "kubectl describe secret";
       kdelsec = "kubectl delete secret";
-
-      ld = "lazydocker";
-      lg = "lazygit";
-
-      repo = "cd $HOME/Documents/repositories";
-      temp = "cd $HOME/Downloads/temp";
-
-      v = "nvim";
-      vi = "nvim";
-      vim = "nvim";
-
-      ls = "eza --icons always"; # default view
-      ll = "eza -bhl --icons --group-directories-first"; # long list
-      la = "eza -abhl --icons --group-directories-first"; # all list
-      lt = "eza --tree --level=2 --icons"; # tree
     };
-    initExtra = ''
+
+    initContent = ''
       # kubectl auto-complete
       source <(kubectl completion zsh)
+
+      # direnv hook
+      eval "$(direnv hook zsh)"
 
       # bindings
       bindkey -v

@@ -5,8 +5,13 @@
   ...
 }: {
   imports = [
-    ../modules/avatar.nix # Import the avatar module
-    ../modules/common-mac.nix # Mac packages
+    # Shared Mac apps and configs
+    ../modules/avatar.nix
+    ../modules/mac-common.nix
+
+    # Specific app to this device
+    # ../modules/jankyborders.nix
+    # ../modules/sketchybar.nix
   ];
 
   # Homebrew package manager configuration for macOS
@@ -34,8 +39,8 @@
   nix.optimise.automatic = true; # Automatically optimize nix store
   nix.package = pkgs.nix; # Use the nix package from pkgs
 
-  # Enable the Nix daemon service
-  services.nix-daemon.enable = true;
+  # # Enable the Nix daemon service
+  # services.nix-daemon.enable = true;
 
   # Configure the user account
   users.users.${userConfig.name} = {
@@ -46,7 +51,7 @@
   # Enable TouchID authentication for sudo commands
   security.pam.enableSudoTouchIdAuth = true;
 
-  # System-wide macOS settings and preferences
+  # System-wide macOS settings and preferences - https://daiderd.com/nix-darwin/manual/index.html
   system = {
     # Various macOS default settings
     defaults = {
@@ -96,6 +101,13 @@
         ShowStatusBar = true;
         _FXShowPosixPathInTitle = true; # Show full path in Finder title
         _FXSortFoldersFirst = true; # Sort folders before files
+
+        # Remove items after 30 days
+        FXRemoveOldTrashItems = true;
+
+        # Change the default folder shown in Finder windows.
+        # “Other” corresponds to the value of NewWindowTargetPath. The default is unset (“Recents”). Type: null or one of “Computer”, “OS volume”, “Home”, “Desktop”, “Documents”, “Recents”, “iCloud Drive”, “Other”
+        NewWindowTarget = "Home";
       };
 
       # Dock preferences
@@ -104,12 +116,15 @@
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
-        persistent-apps = [
+        persistent-apps = [ #TODO: review persistent apps
+
           # Apps that persist in the dock
           "/Applications/Brave Browser.app"
+          "/Applications/OrbStack.app"
           "${pkgs.alacritty}/Applications/Alacritty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
+
         ];
         tilesize = 60; # Dock icon size
         # Disable hot corners
@@ -124,6 +139,11 @@
         location = "/Users/${userConfig.name}/Downloads/temp"; # Screenshot save location
         type = "png"; # Screenshot format
         disable-shadow = true; # Disable window shadows in screenshots
+      };
+
+      # Menu bar
+      menuExtraClock = {
+        Show24Hour = true;
       };
     };
 
@@ -163,31 +183,6 @@
     "
   '';
 
-  # # System packages to install
-  # environment = {
-  #   systemPackages = with pkgs; [
-  #     (python3.withPackages (ps: with ps; [pip virtualenv])) # Python with common packages
-  #     bartender # Menu bar organization
-  #     colima # Docker alternative for macOS
-  #     delta # Better git diff
-  #     docker # Container platform
-  #     du-dust # Disk usage analyzer
-  #     eza # Modern ls replacement
-  #     fd # Find alternative
-  #     home-manager # User environment manager
-  #     jq # JSON processor
-  #     just # Command runner
-  #     kubectl # Kubernetes CLI
-  #     lazydocker # Docker TUI
-  #     nh # Nix helper
-  #     obsidian # Note-taking app
-  #     openconnect # VPN client
-  #     pipenv # Python environment manager
-  #     ripgrep # Fast grep alternative
-  #     vscode # Code editor
-  #   ];
-  # };
-
   # Enable Zsh as the default shell
   programs.zsh.enable = true;
 
@@ -197,25 +192,6 @@
     nerd-fonts.meslo-lg
     roboto
   ];
-
-  # # Configure Homebrew
-  # homebrew = {
-  #   enable = true;
-  #   casks = [
-  #     # GUI applications to install via Homebrew
-  #     "1password"
-  #     "aerospace" # Window manager
-  #     # "anki" # Flashcard app
-  #     "brave-browser" # Web browser
-  #     "obs" # Streaming software
-  #     "raycast" # Spotlight replacement
-  #   ];
-  #   taps = [
-  #     # Additional Homebrew repositories
-  #     "nikitabobko/tap"
-  #   ];
-  #   onActivation.cleanup = "zap"; # Aggressive cleanup of unused packages
-  # };
 
   # Set hostname
   networking.hostName = "macvm-fs";

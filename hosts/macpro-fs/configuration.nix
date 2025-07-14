@@ -5,8 +5,14 @@
   ...
 }: {
   imports = [
-    ../modules/avatar.nix # Import the avatar module
-    ../modules/common-mac.nix
+    # Shared Mac apps and configs
+    ../modules/avatar.nix
+    ../modules/mac-common.nix
+
+    # Specific app to this device
+    # ../modules/jankyborders.nix
+    # ../modules/sketchybar.nix
+    ../modules/parallels.nix
   ];
 
   # Homebrew package manager configuration for macOS
@@ -34,8 +40,8 @@
   nix.optimise.automatic = true; # Automatically optimize nix store
   nix.package = pkgs.nix; # Use the nix package from pkgs
 
-  # Enable the Nix daemon service
-  services.nix-daemon.enable = true;
+  # # Enable the Nix daemon service
+  # services.nix-daemon.enable = true;
 
   # Configure the user account
   users.users.${userConfig.name} = {
@@ -44,7 +50,7 @@
   };
 
   # Enable TouchID authentication for sudo commands
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # System-wide macOS settings and preferences - https://daiderd.com/nix-darwin/manual/index.html
   system = {
@@ -107,19 +113,27 @@
 
       # Dock preferences
       dock = {
+        orientation = "right";
         autohide = true; # Automatically hide the dock
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
         persistent-apps = [
-
           # Apps that persist in the dock
-          "/Applications/Brave Browser.app"
-          "/Applications/OrbStack.app"
-          "${pkgs.alacritty}/Applications/Alacritty.app"
-          "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          "${pkgs.obsidian}/Applications/Obsidian.app"
+          "com.vivaldi.Vivaldi"
+          # "/Applications/Brave Browser.app"
+          "/Applications/Commander One.app"
+          # "/Applications/Zen Browser.app" # brew
+          # "/Applications/Zen.app" # app store
+          # "/Applications/OrbStack.app"
+          # "/Applications/Ghostty.app"
+          # "/Applications/Warp.app"
+          # "/Applications/Visual Studio Code"
+          # "/Applications/Parallels Desktop.app"
 
+          # ## Home Manager packages
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          # "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
         tilesize = 60; # Dock icon size
         # Disable hot corners
@@ -153,6 +167,9 @@
         }
       ];
     };
+
+    # Declare primary user
+    primaryUser = "${userConfig.name}";
   };
 
   # Post-activation script to set custom keyboard shortcuts
@@ -178,30 +195,6 @@
     "
   '';
 
-  # # System packages to install
-  # environment = {
-  #   systemPackages = with pkgs; [
-  #     (python3.withPackages (ps: with ps; [pip virtualenv])) # Python with common packages
-  #     bartender # Menu bar organization
-  #     colima # Docker alternative for macOS
-  #     delta # Better git diff
-  #     docker # Container platform
-  #     du-dust # Disk usage analyzer
-  #     eza # Modern ls replacement
-  #     fd # Find alternative
-  #     home-manager # User environment manager
-  #     jq # JSON processor
-  #     just # Command runner
-  #     kubectl # Kubernetes CLI
-  #     lazydocker # Docker TUI
-  #     nh # Nix helper
-  #     obsidian # Note-taking app
-  #     openconnect # VPN client
-  #     pipenv # Python environment manager
-  #     ripgrep # Fast grep alternative
-  #     vscode # Code editor
-  #   ];
-  # };
 
   # Enable Zsh as the default shell
   programs.zsh.enable = true;
@@ -212,25 +205,6 @@
     nerd-fonts.meslo-lg
     roboto
   ];
-
-  # # Configure Homebrew
-  # homebrew = {
-  #   enable = true;
-  #   casks = [
-  #     # GUI applications to install via Homebrew
-  #     "1password"
-  #     "aerospace" # Window manager
-  #     # "anki" # Flashcard app
-  #     "brave-browser" # Web browser
-  #     "obs" # Streaming software
-  #     "raycast" # Spotlight replacement
-  #   ];
-  #   taps = [
-  #     # Additional Homebrew repositories
-  #     "nikitabobko/tap"
-  #   ];
-  #   onActivation.cleanup = "zap"; # Aggressive cleanup of unused packages
-  # };
 
   # Set hostname
   networking.hostName = "macpro-fs";

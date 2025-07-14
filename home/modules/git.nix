@@ -2,6 +2,7 @@
   # Install git via home-manager module
   programs.git = {
     enable = true;
+    signing.format = "ssh";
     userName = userConfig.fullName;
     userEmail = userConfig.email;
 
@@ -13,7 +14,7 @@
       gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
       user.signingkey = "~/.ssh/id_gitsign_fs";
     };
-    
+
     delta = {
       enable = true;
       options = {
