@@ -282,6 +282,10 @@ run = 'move-node-to-workspace B'
 if.app-id = 'app.zen-browser.zen'
 run = 'move-node-to-workspace B'
 
+[[on-window-detected]]
+if.app-id = 'com.vivaldi.Vivaldi'
+run = 'move-node-to-workspace B'
+
 #! ---------------------------- Files ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'

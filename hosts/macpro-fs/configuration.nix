@@ -120,8 +120,8 @@
         showhidden = true; # Show indicator for hidden applications
         persistent-apps = [
           # Apps that persist in the dock
-
-          "/Applications/Brave Browser.app"
+          "com.vivaldi.Vivaldi"
+          # "/Applications/Brave Browser.app"
           "/Applications/Commander One.app"
           # "/Applications/Zen Browser.app" # brew
           # "/Applications/Zen.app" # app store

@@ -57,6 +57,7 @@
       "notion" # All-in-one workspace for notes and collaboration
 
       #* Internet & Communication
+      "vivaldi" # Privacy-focused web browser
       "brave-browser" # Privacy-focused web browser
       "whatsapp" # Messaging platform
       # "zen-browser" # Privacy-focused web browser
