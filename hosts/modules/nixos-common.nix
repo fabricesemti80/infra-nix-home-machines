@@ -152,6 +152,7 @@
     glib
     gnumake
     home-manager
+    jmespath
     jq
     killall
     kubectl

@@ -8,6 +8,7 @@
       direnv # Environment variable manager for project-specific environments
       hcp # HashiCorp Cloud Platform CLI for managing HashiCorp cloud resources
       lazydocker # Terminal UI for Docker management and monitoring
+      oci-cli # Oracle Cloud Infrastructure CLI
       packer # Infrastructure as code tool for image building
       pre-commit # Git pre-commit hook manager for code quality checks
       terraform # Infrastructure as code tool for infrastructure provisioning
