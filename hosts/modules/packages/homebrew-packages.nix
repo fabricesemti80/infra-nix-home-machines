@@ -20,6 +20,7 @@
       #* Command Line Tools
       # "ansible" # Configuration management tool      "docker" # Containerization platform
       "docker-compose" # Multi-container Docker applications
+      "opentofu" # Infrastructure as Code tool
 
       #* Coding Tools
       "hugo" # Static site generator
@@ -65,6 +66,9 @@
       #* Media
       "iina" # Modern media player for macOS
 
+      #* Productivity
+      "capacities" # PKM
+
       #* Utilities
       # "appcleaner" # Thorough app uninstaller
       "fliqlo" # Digital clock screensaver
@@ -72,6 +76,7 @@
       "numi" # Calculator and unit converter
       "shottr" # Screen capture and annotation tool
       # "tailscale" # Zero trust VPNk #! installed from App Store
+
       #* Fonts
       "font-hack-nerd-font" # Nerd font for programming
     ];

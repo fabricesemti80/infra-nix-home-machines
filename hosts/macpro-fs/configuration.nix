@@ -120,16 +120,16 @@
         showhidden = true; # Show indicator for hidden applications
         persistent-apps = [
           # Apps that persist in the dock
-          "com.vivaldi.Vivaldi"
-          # "/Applications/Brave Browser.app"
+          # "/Applications/Vivaldi.app"
+          "/Applications/Brave Browser.app"
           "/Applications/Commander One.app"
           # "/Applications/Zen Browser.app" # brew
           # "/Applications/Zen.app" # app store
-          # "/Applications/OrbStack.app"
+          "/Applications/OrbStack.app"
           # "/Applications/Ghostty.app"
           # "/Applications/Warp.app"
           # "/Applications/Visual Studio Code"
-          # "/Applications/Parallels Desktop.app"
+          "/Applications/Parallels Desktop.app"
 
           # ## Home Manager packages
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
