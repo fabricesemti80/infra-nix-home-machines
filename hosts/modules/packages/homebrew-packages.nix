@@ -44,7 +44,7 @@
       "stats" # System monitoring menubar app
 
       #* Dev Tools
-      # "docker-desktop" # Docker desktop for macOS
+      "gcloud-cli" # Google Cloud SDK
       "lm-studio" # Local AI model runner
       "obsidian" # Markdown knowledge base
       "orbstack" # Lightweight Docker desktop alternative
