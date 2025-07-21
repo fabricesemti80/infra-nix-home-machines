@@ -96,8 +96,8 @@ on-focus-changed = "move-mouse window-lazy-center"
     3 = [ 'main', 'built-in']
     4 = [ 'main', 'built-in']
     5 = [ 'main', 'built-in']
-    # T = [ 'secondary', 'main', 'built-in']
-    # W = [ 'secondary', 'main', 'built-in']
+    B = [ 'secondary', 'main', 'built-in']
+    T = [ 'secondary', 'main', 'built-in']
 
 #! -------------------------------------------------------------------------- #
 #!                                Gaps Settings                               #

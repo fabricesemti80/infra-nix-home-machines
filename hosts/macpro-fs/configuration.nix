@@ -51,6 +51,9 @@
 
   # Enable TouchID authentication for sudo commands
   security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local.watchIdAuth = true;
+  security.pam.services.sudo_local.reattach = true;
+  security.pam.services.sudo_local.enable= true;
 
   # System-wide macOS settings and preferences - https://daiderd.com/nix-darwin/manual/index.html
   system = {
