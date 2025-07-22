@@ -1,0 +1,2 @@
+- Tailscale
+- Paralells desktop

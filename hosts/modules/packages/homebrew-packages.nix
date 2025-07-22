@@ -36,7 +36,7 @@
 
       #* Productivity & Utilities
       # "rectangle" # Window management for macOS
-      "notion" # All-in-one workspace for notes, tasks, and collaboration
+      # "notion" # All-in-one workspace for notes, tasks, and collaboration
       "capacities" # Connected knowledge management tool
       "fliqlo" # Digital clock screensaver
       "hiddenbar" # Menu bar icon organization tool
