@@ -1,2 +1,3 @@
-- Tailscale
-- Paralells desktop
+- Tailscale (from App store)
+- Paralells Desktop (instructions are in Google Drive)
+- Aldente (https://apphousekitchen.com/aldente/AlDente-Pro.dmg)

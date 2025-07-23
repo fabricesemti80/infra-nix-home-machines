@@ -38,11 +38,11 @@ after-startup-command = [
 #     'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
 #       # # ? https://nikitabobko.github.io/AeroSpace/goodies#show-aerospace-workspaces-in-sketchybar
 # ]
-exec-on-workspace-change = [
-    '/bin/bash',
-    '-c',
-    '/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
-]
+# exec-on-workspace-change = [
+#     '/bin/bash',
+#     '-c',
+#     '/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
+# ]
 
 #! ---------------------------- Login Settings ---------------------------- #
 
@@ -91,13 +91,20 @@ on-focus-changed = "move-mouse window-lazy-center"
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     [workspace-to-monitor-force-assignment]
-    1 = [ 'main', 'built-in']
-    2 = [ 'main', 'built-in']
-    3 = [ 'main', 'built-in']
-    4 = [ 'main', 'built-in']
-    5 = [ 'main', 'built-in']
-    B = [ 'secondary', 'main', 'built-in']
-    T = [ 'secondary', 'main', 'built-in']
+    1 = [ 'secondary', 'built-in', 'main']
+    2 = [ 'secondary', 'built-in', 'main']
+    3 = [ 'secondary', 'built-in', 'main']
+    4 = [ 'secondary', 'built-in', 'main']
+    5 = [ 'secondary', 'built-in', 'main']
+    B = [ 'main', 'built-in', 'secondary']
+    F = [ 'main', 'built-in', 'secondary']
+    T = [ 'main', 'built-in', 'secondary']
+    C = [ 'main', 'built-in', 'secondary']
+    M = [ 'main', 'built-in', 'secondary']
+    N = [ 'main', 'built-in', 'secondary']
+    P = [ 'main', 'built-in', 'secondary']
+    W = [ 'main', 'built-in', 'secondary']
+    O = [ 'main', 'built-in', 'secondary']
 
 #! -------------------------------------------------------------------------- #
 #!                                Gaps Settings                               #
@@ -356,6 +363,7 @@ run = 'move-node-to-workspace P'
 #! ---------------------------- Windows & Work ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'com.citrix.receiver.icaviewer.mac'
+check-further-callbacks = true
 run = ['move-node-to-workspace W']
 
 [[on-window-detected]]
