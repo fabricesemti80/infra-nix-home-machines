@@ -41,6 +41,7 @@
       "fliqlo" # Digital clock screensaver
       "hiddenbar" # Menu bar icon organization tool
       # "keycastr" # Show keystrokes in the menu bar
+      "hyperkey"
       "keyclu"
       "numi" # Calculator and unit converter
       "shottr" # Feature-rich screenshot tool
