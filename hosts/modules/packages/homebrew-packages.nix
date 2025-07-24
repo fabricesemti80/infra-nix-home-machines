@@ -41,6 +41,7 @@
       "fliqlo" # Digital clock screensaver
       "hiddenbar" # Menu bar icon organization tool
       # "keycastr" # Show keystrokes in the menu bar
+      "keyclu"
       "numi" # Calculator and unit converter
       "shottr" # Feature-rich screenshot tool
       # "appcleaner" # Thorough app uninstaller
@@ -69,6 +70,7 @@
       #* Browsers & Communication
       "vivaldi" # Feature-rich web browser with customization options
       "brave-browser" # Privacy-focused web browser with ad blocker
+      "netdownloadhelpercoapp"
       "whatsapp" # Secure messaging application
       # "zen-browser" # Privacy-focused web browser
 
