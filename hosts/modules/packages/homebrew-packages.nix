@@ -34,6 +34,11 @@
       "1password" # Secure password manager
       "1password-cli" # Command-line interface for 1Password
 
+      #* 3D printing
+      "autodesk-fusion" # 3D modeling and design software
+      "bambu-studio" # 3D printer
+      # "blender" # 3D design
+
       #* Productivity & Utilities
       # "rectangle" # Window management for macOS
       # "notion" # All-in-one workspace for notes, tasks, and collaboration
