@@ -91,21 +91,26 @@ on-focus-changed = "move-mouse window-lazy-center"
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     [workspace-to-monitor-force-assignment]
-    1 = [ 'secondary', 'built-in', 'main']
-    2 = [ 'secondary', 'built-in', 'main']
-    3 = [ 'secondary', 'built-in', 'main']
-    4 = [ 'secondary', 'built-in', 'main']
-    5 = [ 'secondary', 'built-in', 'main']
-    B = [ 'main', 'built-in', 'secondary']
-    F = [ 'main', 'built-in', 'secondary']
-    T = [ 'main', 'built-in', 'secondary']
-    C = [ 'main', 'built-in', 'secondary']
-    M = [ 'main', 'built-in', 'secondary']
-    N = [ 'main', 'built-in', 'secondary']
-    P = [ 'main', 'built-in', 'secondary']
-    W = [ 'main', 'built-in', 'secondary']
-    O = [ 'main', 'built-in', 'secondary']
-    U = [ 'secondary', 'built-in', 'main']
+    # main =>    Main monitor, usually the built-in one
+    # built-in => Laptop's built-in monitor
+    # 2778G5 =>  AOC 2778G5 monitor
+    # len => Lenovo LEN Y44w-10 monitor
+    # arzopa => Arzopa 4K monitor
+    1 = [ '2778G5', 'built-in', 'main']
+    2 = [ '2778G5', 'built-in', 'main']
+    3 = [ '2778G5', 'built-in', 'main']
+    4 = [ '2778G5', 'built-in', 'main']
+    5 = [ '2778G5', 'built-in', 'main']
+    B = [ 'main', 'built-in', '2778G5']
+    C = [ 'main', 'built-in', '2778G5']
+    F = [ 'main', 'built-in', '2778G5']
+    M = [ 'main', 'built-in', '2778G5']
+    N = [ 'main', 'built-in', '2778G5']
+    O = [ 'main', 'built-in', '2778G5']
+    P = [ 'main', 'built-in', '2778G5']
+    T = [ 'arzopa', '2778G5', 'built-in', 'main']
+    U = [ '2778G5', 'built-in', 'main']
+    W = [ 'main', 'built-in', '2778G5']
 
 #! -------------------------------------------------------------------------- #¨¨
 #!                                Gaps Settings                               #
