@@ -18,9 +18,11 @@
   # Homebrew package manager configuration for macOS
   nix-homebrew = {
     enable = true;
-    enableRosetta = true; # Enable support for Intel-based apps on Apple Silicon
+    # Enable support for Intel-based apps on Apple Silicon
+    enableRosetta = true;
     user = "${userConfig.name}";
-    autoMigrate = true; # Automatically migrate existing Homebrew installations
+    # Automatically migrate existing Homebrew installations
+    autoMigrate = true;
   };
 
   # Configure nixpkgs behavior and overlays

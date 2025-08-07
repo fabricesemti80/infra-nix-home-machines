@@ -84,6 +84,12 @@
       # direnv hook
       eval "$(direnv hook zsh)"
 
+      # 1password CLI integration - ensure 1password CLI is installed
+      if command -v op &> /dev/null; then
+        eval "$(op completion zsh)"
+        eval "$(op signin)"
+      fi
+
       # bindings
       bindkey -v
       bindkey '^A' beginning-of-line
