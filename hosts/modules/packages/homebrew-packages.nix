@@ -66,6 +66,7 @@
 
       #* Development Tools (GUI)
       "gcloud-cli" # Google Cloud SDK command-line tools
+      "kiro" #  AI-powered code assistant
       "lm-studio" # Local AI model runner and chat interface
       "obsidian" # Powerful knowledge base and note-taking tool
       "powershell" # Cross-platform automation and configuration tool
