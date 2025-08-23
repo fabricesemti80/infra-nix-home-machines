@@ -303,28 +303,6 @@ run = 'move-node-to-workspace B'
 if.app-id = 'com.vivaldi.Vivaldi'
 run = 'move-node-to-workspace B'
 
-#! ---------------------------- Files ---------------------------- #
-[[on-window-detected]]
-if.app-id = 'com.apple.finder'
-run = 'move-node-to-workspace F'
-
-[[on-window-detected]]
-if.app-id = 'com.eltima.cmd1'
-run = ['layout tiling', 'move-node-to-workspace U']
-
-#! ---------------------------- Terminals ---------------------------- #
-[[on-window-detected]]
-if.app-id = 'com.mitchellh.ghostty'
-run = 'move-node-to-workspace T'
-
-[[on-window-detected]]
-if.app-id = 'com.termius-dmg.mac'
-run = 'move-node-to-workspace T'
-
-[[on-window-detected]]
-if.app-id = 'dev.warp.Warp-Stable'
-run = ['move-node-to-workspace T']
-
 #! ---------------------------- Code Editors ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCode'
@@ -337,6 +315,15 @@ run = 'move-node-to-workspace C'
 [[on-window-detected]]
 if.app-id = 'com.cursor.Cursor'
 run = 'move-node-to-workspace C'
+
+#! ---------------------------- Files ---------------------------- #
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'move-node-to-workspace F'
+
+[[on-window-detected]]
+if.app-id = 'com.eltima.cmd1'
+run = ['move-node-to-workspace F']
 
 #! ---------------------------- Messaging ---------------------------- #
 [[on-window-detected]]
@@ -360,6 +347,15 @@ run = 'move-node-to-workspace N'
 if.app-id = 'md.obsidian'
 run = 'move-node-to-workspace N'
 
+#! ---------------------------- O-s ---------------------------- #
+[[on-window-detected]]
+if.app-id = 'dev.kdrag0n.MacVirt'
+run = 'move-node-to-workspace O'
+
+[[on-window-detected]]
+if.app-id = 'org.openscad.OpenSCAD'
+run = 'move-node-to-workspace O'
+
 #! ---------------------------- Parallels and VMs ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'com.parallels.desktop.console'
@@ -377,20 +373,18 @@ run = 'move-node-to-workspace P'
 if.app-id = 'com.microsoft.rdc.macos'
 run = 'move-node-to-workspace P'
 
-#! ---------------------------- Windows & Work ---------------------------- #
+#! ---------------------------- Terminals ---------------------------- #
 [[on-window-detected]]
-if.app-id = 'com.citrix.receiver.icaviewer.mac'
-check-further-callbacks = true
-run = ['layout tiling', 'move-node-to-workspace W']
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace T'
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.rdc.macos'
-run = ['layout tiling', 'move-node-to-workspace W']
+if.app-id = 'com.termius-dmg.mac'
+run = 'move-node-to-workspace T'
 
-#! ---------------------------- OrbStack ---------------------------- #
 [[on-window-detected]]
-if.app-id = 'dev.kdrag0n.MacVirt'
-run = 'move-node-to-workspace O'
+if.app-id = 'dev.warp.Warp-Stable'
+run = ['move-node-to-workspace T']
 
 #! ---------------------------- Utilities --------------------------- #
 
@@ -401,5 +395,17 @@ run = ['layout tiling', 'move-node-to-workspace U']
 [[on-window-detected]]
 if.app-id = 'com.bambulab.bambu-studio'
 run = ['layout tiling', 'move-node-to-workspace U']
+
+#! ---------------------------- Windows & Work ---------------------------- #
+[[on-window-detected]]
+if.app-id = 'com.citrix.receiver.icaviewer.mac'
+check-further-callbacks = true
+run = ['layout tiling', 'move-node-to-workspace W']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.rdc.macos'
+run = ['layout tiling', 'move-node-to-workspace W']
+
+
 
 
