@@ -31,6 +31,7 @@
       duf # Disk usage statistics utility with friendly UI
       home-manager # Nix user environment manager
       nh # Nix command wrapper and helper
+      mkpasswd # Generate hashed passwords
       openconnect # VPN client compatible with Cisco AnyConnect
       sshpass # Non-interactive ssh password authentication
       tree # Directory structure viewer

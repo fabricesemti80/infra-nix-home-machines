@@ -66,6 +66,7 @@
       "stats" # System monitoring tool for macOS menubar
 
       #* Development Tools (GUI)
+      "docker-desktop" # GUI application for managing Docker containers
       "gcloud-cli" # Google Cloud SDK command-line tools
       "kiro" #  AI-powered code assistant
       "lm-studio" # Local AI model runner and chat interface
