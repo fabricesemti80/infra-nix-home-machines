@@ -54,6 +54,9 @@
       # "appcleaner" # Thorough app uninstaller
       # "tailscale" # Zero trust VPN #! installed from App Store
 
+      #* Utilities
+      "daisydisk" # Disk space analyzer
+
       #* Virtualization & Containers
       "orbstack" # Fast, lightweight Docker and Linux machine alternative
       "vagrant" # Tool for building and managing virtual machine environments
@@ -66,7 +69,6 @@
       "stats" # System monitoring tool for macOS menubar
 
       #* Development Tools
-
       "gcloud-cli" # Google Cloud SDK command-line tools
       "kiro" #  AI-powered code assistant
       "lm-studio" # Local AI model runner and chat interface
