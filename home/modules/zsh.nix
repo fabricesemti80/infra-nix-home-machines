@@ -81,6 +81,9 @@
       # kubectl auto-complete
       source <(kubectl completion zsh)
 
+      # # mise hook
+      eval "$(mise activate zsh)"
+
       # direnv hook
       eval "$(direnv hook zsh)"
 

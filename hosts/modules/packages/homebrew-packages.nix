@@ -23,8 +23,12 @@
       "docker-compose" # Tool for defining and running multi-container Docker applications
       "opentofu" # Open-source infrastructure as code tool
 
+      #* Networking
+      "nmap" # Network exploration and security auditing tool
+
       #* Development Tools (CLI)
       "hugo" # Fast static site generator
+      "mise"
       "nodejs" # JavaScript runtime environment
       "ruff" # Extremely fast Python linter
     ];
@@ -51,11 +55,13 @@
       "keyclu"
       "numi" # Calculator and unit converter
       "shottr" # Feature-rich screenshot tool
-      # "appcleaner" # Thorough app uninstaller
+      "appcleaner" # Thorough app uninstaller
       # "tailscale" # Zero trust VPN #! installed from App Store
+      "wifiman"
 
       #* Utilities
       "daisydisk" # Disk space analyzer
+      "transmission" # Lightweight BitTorrent client
 
       #* Virtualization & Containers
       "orbstack" # Fast, lightweight Docker and Linux machine alternative
@@ -82,8 +88,7 @@
       "vivaldi" # Feature-rich web browser with customization options
       "brave-browser" # Privacy-focused web browser with ad blocker
       "netdownloadhelpercoapp"
-      "whatsapp" # Secure messaging application
-      # "zen-browser" # Privacy-focused web browser
+      "whatsapp" # Secure messaging application      # "zen-browser" # Privacy-focused web browser
 
       #* Media Players
       "iina" # Modern media player for macOS
