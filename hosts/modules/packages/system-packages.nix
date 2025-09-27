@@ -6,6 +6,7 @@
       awscli2 # AWS Command Line Interface for managing AWS services
       delta # Enhanced git diff viewer with syntax highlighting
       direnv # Environment variable manager for project-specific environments
+      gnupg # GNU Privacy Guard for encryption and signing
       hcp # HashiCorp Cloud Platform CLI for managing HashiCorp cloud resources
       lazydocker # Terminal UI for Docker management and monitoring
       oci-cli # Oracle Cloud Infrastructure CLI
