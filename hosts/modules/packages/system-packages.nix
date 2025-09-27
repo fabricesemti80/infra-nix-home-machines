@@ -34,6 +34,7 @@
       mkpasswd # Generate hashed passwords
       openconnect # VPN client compatible with Cisco AnyConnect
       sshpass # Non-interactive ssh password authentication
+      sops # Secrets management tool
       tree # Directory structure viewer
 
       #* Modern CLI Replacements

@@ -41,7 +41,7 @@
       #* 3D printing
       "autodesk-fusion" # 3D modeling and design software
       "bambu-studio" # 3D printer
-      "openscad@snapshot" # Open-source 3D CAD software
+      # "openscad@snapshot" # Open-source 3D CAD software
       # "blender" # 3D design
 
       #* Productivity & Utilities
