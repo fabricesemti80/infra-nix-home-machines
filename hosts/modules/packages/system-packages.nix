@@ -4,6 +4,7 @@
       #* Development Tools
       ansible
       awscli2 # AWS Command Line Interface for managing AWS services
+      cloudflared # Cloudflare Tunnel client
       delta # Enhanced git diff viewer with syntax highlighting
       direnv # Environment variable manager for project-specific environments
       gnupg # GNU Privacy Guard for encryption and signing

@@ -31,6 +31,8 @@
       "mise"
       "nodejs" # JavaScript runtime environment
       "ruff" # Extremely fast Python linter
+
+      "bash" # Unix shell and command language
     ];
 
     casks = [
