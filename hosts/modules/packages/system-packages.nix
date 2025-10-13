@@ -3,7 +3,7 @@
     systemPackages = with pkgs; [
       #* Development Tools
       ansible
-      awscli2 # AWS Command Line Interface for managing AWS services
+      # awscli2 # AWS Command Line Interface for managing AWS services
       cloudflared # Cloudflare Tunnel client
       delta # Enhanced git diff viewer with syntax highlighting
       direnv # Environment variable manager for project-specific environments
@@ -12,7 +12,7 @@
       lazydocker # Terminal UI for Docker management and monitoring
       oci-cli # Oracle Cloud Infrastructure CLI
       packer # Infrastructure as code tool for image building
-      pre-commit # Git pre-commit hook manager for code quality checks
+      # pre-commit # Git pre-commit hook manager for code quality checks - temporarily disabled due to .NET build issues
       terraform # Infrastructure as code tool for infrastructure provisioning
       terraformer # Terraform state management tool for importing existing resources
 

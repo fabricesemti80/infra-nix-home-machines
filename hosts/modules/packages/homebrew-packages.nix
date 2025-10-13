@@ -19,6 +19,7 @@
 
       #* DevOps & Infrastructure
       # "ansible" # Configuration management tool
+      "awscli" # AWS Command Line Interface for managing AWS services
       # "docker" # Containerization platform
       "docker-compose" # Tool for defining and running multi-container Docker applications
       "opentofu" # Open-source infrastructure as code tool

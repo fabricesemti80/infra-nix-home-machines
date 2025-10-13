@@ -119,7 +119,7 @@
       # Dock preferences
       dock = {
         orientation = "right";
-        autohide = true; # Automatically hide the dock
+        autohide = false; # Automatically hide the dock
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
@@ -135,6 +135,7 @@
           # "/Applications/Warp.app"
           # "/Applications/Visual Studio Code"
           "/Applications/Parallels Desktop.app"
+          "/Applications/Kiro.app"
 
           # ## Home Manager packages
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
