@@ -34,6 +34,7 @@
       "ruff" # Extremely fast Python linter
 
       "bash" # Unix shell and command language
+      "uv" # Extremely fast Python package installer and resolver, written in Rust
     ];
 
     casks = [
