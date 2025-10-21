@@ -132,13 +132,13 @@
           # "/Applications/Zen.app" # app store
           "/Applications/OrbStack.app"
           # "/Applications/Ghostty.app"
-          # "/Applications/Warp.app"
+          "/Applications/Warp.app"
           # "/Applications/Visual Studio Code"
           "/Applications/Parallels Desktop.app"
           "/Applications/Kiro.app"
 
           # ## Home Manager packages
-          "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          # "${pkgs.vscode}/Applications/Visual Studio Code.app"
           # "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
         tilesize = 60; # Dock icon size
