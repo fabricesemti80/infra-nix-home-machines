@@ -92,6 +92,7 @@
       "vivaldi" # Feature-rich web browser with customization options
       "brave-browser" # Privacy-focused web browser with ad blocker
       "netdownloadhelpercoapp"
+      "telegram" # Messaging application
       "whatsapp" # Secure messaging application      # "zen-browser" # Privacy-focused web browser
 
       #* Media Players
