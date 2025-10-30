@@ -29,7 +29,7 @@
       pipenv # Python dependency management tool
 
       #* System Utilities
-      du-dust # Intuitive disk usage analyzer with visual output
+      dust # Intuitive disk usage analyzer with visual output
       duf # Disk usage statistics utility with friendly UI
       home-manager # Nix user environment manager
       nh # Nix command wrapper and helper

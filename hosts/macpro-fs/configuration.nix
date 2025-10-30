@@ -123,19 +123,19 @@
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
+
+        #? ls -la /Applications/ | grep < app name>
         persistent-apps = [
-          # Apps that persist in the dock
-          # "/Applications/Vivaldi.app"
+          "/Applications/1Password.app"
           "/Applications/Brave Browser.app"
           "/Applications/Commander One.app"
-          # "/Applications/Zen Browser.app" # brew
-          # "/Applications/Zen.app" # app store
-          "/Applications/OrbStack.app"
-          # "/Applications/Ghostty.app"
-          "/Applications/Warp.app"
-          # "/Applications/Visual Studio Code"
-          "/Applications/Parallels Desktop.app"
           "/Applications/Kiro.app"
+          "/Applications/OrbStack.app"
+          "/Applications/Parallels Desktop.app"
+          "/Applications/Safari.app"
+          "/Applications/Termius.app"
+          "/Applications/Warp.app"
+          "/Applications/WhatsApp.app"
 
           # ## Home Manager packages
           # "${pkgs.vscode}/Applications/Visual Studio Code.app"
