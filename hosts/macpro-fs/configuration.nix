@@ -126,6 +126,7 @@
 
         #? ls -la /Applications/ | grep < app name>
         persistent-apps = [
+          "/Applications/LM Studio.app"
           "/Applications/1Password.app"
           "/Applications/Brave Browser.app"
           "/Applications/Commander One.app"
