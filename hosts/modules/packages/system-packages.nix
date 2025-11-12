@@ -20,12 +20,13 @@
       doggo # DNS client
 
       #* Language-Specific Tools
-      (python3.withPackages (ps: with ps; [
-        dnspython  # DNS toolkit for Python
-        jmespath  # JSON query language for Python
-        pip  # Python package installer
-        virtualenv  # Python virtual environment creator
-      ]))
+      (python3.withPackages (ps:
+        with ps; [
+          dnspython # DNS toolkit for Python
+          jmespath # JSON query language for Python
+          pip # Python package installer
+          virtualenv # Python virtual environment creator
+        ]))
       pipenv # Python dependency management tool
 
       #* System Utilities
@@ -35,6 +36,7 @@
       nh # Nix command wrapper and helper
       mkpasswd # Generate hashed passwords
       openconnect # VPN client compatible with Cisco AnyConnect
+      pre-commit # Git pre-commit hook framework
       sshpass # Non-interactive ssh password authentication
       sops # Secrets management tool
       tree # Directory structure viewer

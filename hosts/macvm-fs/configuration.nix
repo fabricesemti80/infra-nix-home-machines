@@ -28,11 +28,13 @@
   };
 
   # Configure Nix package manager behavior
-  nix.settings = {
-    experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+  nix = {
+    settings = {
+      experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+    };
+    optimise.automatic = true; # Automatically optimize nix store
+    package = pkgs.nix; # Use the nix package from pkgs
   };
-  nix.optimise.automatic = true; # Automatically optimize nix store
-  nix.package = pkgs.nix; # Use the nix package from pkgs
 
   # Configure the user account
   users.users.${userConfig.name} = {

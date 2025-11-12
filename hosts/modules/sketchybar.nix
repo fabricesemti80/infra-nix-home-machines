@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   homebrew = {
     # Homebrew Additional Repositories
     taps = [
@@ -6,7 +6,7 @@
     ];
 
     brews = [
-      "sketchybar"     # Customizable macOS menubar replacement
+      "sketchybar" # Customizable macOS menubar replacement
       "lua"
       "switchaudio-osx"
       "nowplaying-cli"

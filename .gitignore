@@ -5,3 +5,6 @@ files/configs/nvim/lazyvim.json
 .DS_Store
 .vscode/settings.json
 .kiro/**
+
+# Pre-commit
+.pre-commit-config.yaml

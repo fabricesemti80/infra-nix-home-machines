@@ -70,3 +70,26 @@ quick-update: update darwin-switch home-switch
 # Quick system and home update for macvm-fs
 quick-update-macvm-fs: update darwin-switch-macvm-fs home-switch-macvm-fs
 
+# Format all Nix files
+fmt:
+    nix fmt
+
+# Run pre-commit checks
+check-pre-commit:
+    nix flake check
+
+# Install pre-commit hooks
+install-hooks:
+    nix develop --command pre-commit install
+
+# Run pre-commit on all files
+run-hooks:
+    nix develop --command pre-commit run --all-files
+
+# Run statix linter (warnings only)
+lint:
+    statix check .
+
+# Run deadnix to find unused code
+deadnix:
+    deadnix .

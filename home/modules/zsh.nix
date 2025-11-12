@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   # Zsh shell configuration
   programs.zsh = {
     enable = true;
@@ -46,7 +40,7 @@
       gco = "git checkout";
       ggl = "git pull";
       ggp = "git push";
-     tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
 
       # Kubectl aliases
       k = "kubectl";

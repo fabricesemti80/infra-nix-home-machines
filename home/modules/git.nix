@@ -3,14 +3,14 @@
   programs.git = {
     enable = true;
     signing.format = "ssh";
-    
+
     settings = {
       user = {
+        inherit (userConfig) email;
         name = userConfig.fullName;
-        email = userConfig.email;
         signingkey = "~/.ssh/id_gitsign_fs";
       };
-      
+
       # Sign all commits using ssh key
       # https://jeppesen.io/git-commit-sign-nix-home-manager-ssh/
       commit.gpgsign = true;

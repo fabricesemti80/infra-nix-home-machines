@@ -31,11 +31,13 @@
   };
 
   # Configure Nix package manager behavior
-  nix.settings = {
-    experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+  nix = {
+    settings = {
+      experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+    };
+    optimise.automatic = true; # Automatically optimize nix store
+    package = pkgs.nix; # Use the nix package from pkgs
   };
-  nix.optimise.automatic = true; # Automatically optimize nix store
-  nix.package = pkgs.nix; # Use the nix package from pkgs
 
   # Configure the user account
   users.users.${userConfig.name} = {
@@ -44,10 +46,12 @@
   };
 
   # Enable TouchID authentication for sudo commands
-  security.pam.services.sudo_local.touchIdAuth = true;
-  security.pam.services.sudo_local.watchIdAuth = true;
-  security.pam.services.sudo_local.reattach = true;
-  security.pam.services.sudo_local.enable= true;
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    watchIdAuth = true;
+    reattach = true;
+    enable = true;
+  };
 
   # System-wide macOS settings and preferences - https://daiderd.com/nix-darwin/manual/index.html
   system = {
@@ -186,7 +190,6 @@
       </dict>
     "
   '';
-
 
   # Enable Zsh as the default shell
   programs.zsh.enable = true;

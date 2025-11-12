@@ -1,12 +1,11 @@
 {...}: {
-
   imports = [
     ../modules/common.nix
     ../modules/starship.nix
     ../modules/vscode.nix
     ../modules/hyprland.nix
     ../modules/ulauncher.nix
-    ../modules/zsh.nix       
+    ../modules/zsh.nix
   ];
 
   # Enable home-manager

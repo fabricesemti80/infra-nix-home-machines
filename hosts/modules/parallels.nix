@@ -1,5 +1,4 @@
-{ pkgs, ... }: {
-
+{...}: {
   homebrew = {
     # Homebrew package for laptop only!
 
@@ -7,8 +6,6 @@
       # Authentication & Security
       # "vmware-fusion"    # Virtualization platform
       # "parallels" # Virtualization platform
-
     ];
   };
-
 }

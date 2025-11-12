@@ -54,6 +54,12 @@
       url = "github:zsh-users/zsh-history-substring-search";
       flake = false;
     };
+
+    # Pre-commit hooks
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -63,11 +69,15 @@
     home-manager,
     nix-homebrew,
     nixpkgs,
-    zsh-autosuggestions,
-    zsh-history-substring-search,
+    pre-commit-hooks,
     ...
   } @ inputs: let
     inherit (self) outputs;
+
+    # Systems to support
+    systems = ["x86_64-linux" "aarch64-darwin"];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+    pkgsFor = system: import nixpkgs {inherit system;};
 
     # Define user configurations by importing from separate files for modularity and privacy
     users = {
@@ -129,5 +139,44 @@
     };
 
     overlays = import ./overlays {inherit inputs;};
+
+    # Pre-commit hooks check
+    checks = forAllSystems (system: {
+      pre-commit-check = pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          # Nix formatting (blocks commits if code isn't formatted)
+          alejandra.enable = true;
+
+          # YAML validation
+          check-yaml.enable = true;
+
+          # TOML validation
+          check-toml.enable = true;
+
+          # JSON validation
+          check-json.enable = true;
+        };
+      };
+    });
+
+    # Development shells with pre-commit
+    devShells = forAllSystems (system: let
+      pkgs = pkgsFor system;
+    in {
+      default = pkgs.mkShell {
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
+        buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+        packages = with pkgs; [
+          alejandra # Nix formatter
+          statix # Nix linter
+          deadnix # Dead code detector
+          nil # Nix LSP
+        ];
+      };
+    });
+
+    # Formatter for nix fmt
+    formatter = forAllSystems (system: (pkgsFor system).alejandra);
   };
 }
