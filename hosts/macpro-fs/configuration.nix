@@ -5,13 +5,8 @@
   ...
 }: {
   imports = [
-    # Shared Mac apps and configs
     ../modules/avatar.nix
     ../modules/mac-common.nix
-
-    # Specific app to this device
-    # ../modules/jankyborders.nix
-    # ../modules/sketchybar.nix
     ../modules/parallels.nix
   ];
 
@@ -42,9 +37,6 @@
   nix.optimise.automatic = true; # Automatically optimize nix store
   nix.package = pkgs.nix; # Use the nix package from pkgs
 
-  # # Enable the Nix daemon service
-  # services.nix-daemon.enable = true;
-
   # Configure the user account
   users.users.${userConfig.name} = {
     name = "${userConfig.name}";
@@ -62,9 +54,7 @@
     # Various macOS default settings
     defaults = {
       # Global mouse settings
-      ".GlobalPreferences" = {
-        # "com.apple.mouse.scaling" = -1.0; # Disable mouse acceleration
-      };
+      ".GlobalPreferences" = {};
 
       # Global system preferences
       NSGlobalDomain = {
@@ -124,7 +114,6 @@
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
 
-        #? ls -la /Applications/ | grep < app name>
         persistent-apps = [
           "/Applications/LM Studio.app"
           "/Applications/1Password.app"
@@ -137,10 +126,6 @@
           "/Applications/Termius.app"
           "/Applications/Warp.app"
           "/Applications/WhatsApp.app"
-
-          # ## Home Manager packages
-          # "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          # "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
         tilesize = 60; # Dock icon size
         # Disable hot corners
