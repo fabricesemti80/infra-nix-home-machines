@@ -15,6 +15,7 @@
       # pre-commit # Git pre-commit hook manager for code quality checks - temporarily disabled due to .NET build issues
       terraform # Infrastructure as code tool for infrastructure provisioning
       terraformer # Terraform state management tool for importing existing resources
+      tree-sitter # Parser generator tool and incremental parsing library for nvim-treesitter
 
       #* Networking
       doggo # DNS client

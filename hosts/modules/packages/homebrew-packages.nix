@@ -50,7 +50,7 @@
 
       #* Productivity & Utilities
       # "rectangle" # Window management for macOS
-      # "notion" # All-in-one workspace for notes, tasks, and collaboration
+      "notion" # All-in-one workspace for notes, tasks, and collaboration
       "capacities" # Connected knowledge management tool
       "fliqlo" # Digital clock screensaver
       "hiddenbar" # Menu bar icon organization tool
@@ -86,6 +86,7 @@
       "powershell" # Cross-platform automation and configuration tool
       "termius" # Cross-platform SSH client and terminal
       "visual-studio-code" # Popular code editor
+      "pycharm" # IDE for Python development
       "warp" # Modern terminal with AI features
 
       #* Browsers & Communication
