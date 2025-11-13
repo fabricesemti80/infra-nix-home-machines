@@ -1,5 +1,7 @@
-{...}: {
-  # Set TLP power profile
+# Module: Laptop Power Management
+# Purpose: Configures TLP for battery optimization on laptops
+# Platform: NixOS only (laptops)
+_: {
   services = {
     tlp = {
       enable = true;
@@ -20,18 +22,12 @@
 
         DISK_IOSCHED = ["none"];
 
-        # Battery charge thresholds for office usage
-        # START_CHARGE_THRESH_BAT0 = 40;
-        # STOP_CHARGE_THRESH_BAT0 = 50;
-
         # Battery charge thresholds for on-road usage
         START_CHARGE_THRESH_BAT0 = 85;
         STOP_CHARGE_THRESH_BAT0 = 90;
       };
     };
-    power-profiles-daemon = {
-      enable = false;
-    };
+    power-profiles-daemon.enable = false;
   };
 
   # Disable fingerprint reader

@@ -1,11 +1,11 @@
-{...}: {
+# Module: Parallels Desktop
+# Purpose: Configures Parallels virtualization software via Homebrew
+# Platform: macOS only
+_: {
   homebrew = {
-    # Homebrew package for laptop only!
-
     casks = [
-      # Authentication & Security
-      # "vmware-fusion"    # Virtualization platform
-      # "parallels" # Virtualization platform
+      # "vmware-fusion"    # Alternative virtualization platform
+      # "parallels" # Parallels Desktop virtualization
     ];
   };
 }

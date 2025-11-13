@@ -1,12 +1,10 @@
-{...}: {
-  # Install btop via home-manager module
+# Module: Btop System Monitor
+# Purpose: Configures btop++ system resource monitor with vim keybindings
+# Platform: All
+_: {
   programs.btop = {
     enable = true;
-    settings = {
-      vim_keys = true;
-    };
+    settings.vim_keys = true;
   };
-
-  # New top-level Catppuccin configuration
   catppuccin.btop.enable = true;
 }

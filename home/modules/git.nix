@@ -1,5 +1,7 @@
+# Module: Git Version Control
+# Purpose: Configures Git with SSH signing and Delta diff viewer
+# Platform: All
 {userConfig, ...}: {
-  # Install git via home-manager module
   programs.git = {
     enable = true;
     signing.format = "ssh";
@@ -11,7 +13,7 @@
         signingkey = "~/.ssh/id_gitsign_fs";
       };
 
-      # Sign all commits using ssh key
+      # Sign all commits using SSH key
       # https://jeppesen.io/git-commit-sign-nix-home-manager-ssh/
       commit.gpgsign = true;
       gpg.format = "ssh";
@@ -32,6 +34,5 @@
     };
   };
 
-  # New top-level Catppuccin configuration
   catppuccin.delta.enable = true;
 }

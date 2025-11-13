@@ -1,8 +1,10 @@
-{...}: {
-  # Gen AI models runner
+# Module: Ollama AI Model Runner
+# Purpose: Configures Ollama for running local AI models
+# Platform: NixOS only
+_: {
   services.ollama = {
     enable = true;
-    # Enable AMD GPU acceleration
+    # Uncomment for AMD GPU acceleration:
     # acceleration = "rocm";
   };
 }

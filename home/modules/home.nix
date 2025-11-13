@@ -1,9 +1,11 @@
+# Module: Home Directory Configuration
+# Purpose: Sets up user home directory paths for cross-platform compatibility
+# Platform: All
 {
   pkgs,
   userConfig,
   ...
 }: {
-  # Home-Manager configuration for the user's home environment
   home = {
     username = "${userConfig.name}";
     homeDirectory =

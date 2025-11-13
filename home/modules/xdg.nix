@@ -1,4 +1,7 @@
-{...}: let
+# Module: XDG Base Directory
+# Purpose: Configures XDG directories and default applications
+# Platform: Linux only
+_: let
   browser = "brave-browser.desktop";
 in {
   xdg = {

@@ -1,22 +1,16 @@
-{...}: {
-  # Starship configuration
+# Module: Starship Prompt
+# Purpose: Configures starship cross-shell prompt with custom styling
+# Platform: All
+_: {
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
     settings = {
       add_newline = false;
-      directory = {
-        style = "bold lavender";
-      };
-      aws = {
-        disabled = true;
-      };
-      docker_context = {
-        symbol = " ";
-      };
-      golang = {
-        symbol = " ";
-      };
+      directory.style = "bold lavender";
+      aws.disabled = true;
+      docker_context.symbol = " ";
+      golang.symbol = " ";
       kubernetes = {
         disabled = false;
         style = "bold pink";
@@ -29,25 +23,13 @@
           }
         ];
       };
-      lua = {
-        symbol = " ";
-      };
-      package = {
-        symbol = " ";
-      };
-      php = {
-        symbol = " ";
-      };
-      python = {
-        symbol = " ";
-      };
-      terraform = {
-        symbol = " ";
-      };
+      lua.symbol = " ";
+      package.symbol = " ";
+      php.symbol = " ";
+      python.symbol = " ";
+      terraform.symbol = " ";
       right_format = "$kubernetes";
     };
   };
-
-  # New top-level Catppuccin configuration
   catppuccin.starship.enable = true;
 }
