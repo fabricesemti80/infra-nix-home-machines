@@ -129,41 +129,6 @@
         "type": "github"
       }
     },
-<<<<<<< Updated upstream
-    "homebrew-cask": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1763018585,
-        "narHash": "sha256-AwfM9lx/hznlpoRGkYNqEDMpM4uR7QiOAnbXB9pfNPw=",
-        "owner": "homebrew",
-        "repo": "homebrew-cask",
-        "rev": "1246605088e0eafebcd4ec0dce660634aae19bec",
-        "type": "github"
-      },
-      "original": {
-        "owner": "homebrew",
-        "repo": "homebrew-cask",
-        "type": "github"
-      }
-    },
-    "homebrew-core": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1763022234,
-        "narHash": "sha256-qrJHDl7A8jFwIXegtTXTzedJONzO45qEH1mTqyZnnkE=",
-        "owner": "homebrew",
-        "repo": "homebrew-core",
-        "rev": "b02f0b1eab2259ab4a2d13abfb916bd298f04fdd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "homebrew",
-        "repo": "homebrew-core",
-        "type": "github"
-      }
-    },
-=======
->>>>>>> Stashed changes
     "nix-homebrew": {
       "inputs": {
         "brew-src": "brew-src"

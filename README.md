@@ -1,307 +1,327 @@
-# NixOS and nix-darwin Configurations for My Machines
+# NixOS and nix-darwin Configurations
 
-This repository contains NixOS and nix-darwin configurations for my machines, managed through [Nix Flakes](https://nixos.wiki/wiki/Flakes).
+A comprehensive, modular Nix configuration for managing multiple machines across NixOS and macOS platforms using [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
-It is structured to easily accommodate multiple machines and user configurations, leveraging [nixpkgs](https://github.com/NixOS/nixpkgs), [home-manager](https://github.com/nix-community/home-manager), [nix-darwin](https://github.com/LnL7/nix-darwin), and various other community contributions for a seamless experience across NixOS and macOS.
+## Features
+
+- 🔄 **Multi-platform support**: NixOS and macOS (via nix-darwin)
+- 👤 **User-centric design**: Separates system and user configurations using Home Manager
+- 📦 **Reproducible environments**: Uses Nix Flakes for deterministic builds
+- 🧩 **Modular architecture**: Highly modular system with reusable components
+- 🎨 **Theme consistency**: Global Catppuccin theme integration
+- ⚡ **Hardware optimization**: Leverages nixos-hardware for device-specific optimizations
+- 🔒 **Pre-commit hooks**: Automated code quality checks with alejandra formatter
 
 ## Showcase
 
-### Hyprland
+<table>
+<tr>
+<td width="33%">
 
+### Hyprland
 ![hyprland](./files/screenshots/hyprland.png)
 
-### Gnome
+</td>
+<td width="33%">
 
+### GNOME
 ![gnome](./files/screenshots/gnome.png)
 
-### macOS
+</td>
+<td width="33%">
 
+### macOS
 ![macos](./files/screenshots/mac.png)
 
-## Structure
+</td>
+</tr>
+</table>
 
-- `flake.nix`: The flake itself, defining inputs and outputs for NixOS, nix-darwin, and Home Manager configurations.
-- `hosts/`: NixOS and nix-darwin configurations for each machine, including system-specific settings.
-- `home/`: Home Manager configurations for user-specific settings and applications.
-- `files/`: Miscellaneous configuration files and scripts used across various applications and services.
-- `flake.lock`: Lock file ensuring reproducible builds by pinning input versions.
-- `overlays/`: Custom Nix overlays for package modifications or additions.
+## Quick Start
 
-### Key Inputs
+### Prerequisites
 
-- **nixpkgs**: Points to the `nixos-unstable` channel for access to the latest packages.
-- **nixpkgs-stable**: Points to the `nixos-24.11` channel, providing stable NixOS packages.
-- **home-manager**: Manages user-specific configurations, following the `nixpkgs` input (release-24.11).
-- **hardware**: Optimizes settings for different hardware configurations.
-- **catppuccin**: Provides global Catppuccin theme integration.
-- **spicetify-nix**: Enhances Spotify client customization.
-- **darwin**: Enables nix-darwin for macOS system configuration.
-- **nix-homebrew**: Integrates Homebrew package management with nix-darwin.
+- Nix with flakes enabled
+- Git
 
-## Usage
+### Clone and Apply
 
-### Adding a New Machine with a New User
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/nix-config.git
+cd nix-config
 
-To add a new machine with a new user to your NixOS or nix-darwin configuration, follow these steps:
+# For NixOS
+sudo nixos-rebuild switch --flake .#hostname
 
-1. **Update `flake.nix`**:
+# For macOS
+darwin-rebuild switch --flake .#hostname
 
-   a. Add the new user to the `users` attribute set:
-
-   ```nix
-   users = {
-     # Existing users...
-     newuser = {
-       email = "newuser@example.com";
-       fullName = "New User";
-       gitKey = "YOUR_GIT_KEY";
-       name = "newuser";
-     };
-   };
-   ```
-
-   b. Add the new machine to the appropriate configuration set:
-
-   For NixOS:
-
-   ```nix
-   nixosConfigurations = {
-     # Existing configurations...
-     newmachine = mkNixosConfiguration "newmachine" "newuser";
-   };
-   ```
-
-   For nix-darwin:
-
-   ```nix
-   darwinConfigurations = {
-     # Existing configurations...
-     newmachine = mkDarwinConfiguration "newmachine" "newuser";
-   };
-   ```
-
-   c. Add the new home configuration:
-
-   ```nix
-   homeConfigurations = {
-     # Existing configurations...
-     "newuser@newmachine" = mkHomeConfiguration "x86_64-linux" "newuser" "newmachine";
-   };
-   ```
-
-2. **Create System Configuration**:
-
-   a. Create a new directory under `hosts/` for your machine:
-
-   ```sh
-   mkdir -p hosts/newmachine
-   ```
-
-   b. Create `configuration.nix` in this directory:
-
-   ```sh
-   touch hosts/newmachine/configuration.nix
-   ```
-
-   c. Add the basic configuration to `configuration.nix`:
-
-   For NixOS:
-
-   ```nix
-   { config, pkgs, ... }:
-
-   {
-     imports = [
-       ./hardware-configuration.nix
-       ../modules/common.nix
-       # Add other relevant modules
-     ];
-
-     # Add machine-specific configurations here
-   }
-   ```
-
-   For nix-darwin:
-
-   ```nix
-   { config, pkgs, ... }:
-
-   {
-     imports = [
-       ../modules/common.nix
-       # Add other relevant modules
-     ];
-
-     # Add machine-specific configurations here
-   }
-   ```
-
-   d. For NixOS, generate `hardware-configuration.nix`:
-
-   ```sh
-   sudo nixos-generate-config --show-hardware-config > hosts/newmachine/hardware-configuration.nix
-   ```
-
-3. **Create Home Manager Configuration**:
-
-   a. Create a new file for the user's home configuration:
-
-   ```sh
-   mkdir -p home/newuser
-   touch home/newuser/newmachine.nix
-   ```
-
-   b. Add basic home configuration:
-
-   ```nix
-   { config, pkgs, ... }:
-
-   {
-     imports = [
-       ../modules/common.nix
-       # Add other relevant modules
-     ];
-
-     # Add user-specific configurations here
-   }
-   ```
-
-4. **Building and Applying Configurations**:
-
-   a. Do not forget to check-in new files in git by running `git add .`
-
-   b. Build and switch to the new system configuration:
-
-   For NixOS:
-
-   ```sh
-   sudo nixos-rebuild switch --flake .#newmachine
-   ```
-
-   For nix-darwin:
-
-   ```sh
-
-   nix run nix-darwin -- switch --flake .\newmachine
-   ```
-
-   > follow this with a reboot
-
-   c. Build and switch to the new Home Manager configuration:
-
-   ```sh
-   home-manager switch --flake .#newuser@newmachine
-   ```
-
-## Updating Flakes
-
-To update all flake inputs to their latest versions:
-
-```sh
-nix flake update
+# For Home Manager
+home-manager switch --flake .#username@hostname
 ```
 
-## Custom Modules and Configurations
+### Using Just Commands
 
-This setup includes a wide range of custom modules and configurations to enhance your NixOS and macOS experience. Here's a comprehensive list of available modules:
+This repository includes a `justfile` for common operations:
 
-### System Modules (in `hosts/modules/`)
+```bash
+# Update and switch (macOS)
+just quick-update
 
-- `common-*.nix`: Common system configurations for NixOS or nix-darwin (macOS).
-- `corectrl.nix`: CoreCtrl for AMD GPU management
-- `gnome.nix`: GNOME desktop environment
-- `hyprland.nix`: Hyprland window manager
-- `laptop.nix`: Laptop-specific configurations
-- `lutris.nix`: Lutris gaming platform
-- `ollama.nix`: Ollama for running large language models locally
-- `steam.nix`: Steam gaming platform
+# Switch Darwin configuration
+just darwin-switch
 
-### Home Manager Modules (in `home/modules/`)
+# Switch Home Manager configuration
+just home-switch
 
-1. Terminal and Shell:
+# Update flake inputs
+just update
 
-   - `alacritty.nix`: Alacritty terminal emulator
-   - `wezterm.nix`: Alternative to Alacritty
-   - `atuin.nix`: Shell history sync
-   - `zsh.nix`: Zsh shell configuration
-   - `tmux.nix`: Terminal multiplexer
+# Clean old generations
+just clean
 
-2. Development Tools:
+# Format Nix files
+just fmt
 
-   - `git.nix`: Git version control
-   - `go.nix`: Go programming language
-   - `neovim.nix`: Neovim text editor
-   - `lazygit.nix`: Terminal UI for Git
+# Run pre-commit checks
+just check-pre-commit
+```
 
-3. System Utilities:
+## Repository Structure
 
-   - `bat.nix`: A cat clone with syntax highlighting
-   - `bottom.nix`: System monitor
-   - `cliphist.nix`: Cliphist clipboard manager (for Hyprland/wl-roots)
-   - `fastfetch.nix`: System information tool
-   - `fzf.nix`: Fuzzy finder
-   - `gpg.nix`: GPG key management
-   - `krew.nix`: kubectl plugin manager
+```
+.
+├── flake.nix              # Main flake configuration
+├── flake.lock             # Lock file for reproducible builds
+├── justfile               # Task runner commands
+├── hosts/                 # System-level configurations
+│   ├── {hostname}/        # Machine-specific configs
+│   └── modules/           # Shared system modules
+├── home/                  # User-level configurations
+│   ├── {username}/        # User configs per machine
+│   └── modules/           # Shared home modules
+├── users/                 # User profile definitions
+├── files/                 # Static config files and assets
+├── overlays/              # Nix package overlays
+└── docs/                  # Documentation
+```
 
-4. Desktop Environment and UI:
+## Documentation
 
-   - `gnome.nix`: GNOME desktop customizations
-   - `gtk.nix`: GTK theme settings
-   - `hyprland.nix`: Hyprland window manager configuration
-   - `kanshi.nix`: Automatic display configuration
-   - `pop-shell.nix`: Pop Shell for tiling windows
-   - `swaync.nix`: Notification center for Wayland
-   - `waybar.nix`: Highly customizable Wayland bar
-   - `wofi.nix`: Application launcher for Wayland
+- 📚 **[Adding Machines Guide](docs/ADDING-MACHINES.md)** - Step-by-step guide for adding new machines
+- 🔧 **[Manual Installations](docs/ManualInstalls.md)** - Software that requires manual setup
+- 🎯 **[Improvements](docs/IMPROVEMENTS.md)** - Suggested improvements and enhancements
+- ✅ **[Completed Improvements](docs/IMPROVEMENTS-COMPLETED.md)** - Recently implemented improvements
+- 🪝 **[Pre-commit Hooks](docs/PRE-COMMIT.md)** - Pre-commit setup and usage
+- 🏗️ **[Project Structure](docs/structure.md)** - Detailed structure documentation
+- 🛠️ **[Technology Stack](docs/tech.md)** - Technologies and tools used
+- 📖 **[Product Overview](docs/product.md)** - High-level product description
 
-5. Applications:
+## Key Technologies
 
-   - `corectrl.nix`: GPU controls and monitoring
-   - `easyeffects.nix`: Audio effects for PipeWire
-   - `flameshot.nix`: Screenshot tool
-   - `normcap.nix`: OCR tool
-   - `spicetify.nix`: Spotify client customization
-   - `swappy.nix`: Wayland screenshot editing tool
-   - `ulauncher.nix`: Application launcher
-   - `zoom.nix`: Zoom video conferencing
+- **Nix Flakes**: Primary build system
+- **Home Manager**: User-level package and configuration management
+- **nix-darwin**: macOS system configuration
+- **nixpkgs**: Main package repository (nixos-unstable)
+- **Catppuccin**: Global theming system
+- **Just**: Task runner for common operations
 
-6. Cloud and DevOps:
+## Available Modules
 
-   - `saml2aws.nix`: CLI tool for SAML SSO
+### System Modules (`hosts/modules/`)
 
-7. macOS-specific:
+| Module | Description | Platform |
+|--------|-------------|----------|
+| `darwin-common.nix` | Shared macOS settings | macOS |
+| `mac-common.nix` | macOS package imports | macOS |
+| `nixos-common.nix` | Shared NixOS settings | NixOS |
+| `corectrl.nix` | AMD GPU management | NixOS |
+| `gnome.nix` | GNOME desktop | NixOS |
+| `hyprland.nix` | Hyprland compositor | NixOS |
+| `laptop.nix` | Laptop power management | NixOS |
+| `ollama.nix` | Local AI models | NixOS |
+| `steam.nix` | Gaming platform | NixOS |
 
-   - `darwin-aerospace.nix`: macOS-specific configurations
+### Home Manager Modules (`home/modules/`)
 
-8. Miscellaneous:
-   - `home.nix`: Main home configuration
-   - `scripts.nix`: Custom scripts
-   - `xdg.nix`: XDG base directory specification
+<details>
+<summary><b>Terminal & Shell</b></summary>
 
-Each of these modules can be imported into your NixOS, nix-darwin, or Home Manager configurations to enable specific features or applications. To use a module, simply add it to the `imports` list in your configuration file.
+- `alacritty.nix` - GPU-accelerated terminal
+- `wezterm.nix` - Alternative terminal
+- `atuin.nix` - Shell history sync
+- `zsh.nix` - Zsh configuration
+- `tmux.nix` - Terminal multiplexer
+- `starship.nix` - Cross-shell prompt
 
-For example, to enable Alacritty and Neovim in your home configuration:
+</details>
+
+<details>
+<summary><b>Development Tools</b></summary>
+
+- `git.nix` - Git with SSH signing
+- `neovim.nix` - Neovim with LSP
+- `lazygit.nix` - Terminal UI for Git
+- `go.nix` - Go development
+- `krew.nix` - kubectl plugins
+
+</details>
+
+<details>
+<summary><b>System Utilities</b></summary>
+
+- `bat.nix` - Better cat
+- `btop.nix` - System monitor
+- `bottom.nix` - Alternative monitor
+- `fastfetch.nix` - System info
+- `fzf.nix` - Fuzzy finder
+- `scripts.nix` - Custom scripts
+
+</details>
+
+<details>
+<summary><b>Desktop Environment</b></summary>
+
+- `gnome.nix` - GNOME customizations
+- `hyprland.nix` - Hyprland config
+- `waybar.nix` - Wayland status bar
+- `wofi.nix` - Application launcher
+- `swaync.nix` - Notification center
+- `darwin-aerospace.nix` - macOS tiling WM
+
+</details>
+
+<details>
+<summary><b>Applications</b></summary>
+
+- `easyeffects.nix` - Audio processing
+- `flameshot.nix` - Screenshots
+- `spicetify.nix` - Spotify customization
+- `vscode.nix` - VS Code
+- `zoom.nix` - Video conferencing
+
+</details>
+
+## Configuration Examples
+
+### Adding a New Machine
+
+See the [Adding Machines Guide](docs/ADDING-MACHINES.md) for detailed instructions.
+
+### Importing Modules
 
 ```nix
-{ config, pkgs, ... }:
-
+# In your host configuration
 {
   imports = [
-    ./modules/alacritty.nix
-    ./modules/neovim.nix
-    # Other modules...
+    ../modules/darwin-common.nix
+    ../modules/mac-common.nix
   ];
+}
 
-  # Additional configurations...
+# In your home configuration
+{
+  imports = [
+    ../modules/common.nix
+    ../modules/neovim.nix
+    ../modules/git.nix
+  ];
 }
 ```
 
-Feel free to explore these modules and customize your NixOS or macOS setup according to your needs. If you need more information about a specific module, you can check its corresponding file in the `hosts/modules/` or `home/modules/` directory.
+## Updating
+
+```bash
+# Update all flake inputs
+just update
+
+# Or manually
+nix flake update
+
+# Then rebuild
+just darwin-switch  # macOS
+just home-switch    # Home Manager
+```
+
+## Maintenance
+
+```bash
+# Clean old generations (older than 7 days)
+just clean
+
+# Format Nix files
+just fmt
+
+# Run pre-commit checks
+just run-hooks
+
+# Verify flake
+just verify-flake
+```
+
+## Automatic Garbage Collection
+
+The configuration includes automatic garbage collection:
+- **Frequency**: Weekly (Sunday)
+- **Retention**: 30 days
+- **Platform**: macOS (via darwin-common.nix)
 
 ## Contributing
 
-Contributions are welcome! If you have improvements or suggestions, please open an issue or submit a pull request.
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run `just fmt` to format code
+5. Run `just check-pre-commit` to verify
+6. Submit a pull request
+
+## Troubleshooting
+
+### Flake Check Fails
+
+```bash
+# Verify flake syntax
+nix flake check
+
+# Show detailed errors
+nix flake check --show-trace
+```
+
+### Build Fails
+
+```bash
+# Clear build cache
+nix-collect-garbage -d
+
+# Rebuild with verbose output
+nixos-rebuild switch --flake .#hostname --show-trace
+```
+
+### Pre-commit Issues
+
+```bash
+# Reinstall hooks
+just install-hooks
+
+# Run hooks manually
+just run-hooks
+```
 
 ## License
 
-This repository is licensed under MIT License. Feel free to use, modify, and distribute according to the license terms.
+This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## Acknowledgments
+
+- [NixOS](https://nixos.org/) - The Nix package manager and NixOS
+- [Home Manager](https://github.com/nix-community/home-manager) - User environment management
+- [nix-darwin](https://github.com/LnL7/nix-darwin) - macOS configuration
+- [Catppuccin](https://github.com/catppuccin) - Soothing pastel theme
+- [nixos-hardware](https://github.com/NixOS/nixos-hardware) - Hardware-specific configurations
+
+---
+
+**Note**: This is a personal configuration repository. Feel free to use it as inspiration, but you may need to adjust settings for your specific hardware and preferences.
