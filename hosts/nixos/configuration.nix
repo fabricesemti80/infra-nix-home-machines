@@ -11,7 +11,6 @@
 
     ../modules/nixos-common.nix
     ../modules/hyprland.nix
-    # ../modules/steam.nix
   ];
 
   # Set hostname

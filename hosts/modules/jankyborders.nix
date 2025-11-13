@@ -1,8 +1,9 @@
 # # ? https://git.kempkens.io/daniel/dotfiles/raw/commit/568727ed6f6ea3a993c5cffb5575993c25d5b7f8/system/darwin/jankyborders.nix
-
-{ pkgs, config, ... }:
-
-let
+{
+  pkgs,
+  config,
+  ...
+}: let
   pkg = pkgs.jankyborders;
 
   borders-config = [
@@ -14,13 +15,12 @@ let
     "hidpi=on"
     "ax_focus=on"
   ];
-in
-{
-  environment.systemPackages = [ pkg ];
+in {
+  environment.systemPackages = [pkg];
 
   launchd.user.agents.jankyborders = {
     serviceConfig = {
-      ProgramArguments = [ "${pkg}/bin/borders" ] ++ borders-config;
+      ProgramArguments = ["${pkg}/bin/borders"] ++ borders-config;
 
       KeepAlive = true;
       RunAtLoad = true;

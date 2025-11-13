@@ -78,8 +78,10 @@
     xkb.layout = "us";
     xkb.variant = "";
     excludePackages = with pkgs; [xterm];
-    displayManager.gdm.enable = true;
   };
+
+  # Display manager
+  services.displayManager.gdm.enable = true;
 
   # PATH configuration
   environment.localBinInPath = true;
@@ -91,7 +93,7 @@
   services.devmon.enable = true;
 
   # Enable PipeWire for sound
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -145,13 +147,14 @@
     delta
     dig
     docker-compose
-    du-dust
+    dust
     eza
     fd
     gcc
     glib
     gnumake
     home-manager
+    jmespath
     jq
     killall
     kubectl
@@ -188,10 +191,6 @@
     nerd-fonts.meslo-lg
     roboto
   ];
-
-  # Additional services
-  services.locate.enable = true;
-  services.locate.localuser = null;
 
   # OpenSSH daemon
   services.openssh.enable = true;

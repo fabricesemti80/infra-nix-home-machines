@@ -5,13 +5,8 @@
   ...
 }: {
   imports = [
-    # Shared Mac apps and configs
     ../modules/avatar.nix
     ../modules/mac-common.nix
-
-    # Specific app to this device
-    # ../modules/jankyborders.nix
-    # ../modules/sketchybar.nix
   ];
 
   # Homebrew package manager configuration for macOS
@@ -33,14 +28,13 @@
   };
 
   # Configure Nix package manager behavior
-  nix.settings = {
-    experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+  nix = {
+    settings = {
+      experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+    };
+    optimise.automatic = true; # Automatically optimize nix store
+    package = pkgs.nix; # Use the nix package from pkgs
   };
-  nix.optimise.automatic = true; # Automatically optimize nix store
-  nix.package = pkgs.nix; # Use the nix package from pkgs
-
-  # # Enable the Nix daemon service
-  # services.nix-daemon.enable = true;
 
   # Configure the user account
   users.users.${userConfig.name} = {
@@ -116,15 +110,12 @@
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
-        persistent-apps = [ #TODO: review persistent apps
-
-          # Apps that persist in the dock
+        persistent-apps = [
           "/Applications/Brave Browser.app"
           "/Applications/OrbStack.app"
           "${pkgs.alacritty}/Applications/Alacritty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           "${pkgs.obsidian}/Applications/Obsidian.app"
-
         ];
         tilesize = 60; # Dock icon size
         # Disable hot corners

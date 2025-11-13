@@ -14,66 +14,90 @@
     ];
 
     brews = [
-      #* AI
-      "gemini-cli" # AI-powered search engine
+      #* AI Tools
+      "gemini-cli" # AI-powered command-line interface
 
-      #* Command Line Tools
-      # "ansible" # Configuration management tool      "docker" # Containerization platform
-      "docker-compose" # Multi-container Docker applications
+      #* DevOps & Infrastructure
+      "docker-compose" # Tool for defining and running multi-container Docker applications
+      "opentofu" # Open-source infrastructure as code tool
 
-      #* Coding Tools
-      "hugo" # Static site generator
-      "nodejs" # JavaScript runtime
-      "ruff" # Fast Python linter
+      #* Networking
+      "nmap" # Network exploration and security auditing tool
+
+      #* Development Tools (CLI)
+      "hugo" # Fast static site generator
+      "mise"
+      "nodejs" # JavaScript runtime environment
+      "ruff" # Extremely fast Python linter
+
+      "bash" # Unix shell and command language
+      "uv" # Extremely fast Python package installer and resolver, written in Rust
     ];
 
     casks = [
-
       #* Authentication & Security
-      "1password" # Password manager
-      "1password-cli" # 1Password command-line tool
+      "1password" # Secure password manager
+      "1password-cli" # Command-line interface for 1Password
 
-      #* Work Tools
-      "citrix-workspace" # Citrix Workspace client for remote applications
+      #* 3D printing
+      "autodesk-fusion" # 3D modeling and design software
+      "bambu-studio" # 3D printer
+      # "openscad@snapshot" # Open-source 3D CAD software
+      # "blender" # 3D design
 
-      #* System Enhancement
-      "aerospace" # Window manager for macOS
-      "commander-one" # Window manager for macOS
-      "raycast" # Spotlight replacement and productivity tool
-      "stats" # System monitoring menubar app
-
-      #* Dev Tools
-      # "docker-desktop" # Docker desktop for macOS
-      "lm-studio" # Local AI model runner
-      "obsidian" # Markdown knowledge base
-      "orbstack" # Lightweight Docker desktop alternative
-      "powershell" # Cross-platform automation and configuration tool
-      "termius" # SSH session manager
-      "vagrant" # Tool for building and managing virtual machine environments
-      "visual-studio-code" # Modern code editor
-      "warp" # Modern terminal with AI features
-
-      #* Knowledge Management
-      "notion" # All-in-one workspace for notes and collaboration
-
-      #* Internet & Communication
-      "vivaldi" # Privacy-focused web browser
-      "brave-browser" # Privacy-focused web browser
-      "whatsapp" # Messaging platform
-      # "zen-browser" # Privacy-focused web browser
-
-      #* Media
-      "iina" # Modern media player for macOS
-
-      #* Utilities
-      # "appcleaner" # Thorough app uninstaller
+      #* Productivity & Utilities
+      # "rectangle" # Window management for macOS
+      "notion" # All-in-one workspace for notes, tasks, and collaboration
+      "capacities" # Connected knowledge management tool
       "fliqlo" # Digital clock screensaver
       "hiddenbar" # Menu bar icon organization tool
+      # "keycastr" # Show keystrokes in the menu bar
+      "hyperkey"
+      "keyclu"
       "numi" # Calculator and unit converter
-      "shottr" # Screen capture and annotation tool
-      # "tailscale" # Zero trust VPNk #! installed from App Store
+      "shottr" # Feature-rich screenshot tool
+      "appcleaner" # Thorough app uninstaller
+      # "tailscale" # Zero trust VPN #! installed from App Store
+      "wifiman"
+
+      #* Utilities
+      "daisydisk" # Disk space analyzer
+      "transmission" # Lightweight BitTorrent client
+
+      #* Virtualization & Containers
+      "orbstack" # Fast, lightweight Docker and Linux machine alternative
+      "vagrant" # Tool for building and managing virtual machine environments
+      "citrix-workspace" # Client for accessing virtual desktops and applications
+
+      #* System Enhancements
+      "aerospace" # Tiling window manager for macOS
+      "commander-one" # Dual-pane file manager for macOS
+      "raycast" # Powerful spotlight replacement and productivity launcher
+      "stats" # System monitoring tool for macOS menubar
+
+      #* Development Tools
+      "gcloud-cli" # Google Cloud SDK command-line tools
+      "kiro" #  AI-powered code assistant
+      "lm-studio" # Local AI model runner and chat interface
+      "obsidian" # Powerful knowledge base and note-taking tool
+      "powershell" # Cross-platform automation and configuration tool
+      "termius" # Cross-platform SSH client and terminal
+      "visual-studio-code" # Popular code editor
+      "pycharm" # IDE for Python development
+      "warp" # Modern terminal with AI features
+
+      #* Browsers & Communication
+      "vivaldi" # Feature-rich web browser with customization options
+      "brave-browser" # Privacy-focused web browser with ad blocker
+      "netdownloadhelpercoapp"
+      "telegram" # Messaging application
+      "whatsapp" # Secure messaging application      # "zen-browser" # Privacy-focused web browser
+
+      #* Media Players
+      "iina" # Modern media player for macOS
+
       #* Fonts
-      "font-hack-nerd-font" # Nerd font for programming
+      "font-hack-nerd-font" # Developer-oriented font with glyphs for programming
     ];
   };
 }

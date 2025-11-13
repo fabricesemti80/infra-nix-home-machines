@@ -5,22 +5,19 @@
   ...
 }: {
   imports = [
-    # Shared Mac apps and configs
     ../modules/avatar.nix
     ../modules/mac-common.nix
-
-    # Specific app to this device
-    # ../modules/jankyborders.nix
-    # ../modules/sketchybar.nix
     ../modules/parallels.nix
   ];
 
   # Homebrew package manager configuration for macOS
   nix-homebrew = {
     enable = true;
-    enableRosetta = true; # Enable support for Intel-based apps on Apple Silicon
+    # Enable support for Intel-based apps on Apple Silicon
+    enableRosetta = true;
     user = "${userConfig.name}";
-    autoMigrate = true; # Automatically migrate existing Homebrew installations
+    # Automatically migrate existing Homebrew installations
+    autoMigrate = true;
   };
 
   # Configure nixpkgs behavior and overlays
@@ -34,14 +31,13 @@
   };
 
   # Configure Nix package manager behavior
-  nix.settings = {
-    experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+  nix = {
+    settings = {
+      experimental-features = "nix-command flakes"; # Enable flakes and new CLI features
+    };
+    optimise.automatic = true; # Automatically optimize nix store
+    package = pkgs.nix; # Use the nix package from pkgs
   };
-  nix.optimise.automatic = true; # Automatically optimize nix store
-  nix.package = pkgs.nix; # Use the nix package from pkgs
-
-  # # Enable the Nix daemon service
-  # services.nix-daemon.enable = true;
 
   # Configure the user account
   users.users.${userConfig.name} = {
@@ -50,16 +46,19 @@
   };
 
   # Enable TouchID authentication for sudo commands
-  security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    watchIdAuth = true;
+    reattach = true;
+    enable = true;
+  };
 
   # System-wide macOS settings and preferences - https://daiderd.com/nix-darwin/manual/index.html
   system = {
     # Various macOS default settings
     defaults = {
       # Global mouse settings
-      ".GlobalPreferences" = {
-        # "com.apple.mouse.scaling" = -1.0; # Disable mouse acceleration
-      };
+      ".GlobalPreferences" = {};
 
       # Global system preferences
       NSGlobalDomain = {
@@ -114,26 +113,23 @@
       # Dock preferences
       dock = {
         orientation = "right";
-        autohide = true; # Automatically hide the dock
+        autohide = false; # Automatically hide the dock
         expose-animation-duration = 0.15;
         show-recents = false; # Don't show recent applications
         showhidden = true; # Show indicator for hidden applications
-        persistent-apps = [
-          # Apps that persist in the dock
-          "com.vivaldi.Vivaldi"
-          # "/Applications/Brave Browser.app"
-          "/Applications/Commander One.app"
-          # "/Applications/Zen Browser.app" # brew
-          # "/Applications/Zen.app" # app store
-          # "/Applications/OrbStack.app"
-          # "/Applications/Ghostty.app"
-          # "/Applications/Warp.app"
-          # "/Applications/Visual Studio Code"
-          # "/Applications/Parallels Desktop.app"
 
-          # ## Home Manager packages
-          "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          # "${pkgs.obsidian}/Applications/Obsidian.app"
+        persistent-apps = [
+          "/Applications/LM Studio.app"
+          "/Applications/1Password.app"
+          "/Applications/Brave Browser.app"
+          "/Applications/Commander One.app"
+          "/Applications/Kiro.app"
+          "/Applications/OrbStack.app"
+          "/Applications/Parallels Desktop.app"
+          "/Applications/Safari.app"
+          "/Applications/Termius.app"
+          "/Applications/Warp.app"
+          "/Applications/WhatsApp.app"
         ];
         tilesize = 60; # Dock icon size
         # Disable hot corners
@@ -194,7 +190,6 @@
       </dict>
     "
   '';
-
 
   # Enable Zsh as the default shell
   programs.zsh.enable = true;

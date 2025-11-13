@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   # Zsh shell configuration
   programs.zsh = {
     enable = true;
@@ -46,7 +40,7 @@
       gco = "git checkout";
       ggl = "git pull";
       ggp = "git push";
-     tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
 
       # Kubectl aliases
       k = "kubectl";
@@ -81,8 +75,17 @@
       # kubectl auto-complete
       source <(kubectl completion zsh)
 
+      # # mise hook
+      eval "$(mise activate zsh)"
+
       # direnv hook
       eval "$(direnv hook zsh)"
+
+      # # 1password CLI integration - ensure 1password CLI is installed #FIXME: this should be fixed and re-integrated but currently allowing this makes the shell constantly asking for login
+      # if command -v op &> /dev/null; then
+      #   eval "$(op completion zsh)"
+      #   eval "$(op signin)"
+      # fi
 
       # bindings
       bindkey -v
