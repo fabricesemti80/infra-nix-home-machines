@@ -1,8 +1,9 @@
-{...}: {
-  # Install fzf via home-manager module
+# Module: FZF Fuzzy Finder
+# Purpose: Configures fzf command-line fuzzy finder with custom keybindings
+# Platform: All
+_: {
   programs.fzf = {
     enable = true;
-
     defaultCommand = "find .";
     defaultOptions = [
       "--bind '?:toggle-preview'"
@@ -14,7 +15,7 @@
       "--info=inline"
       "--layout=reverse"
       "--multi"
-      "--preview '([[ -f {}  ]] && (bat --color=always --style=numbers,changes {} || cat {})) || ([[ -d {}  ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
+      "--preview '([[ -f {}  ]] && (bat --color=always --style=numbers,changes {} || cat {})) || ([[ -d {}  ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head-200'"
       "--preview-window=:hidden"
       "--prompt='~ ' --pointer='▶' --marker='✓'"
     ];

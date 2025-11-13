@@ -1,14 +1,13 @@
-{...}: let
+# Module: Waybar Status Bar
+# Purpose: Configures Waybar status bar for Wayland compositors
+# Platform: Linux (Wayland) only
+_: let
   waybar_config = ./../../files/configs/waybar;
 in {
-  # Install waybar via home-manager module
   programs.waybar.enable = true;
 
-  # Source waybar config from the home-manager store
-  xdg.configFile = {
-    "waybar" = {
-      recursive = true;
-      source = "${waybar_config}";
-    };
+  xdg.configFile.waybar = {
+    recursive = true;
+    source = "${waybar_config}";
   };
 }

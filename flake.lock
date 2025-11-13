@@ -129,6 +129,7 @@
         "type": "github"
       }
     },
+<<<<<<< Updated upstream
     "homebrew-cask": {
       "flake": false,
       "locked": {
@@ -161,6 +162,8 @@
         "type": "github"
       }
     },
+=======
+>>>>>>> Stashed changes
     "nix-homebrew": {
       "inputs": {
         "brew-src": "brew-src"
@@ -239,51 +242,12 @@
         "darwin": "darwin",
         "hardware": "hardware",
         "home-manager": "home-manager",
-        "homebrew-cask": "homebrew-cask",
-        "homebrew-core": "homebrew-core",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "pre-commit-hooks": "pre-commit-hooks",
-        "spicetify-nix": "spicetify-nix",
         "zsh-autosuggestions": "zsh-autosuggestions",
         "zsh-history-substring-search": "zsh-history-substring-search"
-      }
-    },
-    "spicetify-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1762718300,
-        "narHash": "sha256-oOQimZTaV1jCw0OBmmK2g7Rdj3E8YGVpkJYD32BWKRQ=",
-        "owner": "Gerg-L",
-        "repo": "spicetify-nix",
-        "rev": "c7175bd485ed5052df5075fcdde395b631316e94",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Gerg-L",
-        "repo": "spicetify-nix",
-        "type": "github"
-      }
-    },
-    "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
       }
     },
     "zsh-autosuggestions": {

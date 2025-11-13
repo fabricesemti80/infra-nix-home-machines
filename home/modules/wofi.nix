@@ -1,5 +1,7 @@
-{...}: {
-  # Install wofi via home-manager module
+# Module: Wofi Application Launcher
+# Purpose: Configures wofi launcher for Wayland
+# Platform: Linux (Wayland) only
+_: {
   programs.wofi = {
     enable = true;
     settings = {
