@@ -28,10 +28,18 @@ A comprehensive, modular Nix configuration for managing multiple machines across
 ![gnome](./files/screenshots/gnome.png)
 
 </td>
+
+</tr>
+</table>
+
+<table>
+<tr>
+
 <td width="33%">
 
 ### macOS
 ![macos](./files/screenshots/mac.png)
+![macos](image.png)
 
 </td>
 </tr>
