@@ -39,7 +39,6 @@ A comprehensive, modular Nix configuration for managing multiple machines across
 
 ### macOS
 ![macos](./files/screenshots/mac.png)
-![macos](image.png)
 
 </td>
 </tr>
