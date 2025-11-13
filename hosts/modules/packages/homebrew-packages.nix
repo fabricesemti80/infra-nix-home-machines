@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   homebrew = {
     enable = true;
     onActivation = {

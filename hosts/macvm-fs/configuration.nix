@@ -1,11 +1,7 @@
 # Host Configuration: macvm-fs
 # Purpose: macOS VM specific settings
 # Platform: macOS (Apple Silicon VM)
-{
-  pkgs,
-  userConfig,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../modules/avatar.nix
     ../modules/darwin-common.nix

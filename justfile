@@ -88,8 +88,16 @@ run-hooks:
 
 # Run statix linter (warnings only)
 lint:
-    statix check .
+    nix develop --command statix check .
+
+# Fix statix issues automatically
+lint-fix:
+    nix develop --command statix fix .
 
 # Run deadnix to find unused code
 deadnix:
-    deadnix .
+    nix develop --command deadnix .
+
+# Fix deadnix issues automatically (removes unused code)
+deadnix-fix:
+    nix develop --command deadnix --edit .
