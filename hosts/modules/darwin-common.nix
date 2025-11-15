@@ -17,7 +17,10 @@
 
   # Configure nixpkgs behavior and overlays
   nixpkgs = {
-    overlays = [outputs.overlays.stable-packages];
+    overlays = [
+      outputs.overlays.stable-packages
+      outputs.overlays.fish-no-tests
+    ];
     config.allowUnfree = true;
   };
 

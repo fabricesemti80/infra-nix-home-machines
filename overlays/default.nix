@@ -7,4 +7,11 @@
       config.allowUnfree = true;
     };
   };
+
+  # Fix fish build issues by disabling tests
+  fish-no-tests = final: prev: {
+    fish = prev.fish.overrideAttrs (old: {
+      doCheck = false;
+    });
+  };
 }

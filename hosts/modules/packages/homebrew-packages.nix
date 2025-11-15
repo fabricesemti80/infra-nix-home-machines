@@ -19,6 +19,9 @@ _: {
 
       #* DevOps & Infrastructure
       "docker-compose" # Tool for defining and running multi-container Docker applications
+      "helm" # Kubernetes package manager
+      "k3d" # Lightweight Kubernetes in Docker
+      "kubectl" # Kubernetes command-line tool
       "opentofu" # Open-source infrastructure as code tool
 
       #* Networking
@@ -64,9 +67,13 @@ _: {
       "daisydisk" # Disk space analyzer
       "transmission" # Lightweight BitTorrent client
 
-      #* Virtualization & Containers
+      #* DevOps & Containers
+      # "docker-desktop" # Docker Desktop for macOS
+      # "docker" # Container runtime platform # Already installed manually
       "orbstack" # Fast, lightweight Docker and Linux machine alternative
       "vagrant" # Tool for building and managing virtual machine environments
+
+      #* Virtualization
       "citrix-workspace" # Client for accessing virtual desktops and applications
 
       #* System Enhancements
