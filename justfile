@@ -155,7 +155,7 @@ fmt:
     @echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     @echo "✨ Formatting Nix files..."
     @echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    nix fmt
+    nix fmt -- .
 
 # Run statix linter (warnings only)
 lint:
