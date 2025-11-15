@@ -55,7 +55,7 @@ A comprehensive, modular Nix configuration for managing multiple machines across
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/nix-config.git
+git clone https://github.com/<your-username>/nix-config.git
 cd nix-config
 
 # For NixOS
