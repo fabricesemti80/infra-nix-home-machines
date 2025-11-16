@@ -145,7 +145,7 @@ Add your configurations to `flake.nix`:
   # Add home configuration
   homeConfigurations = {
     "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
-    "newuser@newhostname" = mkHomeConfiguration "x86_64-linux" "newuser" "newhostname";  # Add this
+    "newuser@newhostname" = mkHomeConfiguration "x86_64-linux" "newuser" "newhostname";  # Add this, adjust system for macOS (e.g., "aarch64-darwin")
   };
 }
 ```
