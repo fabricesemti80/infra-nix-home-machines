@@ -71,7 +71,7 @@ Create `hosts/{hostname}/configuration.nix`:
 # Host Configuration: hostname
 # Purpose: Brief description
 # Platform: macOS
-{userConfig, ...}: {
+{userConfig, hostname, ...}: {
   imports = [
     ../modules/avatar.nix
     ../modules/darwin-common.nix
@@ -87,7 +87,7 @@ Create `hosts/{hostname}/configuration.nix`:
     ];
   };
 
-  networking.hostName = "hostname";
+  networking.hostName = hostname;
   system.stateVersion = 5;
 }
 ```
