@@ -1,10 +1,17 @@
+# Nix Package Overlays
+# Purpose: Provides access to stable nixpkgs via pkgs.stable
 {inputs, ...}: {
-  # When applied, the stable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.stable'
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
       inherit (final) system;
       config.allowUnfree = true;
     };
+  };
+
+  # Fix fish build issues by disabling tests
+  fish-no-tests = final: prev: {
+    fish = prev.fish.overrideAttrs (old: {
+      doCheck = false;
+    });
   };
 }

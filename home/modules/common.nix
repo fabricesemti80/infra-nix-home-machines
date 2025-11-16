@@ -1,3 +1,6 @@
+# Module: Common Home Configuration
+# Purpose: Base configuration imported by all user home configurations
+# Platform: All
 {outputs, ...}: {
   imports = [
     ../modules/atuin.nix
@@ -14,18 +17,14 @@
     ../modules/zsh.nix
   ];
 
-  # Nixpkgs configuration
   nixpkgs = {
     overlays = [
       outputs.overlays.stable-packages
+      outputs.overlays.fish-no-tests
     ];
-
-    config = {
-      allowUnfree = true;
-    };
+    config.allowUnfree = true;
   };
 
-  # Catpuccin flavor and accent
   catppuccin = {
     flavor = "macchiato";
     accent = "lavender";

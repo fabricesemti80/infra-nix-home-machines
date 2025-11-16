@@ -1,3 +1,6 @@
+# Module: Custom Scripts
+# Purpose: Installs custom shell scripts to ~/.local/bin
+# Platform: All
 {
   pkgs,
   lib,
@@ -5,18 +8,13 @@
 }: let
   scripts = ./../../files/scripts;
 in {
-  # Source scripts from the home-manager store
-  home.file = {
-    ".local/bin" = {
-      recursive = true;
-      source = "${scripts}";
-    };
+  home.file.".local/bin" = {
+    recursive = true;
+    source = "${scripts}";
   };
 
-  # Conditional configuration for Darwin systems
+  # Add to PATH on macOS (Linux adds ~/.local/bin automatically)
   home.sessionPath = lib.mkMerge [
-    (lib.mkIf pkgs.stdenv.isDarwin [
-      "$HOME/.local/bin"
-    ])
+    (lib.mkIf pkgs.stdenv.isDarwin ["$HOME/.local/bin"])
   ];
 }

@@ -1,5 +1,7 @@
-{...}: {
-  # Install atuin via home-manager module
+# Module: Atuin Shell History
+# Purpose: Configures Atuin for enhanced shell history with sync capabilities
+# Platform: All
+_: {
   programs.atuin = {
     enable = true;
     settings = {

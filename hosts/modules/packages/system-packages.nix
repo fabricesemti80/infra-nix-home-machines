@@ -1,25 +1,31 @@
 {pkgs, ...}: {
   environment = {
     systemPackages = with pkgs; [
-      #* Development Tools
-      ansible
+      #* DevOps & Infrastructure
+      ansible # IT automation and configuration management
       awscli2 # AWS Command Line Interface for managing AWS services
       cloudflared # Cloudflare Tunnel client
-      delta # Enhanced git diff viewer with syntax highlighting
-      direnv # Environment variable manager for project-specific environments
-      gnupg # GNU Privacy Guard for encryption and signing
       hcp # HashiCorp Cloud Platform CLI for managing HashiCorp cloud resources
+      kubernetes-helm # Kubernetes package manager
+      k3d # Lightweight Kubernetes in Docker
+      kubectl # Kubernetes command-line tool
       lazydocker # Terminal UI for Docker management and monitoring
       oci-cli # Oracle Cloud Infrastructure CLI
       packer # Infrastructure as code tool for image building
       terraform # Infrastructure as code tool for infrastructure provisioning
       terraformer # Terraform state management tool for importing existing resources
+
+      #* Development Tools
+      delta # Enhanced git diff viewer with syntax highlighting
+      direnv # Environment variable manager for project-specific environments
+      gnupg # GNU Privacy Guard for encryption and signing
       tree-sitter # Parser generator tool and incremental parsing library for nvim-treesitter
 
       #* Networking
       doggo # DNS client
 
       #* Language-Specific Tools
+      nodejs # JavaScript runtime environment
       (python3.withPackages (ps:
         with ps; [
           dnspython # DNS toolkit for Python

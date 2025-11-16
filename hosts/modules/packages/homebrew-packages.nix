@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   homebrew = {
     enable = true;
     onActivation = {
@@ -19,6 +19,10 @@
 
       #* DevOps & Infrastructure
       "docker-compose" # Tool for defining and running multi-container Docker applications
+      "helm" # Kubernetes package manager
+      "k3d" # Lightweight Kubernetes in Docker
+      "kubectx" # Switch between Kubernetes contexts
+      "kubectl" # Kubernetes command-line tool
       "opentofu" # Open-source infrastructure as code tool
 
       #* Networking
@@ -64,9 +68,14 @@
       "daisydisk" # Disk space analyzer
       "transmission" # Lightweight BitTorrent client
 
-      #* Virtualization & Containers
+      #* DevOps & Containers
+      # "docker-desktop" # Docker Desktop for macOS
+      # "docker" # Container runtime platform # Already installed manually
+      "lens" # Kubernetes IDE (OpenLens)
       "orbstack" # Fast, lightweight Docker and Linux machine alternative
       "vagrant" # Tool for building and managing virtual machine environments
+
+      #* Virtualization
       "citrix-workspace" # Client for accessing virtual desktops and applications
 
       #* System Enhancements
@@ -84,7 +93,7 @@
       "termius" # Cross-platform SSH client and terminal
       "visual-studio-code" # Popular code editor
       "pycharm" # IDE for Python development
-      "warp" # Modern terminal with AI features
+      "warp" # Modern terminal with AI featuresj
 
       #* Browsers & Communication
       "vivaldi" # Feature-rich web browser with customization options

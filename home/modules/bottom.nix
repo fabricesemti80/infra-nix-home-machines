@@ -1,5 +1,7 @@
-{...}: {
-  # Install bottom via home-manager module
+# Module: Bottom System Monitor
+# Purpose: Configures bottom (btm) system resource monitor
+# Platform: All
+_: {
   programs.bottom = {
     enable = true;
     settings = {
@@ -7,10 +9,7 @@
         avg_cpu = true;
         temperature_type = "c";
       };
-
-      colors = {
-        low_battery_color = "red";
-      };
+      colors.low_battery_color = "red";
     };
   };
 }

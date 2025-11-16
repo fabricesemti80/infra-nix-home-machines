@@ -1,5 +1,7 @@
-{...}: {
-  # CoreCtrl for hardware monitoring and tuning
+# Module: CoreCtrl Hardware Control
+# Purpose: Configures CoreCtrl for GPU overclocking and hardware monitoring
+# Platform: NixOS only (AMD GPU)
+_: {
   programs.corectrl = {
     enable = true;
     gpuOverclock = {
@@ -8,7 +10,7 @@
     };
   };
 
-  # Do not ask for password when launching corectrl
+  # Allow CoreCtrl to run without password prompt
   security.polkit.extraConfig = ''
     polkit.addRule(function (action, subject) {
       if ((action.id == "org.corectrl.helper.init" ||

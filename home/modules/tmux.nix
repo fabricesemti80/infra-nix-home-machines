@@ -1,5 +1,7 @@
-{...}: {
-  # Tmux terminal multiplexer configuration
+# Module: Tmux Terminal Multiplexer
+# Purpose: Configures tmux with custom keybindings and Catppuccin theme
+# Platform: All
+_: {
   programs.tmux = {
     enable = true;
     baseIndex = 1;
@@ -15,7 +17,7 @@
       set -g prefix C-q
       unbind C-b
 
-      # Use | and - to split a window vertically and horizontally instead of " and % respoectively
+      # Use | and - to split a window vertically and horizontally
       unbind '"'
       unbind %
       bind v split-window -h -c "#{pane_current_path}"
@@ -30,7 +32,7 @@
       # Rename window with prefix + r
       bind r command-prompt -I "#W" "rename-window '%%'"
 
-      # Reload tmux config by pressing prefix + R
+      # Reload tmux config
       bind R source-file ~/.config/tmux/tmux.conf \; display "TMUX Conf Reloaded"
 
       # Clear screen with prefix + l
@@ -62,7 +64,6 @@
     '';
   };
 
-  # New top-level Catppuccin configuration
   catppuccin.tmux = {
     enable = true;
     extraConfig = ''

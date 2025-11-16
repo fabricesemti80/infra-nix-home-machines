@@ -1,46 +1,51 @@
+# Module: Neovim Text Editor
+# Purpose: Configures Neovim with LSP servers and development tools
+# Platform: All
 {pkgs, ...}: let
   neovim_config = ../../files/configs/nvim;
 in {
-  # Neovim text editor configuration
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-unwrapped;
     defaultEditor = true;
-    withNodeJs = false; #TODO: removed this on 8/2/2025 due to bug
+    withNodeJs = false; # Disabled due to build issues
     withPython3 = true;
     withRuby = true;
 
     extraPackages = with pkgs; [
-      alejandra
-      black
-      golangci-lint
-      gopls
-      gotools
-      hadolint
-      isort
-      lua-language-server
-      markdownlint-cli
-      nixd
-      nodePackages.bash-language-server
-      nodePackages.prettier
-      pyright
-      # ruff #TODO: moved to brew-s
-      shellcheck
-      shfmt
-      stylua
-      telescope
-      terraform-ls
-      tflint
-      vscode-langservers-extracted
-      yaml-language-server
+      # Formatters
+      alejandra # Nix
+      black # Python
+      shfmt # Shell
+      stylua # Lua
+
+      # Linters
+      golangci-lint # Go
+      hadolint # Dockerfile
+      markdownlint-cli # Markdown
+      shellcheck # Shell
+
+      # Language Servers
+      gopls # Go
+      lua-language-server # Lua
+      nixd # Nix
+      nodePackages.bash-language-server # Bash
+      pyright # Python
+      terraform-ls # Terraform
+      vscode-langservers-extracted # HTML/CSS/JSON
+      yaml-language-server # YAML
+
+      # Tools
+      gotools # Go tools
+      isort # Python import sorter
+      nodePackages.prettier # Multi-language formatter
+      telescope # Fuzzy finder
+      tflint # Terraform linter
     ];
   };
 
-  # source lua config from this repo
-  xdg.configFile = {
-    "nvim" = {
-      source = "${neovim_config}";
-      recursive = true;
-    };
+  xdg.configFile.nvim = {
+    source = "${neovim_config}";
+    recursive = true;
   };
 }
