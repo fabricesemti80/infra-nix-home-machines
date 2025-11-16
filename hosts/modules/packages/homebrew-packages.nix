@@ -21,6 +21,7 @@ _: {
       "docker-compose" # Tool for defining and running multi-container Docker applications
       "helm" # Kubernetes package manager
       "k3d" # Lightweight Kubernetes in Docker
+      "kubectx" # Switch between Kubernetes contexts
       "kubectl" # Kubernetes command-line tool
       "opentofu" # Open-source infrastructure as code tool
 
@@ -70,6 +71,7 @@ _: {
       #* DevOps & Containers
       # "docker-desktop" # Docker Desktop for macOS
       # "docker" # Container runtime platform # Already installed manually
+      "lens" # Kubernetes IDE (OpenLens)
       "orbstack" # Fast, lightweight Docker and Linux machine alternative
       "vagrant" # Tool for building and managing virtual machine environments
 
