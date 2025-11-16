@@ -15,8 +15,7 @@ _: {
       "--info=inline"
       "--layout=reverse"
       "--multi"
-      # "--preview '([[ -f {}  ]] && (bat --color=always --style=numbers,changes {} || cat {})) || ([[ -d {}  ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head-200'"
-      "--preview '([[ -f {}  ]] && (bat --color=always --style=numbers,changes {} || cat {})) || ([[ -d {}  ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head-200'"
+      "--preview '([[ -f {}  ]] && (bat --color=always --style=numbers,changes {} || cat {})) || ([[ -d {}  ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
       "--preview-window=:hidden"
       "--prompt='~ ' --pointer='▶' --marker='✓'"
     ];
