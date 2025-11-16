@@ -91,7 +91,7 @@ _: {
       "termius" # Cross-platform SSH client and terminal
       "visual-studio-code" # Popular code editor
       "pycharm" # IDE for Python development
-      "warp" # Modern terminal with AI features
+      "warp" # Modern terminal with AI featuresj
 
       #* Browsers & Communication
       "vivaldi" # Feature-rich web browser with customization options
