@@ -63,14 +63,12 @@ _: {
       "appcleaner" # Thorough app uninstaller
       # "tailscale" # Zero trust VPN #! installed from App Store
       "wifiman"
-
-      #* Utilities
+      "clop" # Clipboard manager
+      "disk-inventory-x" # Disk inventory tool
       "daisydisk" # Disk space analyzer
       "transmission" # Lightweight BitTorrent client
 
       #* DevOps & Containers
-      # "docker-desktop" # Docker Desktop for macOS
-      # "docker" # Container runtime platform # Already installed manually
       "lens" # Kubernetes IDE (OpenLens)
       "orbstack" # Fast, lightweight Docker and Linux machine alternative
       "vagrant" # Tool for building and managing virtual machine environments
