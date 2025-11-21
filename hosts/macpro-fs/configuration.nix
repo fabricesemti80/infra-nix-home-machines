@@ -27,6 +27,7 @@
       "/Applications/Brave Browser.app"
       "/Applications/Commander One.app"
       "/Applications/Kiro.app"
+      "/Applications/Lens.app"
       "/Applications/OrbStack.app"
       "/Applications/Parallels Desktop.app"
       "/Applications/Safari.app"
