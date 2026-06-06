@@ -2,7 +2,7 @@
 
 This page covers adding and installing physical NixOS machines.
 
-Physical hosts should not import the VM module from `hosts/vm-generic/`. That
+Physical hosts should not import the QEMU VM module from `hosts/modules/qemu-vm.nix`. That
 module is built for Proxmox/QEMU cloud-image machines.
 
 ## Recommended Shape
@@ -175,15 +175,15 @@ name.
 
 ## Replacing `morpheus`
 
-`morpheus` is currently being removed from the VM deployment path. To make it a
-physical host:
+`morpheus` is now a physical host. To add another physical machine that
+used to be a Proxmox VM:
 
-1. Rework `hosts/morpheus/configuration.nix` so it imports physical modules,
-not `../vm-generic/configuration.nix`.
-2. Generate or write `hosts/morpheus/hardware-configuration.nix`.
-3. Re-enable `morpheus` in `nixosConfigurations` in `flake.nix`.
-4. Keep it out of the VM recipes unless it becomes a Proxmox VM again.
-5. Add or keep `home/fs/morpheus.nix` and the `fs@morpheus` Home Manager output.
+1. Rework `hosts/<name>/configuration.nix` so it imports physical modules
+   (e.g. `../modules/nixos-server-common.nix`) instead of `../modules/qemu-vm.nix`.
+2. Generate or write `hosts/<name>/hardware-configuration.nix`.
+3. Add `<name>` to `nixosConfigurations` in `flake.nix`.
+4. Keep it out of any VM recipes unless it becomes a Proxmox VM again.
+5. Add or keep `home/fs/<name>.nix` and the `fs@<name>` Home Manager output.
 
-The important rule: physical `morpheus` should be deployed with NixOS tooling,
-not Terraform VM recipes.
+The important rule: physical hosts should be deployed with NixOS tooling,
+not the legacy Proxmox/VM recipes (which are no longer part of this repo).

@@ -2,18 +2,15 @@
 
 # Determine the hostname dynamically
 hostname := `hostname`
-system := `uname -s`
 enabled_darwin_hosts := "neo"
-enabled_vm_hosts := "trinity"
 enabled_nixos_hosts := "morpheus apoc"
 
 # All known host names in the flake (used to validate explicit host filters).
-valid_hosts := "neo macvm-fs trinity apoc morpheus"
+valid_hosts := "neo trinity apoc morpheus"
 
 # Per-lane host sets: every host that can be deployed in a given lane.
-darwin_hosts := "neo macvm-fs"
+darwin_hosts := "neo"
 nixos_hosts := "morpheus apoc"
-vm_hosts := "trinity"
 
 # Default recipe: Shows available commands
 default:
@@ -111,11 +108,9 @@ quick-update hosts="all":
     # that has at least one host to process.
     darwin_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_darwin_hosts}}" "{{darwin_hosts}}")
     nixos_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
-    vm_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_vm_hosts}}" "{{vm_hosts}}")
 
     if [ -n "$darwin_filter" ]; then just darwin-switch "$darwin_filter"; fi
     if [ -n "$nixos_filter" ]; then just nixos-switch "$nixos_filter"; fi
-    if [ -n "$vm_filter" ]; then just vm-switch "$vm_filter"; fi
 
 # Update flake inputs, then switch one enabled deployment lane. Pass a host or
 # comma-separated host list to limit the scope within the lane.
@@ -133,12 +128,8 @@ quick-update-lane lane hosts="all":
         filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
         if [ -n "$filter" ]; then just nixos-switch "$filter"; fi
         ;;
-      vm)
-        filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_vm_hosts}}" "{{vm_hosts}}")
-        if [ -n "$filter" ]; then just vm-switch "$filter"; fi
-        ;;
       *)
-        echo "Unknown lane '{{lane}}'. Expected one of: darwin, nixos, vm" >&2
+        echo "Unknown lane '{{lane}}'. Expected one of: darwin, nixos" >&2
         exit 1
         ;;
     esac
@@ -161,220 +152,6 @@ verify-flake:
 repl:
     @just _banner 33 flake repl "Opening Nix REPL"
     doppler run -- nix repl .#
-
-# ============================================================================
-# Terraform Infrastructure
-# ============================================================================
-
-# Run Terraform config from the infra directory, for example: just tf init; just tf plan
-tf *args:
-    @TMPDIR=/tmp doppler run --name-transformer tf-var -- terraform -chdir=infra {{args}}
-
-# Initialize Terraform providers
-tf-init:
-    just tf init
-
-# Upgrade Terraform providers and refresh the lockfile
-tf-upgrade:
-    just tf init -upgrade
-
-# Validate Terraform configuration
-tf-validate:
-    just tf validate
-
-# ============================================================================
-# Proxmox NixOS VMs
-# ============================================================================
-
-# Plan VM infrastructure changes after building the shared cloud image.
-vm-plan: vm-build
-    just tf plan -parallelism=1
-
-# Build the NixOS cloud image used by Terraform
-vm-build:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    rm -rf result-cloud
-    mkdir -p result-cloud
-    
-    system="{{system}}"
-    
-    if [ "$system" = "Darwin" ]; then
-      docker_volume="nix-store-darwin"
-      docker run --rm --platform linux/amd64 \
-        --security-opt seccomp=unconfined \
-        -v "$docker_volume":/nix \
-        -v "$PWD:/work" \
-        -w /work \
-        nixos/nix:latest \
-        sh -euc "out=\$(nix --extra-experimental-features 'nix-command flakes' --option filter-syscalls false --option system-features kvm build --print-out-paths .#nixosConfigurations.vm-cloud-image.config.system.build.image); cp -L \"\$out\"/*.qcow2 /work/result-cloud/nixos-proxmox-cloud.qcow2"
-    else
-      out=$(nix build --print-out-paths .#nixosConfigurations.vm-cloud-image.config.system.build.image)
-      cp -L "$out"/*.qcow2 result-cloud/nixos-proxmox-cloud.qcow2
-    fi
-    
-    echo "Built cloud image:"
-    ls -lh result-cloud/nixos-proxmox-cloud.qcow2
-
-# Create/update Proxmox VMs and upload the cloud image through Terraform
-vm-apply: vm-build
-    just tf apply -parallelism=1 -auto-approve
-
-# Recreate one Terraform-managed VM from the cloud image.
-vm-recreate hostname="trinity": vm-build
-    just tf apply -parallelism=1 -auto-approve -replace='proxmox_virtual_environment_vm.vm["{{hostname}}"]'
-
-# Recreate VMs, then apply NixOS configs
-vm-redeploy: vm-recreate
-    just vm-wait trinity
-    just vm-switch
-
-# Wait for SSH on a VM declared in Terraform
-vm-wait hostname="trinity" identity="~/.ssh/id_macbook_fs":
-    #!/usr/bin/env bash
-    set -euo pipefail
-    target=$(just tf output -json ssh_targets | jq -r --arg hostname "{{hostname}}" '.[$hostname].target // empty')
-    if [ -z "$target" ] || [ "$target" = "DHCP_PENDING" ]; then
-      echo "No static SSH target found for {{hostname}} in Terraform output" >&2
-      exit 1
-    fi
-
-    echo "Waiting for ${target}..."
-    for i in {1..60}; do
-      if ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i {{identity}} "$target" "echo ok" >/dev/null 2>&1; then
-        echo "${target} is reachable"
-        exit 0
-      fi
-      echo "Waiting for SSH... attempt $i/60"
-      sleep 10
-    done
-    echo "${target} did not become reachable in time" >&2
-    exit 1
-
-# Switch NixOS config on selected VMs ("all" or comma-list).
-vm-switch hostname="all":
-    #!/usr/bin/env bash
-    set -euo pipefail
-    just _validate-hosts "{{hostname}}"
-    while IFS= read -r host; do
-      target=$(just tf output -json ssh_targets | jq -r --arg hostname "$host" '.[$hostname].target // empty')
-      if [ -z "$target" ] || [ "$target" = "DHCP_PENDING" ]; then
-        just _skip 35 vm "$host" "no static SSH target found"
-        continue
-      fi
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true >/dev/null 2>&1; then
-        just _skip 35 vm "$host" "host is offline"
-        continue
-      fi
-      if ! just _vm-switch-one "$host"; then
-        just _skip 35 vm "$host" "switch failed"
-      fi
-    done < <(just _resolve-hosts "{{hostname}}" "{{enabled_vm_hosts}}" "{{vm_hosts}}")
-
-# Switch NixOS VM on a single host.
-_vm-switch-one hostname:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    target=$(just tf output -json ssh_targets | jq -r --arg hostname "{{hostname}}" '.[$hostname].target // empty')
-    if [ -z "$target" ] || [ "$target" = "DHCP_PENDING" ]; then
-      echo "No static SSH target found for {{hostname}} in Terraform output" >&2
-      exit 1
-    fi
-    just _banner 35 vm "{{hostname}}" "Switching NixOS VM on ${target}"
-    export NIX_SSHOPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-    nix run nixpkgs#nixos-rebuild -- switch --impure --flake .#{{hostname}} --target-host "$target" --build-host "$target" --sudo --no-reexec
-    # After switch, connect Tailscale
-    auth_key=$(doppler run -- printenv TAILSCALE_AUTH_KEY)
-    ssh $NIX_SSHOPTS "$target" "sudo tailscale up --auth-key='$auth_key' --ssh" || true
-    just _vm-home-switch-one "{{hostname}}"
-
-# Build Home Manager on selected VMs ("all" or comma-list).
-vm-home-build hostname="all":
-    #!/usr/bin/env bash
-    set -euo pipefail
-    just _validate-hosts "{{hostname}}"
-    while IFS= read -r host; do
-      target=$(just tf output -json ssh_targets | jq -r --arg hostname "$host" '.[$hostname].target // empty')
-      if [ -z "$target" ] || [ "$target" = "DHCP_PENDING" ]; then
-        just _skip 34 home "fs@$host" "no static SSH target found"
-        continue
-      fi
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true >/dev/null 2>&1; then
-        just _skip 34 home "fs@$host" "host is offline"
-        continue
-      fi
-      if ! just _vm-home-build-one "$host"; then
-        just _skip 34 home "fs@$host" "Home Manager build failed"
-      fi
-    done < <(just _resolve-hosts "{{hostname}}" "{{enabled_vm_hosts}}" "{{vm_hosts}}")
-
-# Build Home Manager activation package on a single VM.
-_vm-home-build-one hostname:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    target=$(just tf output -json ssh_targets | jq -r --arg hostname "{{hostname}}" '.[$hostname].target // empty')
-    if [ -z "$target" ] || [ "$target" = "DHCP_PENDING" ]; then
-      echo "No static SSH target found for {{hostname}} in Terraform output" >&2
-      exit 1
-    fi
-    just _banner 34 home "fs@{{hostname}}" "Building Home Manager activation package on ${target}"
-    export NIX_SSHOPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-    flake_path=$(nix flake archive --to "ssh://${target}" --json | jq -r .path)
-    ssh $NIX_SSHOPTS "$target" \
-      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"fs@{{hostname}}\".activationPackage'"
-
-# Switch Home Manager on selected VMs ("all" or comma-list).
-vm-home-switch hostname="all":
-    #!/usr/bin/env bash
-    set -euo pipefail
-    just _validate-hosts "{{hostname}}"
-    while IFS= read -r host; do
-      target=$(just tf output -json ssh_targets | jq -r --arg hostname "$host" '.[$hostname].target // empty')
-      if [ -z "$target" ] || [ "$target" = "DHCP_PENDING" ]; then
-        just _skip 34 home "fs@$host" "no static SSH target found"
-        continue
-      fi
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true >/dev/null 2>&1; then
-        just _skip 34 home "fs@$host" "host is offline"
-        continue
-      fi
-      if ! just _vm-home-switch-one "$host"; then
-        just _skip 34 home "fs@$host" "Home Manager switch failed"
-      fi
-    done < <(just _resolve-hosts "{{hostname}}" "{{enabled_vm_hosts}}" "{{vm_hosts}}")
-
-# Switch Home Manager on a single VM.
-_vm-home-switch-one hostname:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    target=$(just tf output -json ssh_targets | jq -r --arg hostname "{{hostname}}" '.[$hostname].target // empty')
-    if [ -z "$target" ] || [ "$target" = "DHCP_PENDING" ]; then
-      echo "No static SSH target found for {{hostname}} in Terraform output" >&2
-      exit 1
-    fi
-    just _banner 34 home "fs@{{hostname}}" "Switching Home Manager on ${target}"
-    export NIX_SSHOPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-    flake_path=$(nix flake archive --to "ssh://${target}" --json | jq -r .path)
-    out=$(ssh $NIX_SSHOPTS "$target" \
-      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"fs@{{hostname}}\".activationPackage'")
-    ssh $NIX_SSHOPTS "$target" "HOME_MANAGER_BACKUP_EXT=hm-backup HOME_MANAGER_BACKUP_OVERWRITE=1 '$out/activate'"
-
-# Switch all enabled VM hosts.
-vm-switch-all:
-    just vm-switch
-
-# Switch Home Manager on all enabled VM hosts.
-vm-home-switch-all:
-    just vm-home-switch
-
-# Build Home Manager on all enabled VM hosts.
-vm-home-build-all:
-    just vm-home-build
-
-# Full VM deploy: build image, let Terraform create/update cloud-init VMs, then apply NixOS configs
-vm-deploy: vm-apply
-    just vm-wait trinity
-    just vm-switch
 
 # ============================================================================
 # Darwin (macOS System) Management
@@ -461,18 +238,6 @@ darwin-switch-neo:
 # Compatibility alias for the old explicit neo home command.
 home-switch-neo:
     just darwin-home-switch neo
-
-# Compatibility alias for the old explicit macvm-fs command.
-darwin-switch-macvm-fs:
-    just darwin-switch macvm-fs
-
-# Compatibility alias for the old explicit macvm-fs home command.
-home-switch-macvm-fs:
-    just darwin-home-switch macvm-fs
-
-# Compatibility alias for the old explicit macvm-fs build command.
-darwin-build-macvm-fs:
-    just darwin-build macvm-fs
 
 # ============================================================================
 # Physical NixOS Host Management
@@ -690,10 +455,6 @@ home-build host="current":
       target="{{hostname}}"
     fi
     just darwin-home-build "$target"
-
-# Compatibility alias for the old explicit macvm-fs home build command.
-home-build-macvm-fs:
-    just darwin-home-build macvm-fs
 
 # ============================================================================
 # System Information

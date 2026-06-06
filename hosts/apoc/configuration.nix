@@ -1,14 +1,14 @@
 {
-  inputs,
   hostname,
   lib,
-  pkgs,
   userConfig,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
     ../modules/docker.nix
+    ../modules/kde.nix
+    ../modules/pipewire.nix
   ];
 
   # Bootloader
@@ -43,25 +43,13 @@
     variant = "";
   };
 
-  # Docker
+  # Programs / services
   docker.enable = true;
-
-  # KDE Plasma
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  # Audio (pipewire)
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  # Printing
+  kde.enable = true;
+  pipewire.enable = true;
   services.printing.enable = true;
+  programs.firefox.enable = true;
+  programs.zsh.enable = true;
 
   # SSH (key-only)
   services.openssh = {
@@ -69,10 +57,9 @@
     settings.PasswordAuthentication = false;
   };
 
-  # Allow flakes (matches morpheus/trinity)
+  # Allow flakes + trust nix-community cachix so first-time pushes of
+  # pre-commit-hooks etc. don't get rejected by `require-sigs = true`.
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  # Trust nix-community.cachix so first-time pushes of pre-commit-hooks etc.
-  # don't get rejected by `require-sigs = true` (default).
   nix.settings.extra-trusted-public-keys = [
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
   ];
@@ -88,14 +75,10 @@
   # Passwordless sudo → enables nixos-rebuild over SSH without a tty.
   security.sudo.wheelNeedsPassword = false;
 
-  # Parallels shared-printer detection fails in this headless VM (no host
-  # printers shared) and its activation failure propagates as switch exit
-  # code 4. Disable to keep `just nixos-switch apoc` returning clean.
+  # Parallels VM workarounds: their activation failures propagate as
+  # nixos-rebuild switch exit code 4. Disable to keep deploys returning clean.
   systemd.services.prlshprint.enable = false;
-
-  # Programs
-  programs.firefox.enable = true;
-  programs.zsh.enable = true;
+  systemd.services.fwupd-refresh.enable = false;
 
   system.stateVersion = "25.11";
 }

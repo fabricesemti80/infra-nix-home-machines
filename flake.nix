@@ -56,7 +56,6 @@
     self,
     catppuccin,
     darwin,
-    disko,
     home-manager,
     nix-homebrew,
     nixpkgs,
@@ -84,88 +83,6 @@
           inherit inputs outputs hostname userConfig;
         };
         modules = [./hosts/${hostname}/configuration.nix];
-      };
-
-    mkCloudImage = username:
-      nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs outputs;
-          hostname = "vm-cloud-image";
-          userConfig = users.${username};
-        };
-        modules = [
-          "${nixpkgs}/nixos/modules/virtualisation/disk-image.nix"
-          "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
-          ({
-            lib,
-            pkgs,
-            userConfig,
-            ...
-          }: {
-            networking.hostName = lib.mkForce "";
-            networking.useDHCP = false;
-            networking.usePredictableInterfaceNames = false;
-            nixpkgs.hostPlatform = "x86_64-linux";
-
-            image = {
-              baseName = "nixos-proxmox-cloud";
-              efiSupport = true;
-              format = "qcow2";
-            };
-
-            virtualisation.diskSize = 8192;
-
-            boot.loader = {
-              efi.canTouchEfiVariables = false;
-              grub.enable = false;
-              systemd-boot.enable = true;
-            };
-
-            services.cloud-init = {
-              enable = true;
-              network.enable = true;
-              settings = {
-                datasource_list = [
-                  "NoCloud"
-                  "ConfigDrive"
-                ];
-              };
-            };
-
-            services.qemuGuest.enable = true;
-            services.openssh = {
-              enable = true;
-              settings = {
-                PasswordAuthentication = false;
-                PermitRootLogin = "prohibit-password";
-              };
-            };
-
-            users.users.root.openssh.authorizedKeys.keys = userConfig.sshKeys;
-            users.users.${userConfig.name} = {
-              description = userConfig.fullName;
-              extraGroups = ["wheel"];
-              isNormalUser = true;
-              shell = pkgs.zsh;
-              openssh.authorizedKeys.keys = userConfig.sshKeys;
-            };
-
-            security.sudo.wheelNeedsPassword = false;
-            programs.zsh.enable = true;
-            nix.settings.experimental-features = ["nix-command" "flakes"];
-
-            environment.systemPackages = with pkgs; [
-              cloud-init
-              curl
-              git
-              jq
-              vim
-            ];
-
-            system.stateVersion = "25.05";
-          })
-        ];
       };
 
     # Function for nix-darwin system configuration
@@ -197,33 +114,26 @@
       };
   in {
     nixosConfigurations = {
-      "nixos" = mkNixosConfiguration "nixos" "fs";
       "trinity" = mkNixosConfiguration "trinity" "fs";
       "apoc" = mkNixosConfiguration "apoc" "fs";
       "morpheus" = mkNixosConfiguration "morpheus" "fs";
-      "vm-cloud-image" = mkCloudImage "fs";
     };
 
     darwinConfigurations = {
-      "macvm-fs" = mkDarwinConfiguration "macvm-fs" "fs";
       "neo" = mkDarwinConfiguration "neo" "fs";
     };
 
     homeConfigurations = {
-      "fs@nixos" = mkHomeConfiguration "x86_64-linux" "fs" "nixos";
       "fs@trinity" = mkHomeConfiguration "x86_64-linux" "fs" "trinity";
       "fs@apoc" = mkHomeConfiguration "aarch64-linux" "fs" "apoc";
       "fs@morpheus" = mkHomeConfiguration "x86_64-linux" "fs" "morpheus";
-      "fs@macvm-fs" = mkHomeConfiguration "aarch64-darwin" "fs" "macvm-fs";
       "fs@neo" = mkHomeConfiguration "aarch64-darwin" "fs" "neo";
     };
 
     overlays = import ./overlays {inherit inputs;};
 
     # Pre-commit hooks check
-    checks = forAllSystems (system: let
-      pkgs = pkgsFor system;
-    in {
+    checks = forAllSystems (system: {
       pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = ./.;
         hooks = {

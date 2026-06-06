@@ -80,7 +80,6 @@ _: {
       "stats" # System monitoring tool for macOS menubar
 
       #* Development Tools
-      "gcloud-cli" # Google Cloud SDK command-line tools
       "obsidian" # Knowledge base and note-taking tool
       # "logseq"
       "powershell" # Cross-platform automation tool

@@ -9,7 +9,6 @@ map; operational details live in the linked pages below.
 
 - [Mac deployment](docs/mac.md): install Nix, apply nix-darwin, and switch Home Manager.
 - [Just recipes](docs/just.md): what the `justfile` commands do and when to use them.
-- [NixOS VMs](docs/vms.md): build and deploy Proxmox cloud-image VMs.
 - [Physical NixOS hosts](docs/physical-hosts.md): add and install physical machines.
 
 ## Current Machines
@@ -17,10 +16,9 @@ map; operational details live in the linked pages below.
 System outputs are declared in `flake.nix`.
 
 - `neo`: macOS host.
-- `macvm-fs`: macOS VM host.
-- `nixos`: NixOS host profile.
 - `trinity`: Proxmox NixOS VM.
-- `morpheus`: currently being moved away from the VM deployment path.
+- `morpheus`: physical NixOS host.
+- `apoc`: NixOS VM host (Parallels).
 
 Home Manager outputs use the `user@host` shape, for example `fs@neo` and
 `fs@trinity`.
@@ -32,7 +30,6 @@ just --list
 just quick-update
 just darwin-switch
 just home-switch
-just vm-deploy
 just fmt
 just check-pre-commit
 ```
@@ -49,7 +46,6 @@ environment values to come from there.
 ├── hosts/             # system-level host configurations
 ├── home/              # Home Manager configurations
 ├── users/             # user identity and SSH key data
-├── infra/             # Terraform for Proxmox VM infrastructure
 ├── files/             # static assets and screenshots
 ├── overlays/          # package overlays
 └── docs/              # operational notes and guides

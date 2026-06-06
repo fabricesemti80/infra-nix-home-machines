@@ -1,3 +1,7 @@
+# Module: Generic QEMU/KVM NixOS VM
+# Purpose: Shared base for NixOS VMs running under QEMU/KVM (e.g. Proxmox).
+#          Replaces the legacy `hosts/vm-generic/configuration.nix`.
+# Platform: NixOS only
 {
   inputs,
   hostname,
@@ -9,10 +13,10 @@
 }: {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
-    ../modules/tailscale.nix
+    ./tailscale.nix
   ];
 
-  # Core VM settings (generic for all Proxmox VMs)
+  # Core VM settings (generic for all Proxmox-style VMs)
   networking.hostName = hostname;
   networking.useDHCP = false;
   networking.usePredictableInterfaceNames = false;
@@ -30,11 +34,11 @@
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
   };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/ESP";
     fsType = "vfat";
   };
+
   nixpkgs.config.allowUnfree = true;
 
   nix.settings = {
@@ -190,7 +194,7 @@
       bindkey -v
       bindkey '^A' beginning-of-line
       bindkey '^E' end-of-line
-      bindkey '^H' backward-delete-word
+      bindkey '^H' backward-delete-char
       bindkey '^[[1;5C' forward-word
       bindkey '^[[1;5D' backward-word
 
@@ -260,10 +264,7 @@
   virtualisation.docker.rootless.enable = true;
   virtualisation.docker.rootless.setSocketVariable = true;
 
-  # Tailscale VPN with SSH access
-  tailscale = {
-    enable = true;
-  };
+  tailscale.enable = true;
 
   system.stateVersion = "25.05";
 }

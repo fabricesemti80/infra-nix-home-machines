@@ -294,7 +294,7 @@ home-manager switch --flake .#user@hostname --show-trace
 ## Example Configurations
 
 See existing configurations for reference:
-- NixOS: `hosts/nixos/configuration.nix`
+- NixOS: `hosts/morpheus/configuration.nix` (physical) or `hosts/trinity/configuration.nix` (VM)
 - macOS: `hosts/neo/configuration.nix`
 - Home: `home/fs/neo.nix`
 

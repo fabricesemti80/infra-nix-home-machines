@@ -72,10 +72,6 @@ Compatibility aliases remain for older habits:
 ```sh
 just darwin-switch-neo
 just home-switch-neo
-just darwin-switch-macvm-fs
-just home-switch-macvm-fs
-just darwin-build-macvm-fs
-just home-build-macvm-fs
 ```
 
 ## Physical NixOS Hosts

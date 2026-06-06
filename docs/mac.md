@@ -7,12 +7,10 @@ This page covers macOS hosts managed by nix-darwin and Home Manager.
 The active Darwin outputs live in `flake.nix`:
 
 - `neo`
-- `macvm-fs`
 
 The matching Home Manager outputs are:
 
 - `fs@neo`
-- `fs@macvm-fs`
 
 ## First-Time Setup
 
@@ -48,8 +46,6 @@ recipes:
 ```sh
 just darwin-switch-neo
 just home-switch-neo
-just darwin-switch-macvm-fs
-just home-switch-macvm-fs
 ```
 
 ## Normal Updates
@@ -58,12 +54,6 @@ For the current hostname:
 
 ```sh
 just quick-update
-```
-
-For `macvm-fs`:
-
-```sh
-just quick-update-macvm-fs
 ```
 
 These update the flake lock, switch nix-darwin, and switch Home Manager.
@@ -75,13 +65,6 @@ Use a build recipe when checking a change before applying it:
 ```sh
 just darwin-build
 just home-build
-```
-
-Explicit `macvm-fs` variants are also available:
-
-```sh
-just darwin-build-macvm-fs
-just home-build-macvm-fs
 ```
 
 ## Troubleshooting
