@@ -4,6 +4,7 @@
 {outputs, ...}: {
   imports = [
     # ./aider.nix
+    ./ai-tools.nix
     ./amp.nix
     ./atuin.nix
     ./bat.nix

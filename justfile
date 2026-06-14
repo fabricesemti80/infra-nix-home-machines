@@ -173,6 +173,11 @@ _darwin-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
     just _banner 36 darwin "{{host}}" "Switching nix-darwin configuration"
+    if command -v brew >/dev/null 2>&1; then
+      for trust_target in nikitabobko/tap nikitabobko/tap/aerospace powershell/tap adembc/tap manaflow-ai/cmux; do
+        brew trust "$trust_target" 2>/dev/null || true
+      done
+    fi
     doppler run -- sudo nix run nix-darwin -- switch --flake .#{{host}}
     just _darwin-home-switch-one "{{host}}"
 

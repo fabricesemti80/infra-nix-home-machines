@@ -3,7 +3,7 @@
     #* AI Tools
     gemini-cli # AI-powered command-line interface
     llmfit
-    ollama # Local AI model manager and runner
+    # ollama # Local AI model manager and runner
     opencode # AI coding agent for the terminal
 
     #* DevOps & Infrastructure
@@ -14,7 +14,7 @@
     doppler # Doppler CLI for secrets management
     gh # GitHub CLI
     hcp # HashiCorp Cloud Platform CLI
-    kubernetes-helm # Kubernetes package manager
+    # kubernetes-helm # Kubernetes package manager — nixpkgs build broken (substitute error on missing test file), use `brew install helm` or `nix-shell -p kubernetes-helm` until fixed
     k3d # Lightweight Kubernetes in Docker
     kubectl # Kubernetes command-line tool
     kubectx # Switch between Kubernetes contexts

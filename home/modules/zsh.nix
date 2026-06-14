@@ -41,6 +41,12 @@
       gco = "git checkout";
       ggl = "git pull";
       ggp = "git push";
+
+      # Git log — critical info, graph, emojis for conventional commits
+      gl = "git log --oneline --graph --decorate --all -20 --format='%C(yellow)%h%C(reset) %C(auto)%d%C(reset) %s %C(green)(%cr)%C(reset) %C(blue)%an%C(reset)'";
+      gls = "git log --oneline --decorate -10";
+      glast = "git log -1 --stat";
+      glf = "git log --oneline --decorate --all --format='%C(yellow)%h%C(reset) %C(auto)%d%C(reset) %s %C(green)(%cr)%C(reset) %C(blue)%an%C(reset)'";
       tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
 
       # Kubectl aliases

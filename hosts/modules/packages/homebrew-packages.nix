@@ -3,7 +3,8 @@ _: {
     enable = true;
     onActivation = {
       autoUpdate = true;
-      cleanup = "zap"; # Remove outdated versions and unused packages
+      # NOTE: cleanup is deprecated in Homebrew 4.0+ — use `brew bundle cleanup` manually
+      cleanup = "none";
       upgrade = true;
     };
 
@@ -24,7 +25,7 @@ _: {
       # "antigravity" # AI coding assistant
       # "ollama-app" # Local AI model manager and runner
       # "block-goose" # AI coding agent
-      "cmux" # AI terminal multiplexer
+      # "cmux" # AI terminal multiplexer
       "codex" # Codex desktop client
       "claudebar"
       "cursor" # AI editor
