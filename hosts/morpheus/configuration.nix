@@ -15,6 +15,8 @@
 
   networking.hostName = hostname;
   networking.useDHCP = lib.mkForce false;
+  networking.firewall.interfaces.enp0s31f6.allowedTCPPorts = [8000];
+
   networking.networkmanager.ensureProfiles.profiles.morpheus = {
     connection = {
       id = "morpheus";
