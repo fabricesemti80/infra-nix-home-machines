@@ -61,7 +61,7 @@
     nh # Nix command wrapper and helper
     mkpasswd # Generate hashed passwords
     openconnect # VPN client
-    pre-commit # Git pre-commit hook framework
+    # pre-commit removed — using Nix-native pre-commit-hooks.nix via nix develop shellHook instead
     sshpass # Non-interactive SSH password auth
     sops # Secrets management tool
     tree # Directory structure viewer
