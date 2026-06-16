@@ -286,7 +286,7 @@ _nixos-home-target host:
 _nixos-check-ssh host target:
     #!/usr/bin/env bash
     set -euo pipefail
-    if ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no "{{target}}" true >/dev/null 2>&1; then
+    if ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no "{{target}}" true 2>&1; then
       exit 0
     fi
 
@@ -306,8 +306,8 @@ nixos-build host="all":
     just _validate-hosts "{{host}}"
     while IFS= read -r h; do
       target=$(just _nixos-target "$h")
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true >/dev/null 2>&1; then
-        just _skip 32 nixos "$h" "host is offline"
+      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true 2>&1; then
+        just _skip 32 nixos "$h" "host is offline (SSH unreachable)"
         continue
       fi
       if ! just _nixos-build-one "$h"; then
@@ -333,8 +333,8 @@ nixos-switch host="all":
     just _validate-hosts "{{host}}"
     while IFS= read -r h; do
       target=$(just _nixos-target "$h")
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true >/dev/null 2>&1; then
-        just _skip 32 nixos "$h" "host is offline"
+      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true 2>&1; then
+        just _skip 32 nixos "$h" "host is offline (SSH unreachable)"
         continue
       fi
       if ! just _nixos-switch-one "$h"; then
@@ -366,8 +366,8 @@ nixos-home-build host="all":
     just _validate-hosts "{{host}}"
     while IFS= read -r h; do
       target=$(just _nixos-target "$h")
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true >/dev/null 2>&1; then
-        just _skip 34 home "fs@$h" "host is offline"
+      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true 2>&1; then
+        just _skip 34 home "fs@$h" "host is offline (SSH unreachable)"
         continue
       fi
       if ! just _nixos-home-build-one "$h"; then
@@ -394,12 +394,12 @@ nixos-home-switch host="all":
     while IFS= read -r h; do
       root_target=$(just _nixos-target "$h")
       user_target=$(just _nixos-home-target "$h")
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$root_target" true >/dev/null 2>&1; then
-        just _skip 34 home "fs@$h" "host is offline"
+      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$root_target" true 2>&1; then
+        just _skip 34 home "fs@$h" "host is offline (root SSH unreachable)"
         continue
       fi
-      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$user_target" true >/dev/null 2>&1; then
-        just _skip 34 home "fs@$h" "user SSH is unreachable"
+      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$user_target" true 2>&1; then
+        just _skip 34 home "fs@$h" "host is offline (user SSH unreachable)"
         continue
       fi
       if ! just _nixos-home-switch-one "$h"; then

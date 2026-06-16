@@ -41,7 +41,7 @@
 
     #* Language-Specific Tools
     bun # JavaScript runtime and package manager
-    nodejs # JavaScript runtime environment
+    nodejs_22 # JavaScript runtime environment; Expo/RN tooling target
     (python3.withPackages (ps:
       with ps; [
         dnspython # DNS toolkit for Python
