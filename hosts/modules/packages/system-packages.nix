@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     #* AI Tools
-    gemini-cli # AI-powered command-line interface
+    antigravity-cli # AI-powered command-line interface
     llmfit
     # ollama # Local AI model manager and runner
     opencode # AI coding agent for the terminal
