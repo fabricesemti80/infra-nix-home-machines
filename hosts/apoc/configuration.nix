@@ -1,6 +1,8 @@
 {
+  config,
   hostname,
   lib,
+  pkgs,
   userConfig,
   ...
 }: {
@@ -38,6 +40,12 @@
   # Console / X11 keyboard
   console.keyMap = "uk";
   services.xserver.enable = true;
+  services.xserver.videoDrivers = ["modesetting"];
+  services.xserver.displayManager.setupCommands = ''
+    ${pkgs.xrandr}/bin/xrandr --newmode "3840x1200_60.00" 382.25 3840 4080 4488 5136 1200 1203 1213 1245 -hsync +vsync || true
+    ${pkgs.xrandr}/bin/xrandr --addmode Virtual-1 "3840x1200_60.00" || true
+    ${pkgs.xrandr}/bin/xrandr --output Virtual-1 --mode "3840x1200_60.00" || true
+  '';
   services.xserver.xkb = {
     layout = "gb";
     variant = "";
@@ -47,6 +55,8 @@
   docker.enable = true;
   kde.enable = true;
   pipewire.enable = true;
+  services.displayManager.defaultSession = "plasmax11";
+  services.displayManager.sddm.wayland.enable = false;
   services.printing.enable = true;
   programs.firefox.enable = true;
   programs.zsh.enable = true;
@@ -74,6 +84,15 @@
 
   # Passwordless sudo → enables nixos-rebuild over SSH without a tty.
   security.sudo.wheelNeedsPassword = false;
+
+  system.activationScripts.sddmPlasmaX11Session.text = ''
+    mkdir -p /var/lib/sddm
+    printf '%s\n' \
+      '[Last]' \
+      'User=${userConfig.name}' \
+      'Session=${config.services.displayManager.sessionData.desktops}/share/xsessions/plasmax11.desktop' \
+      > /var/lib/sddm/state.conf
+  '';
 
   # Parallels VM workarounds: their activation failures propagate as
   # nixos-rebuild switch exit code 4. Disable to keep deploys returning clean.
