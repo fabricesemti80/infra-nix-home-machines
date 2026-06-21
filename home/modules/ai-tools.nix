@@ -1,8 +1,8 @@
 # Module: AI Tools
 # Purpose: Centralize Claude Code, Codex, and related AI tooling configuration
 # Platform: All (cross-platform)
-# Includes: token-saving ignore files, caveman install helper, shell aliases
-_: {
+# Includes: token-saving ignore files, caveman install helper, shell aliases, litellm proxy
+{...}: {
   # Token-saving ignore files — prevent AI from indexing build artifacts, caches, large binaries
   home.file = {
     ".claudeignore".text = ''
@@ -137,9 +137,45 @@ _: {
       result
       .direnv/
     '';
+
+    # Claude Code settings with plugins
+    ".claude/settings.json".text = builtins.toJSON {
+      enabledPlugins = {
+        "warp@claude-code-warp" = true;
+        "caveman@caveman" = true;
+      };
+      extraKnownMarketplaces = {
+        "claude-code-warp" = {
+          source = {
+            source = "github";
+            repo = "warpdotdev/claude-code-warp";
+          };
+        };
+        "caveman" = {
+          source = {
+            source = "github";
+            repo = "JuliusBrussee/caveman";
+          };
+        };
+      };
+      env = {
+        CLAUDE_CODE_ATTRIBUTION_HEADER = "0";
+        CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
+      };
+    };
+
+    # LiteLLM config for Claude Code → LM Studio translation
+    "litellm_config.yaml".text = ''
+      model_list:
+        - model_name: gemma-local
+          litellm_params:
+            model: openai/google/gemma-4-26b-a4b-qat
+            api_base: http://localhost:1234/v1
+            api_key: lm-studio
+    '';
   };
 
-  # Token-saving environment variable for Claude Code
+  # Additional token-saving environment variables
   home.sessionVariables = {
     # Claude Code: disable auto-execution to save tokens on wrong guesses
     CLAUDE_CODE_SKIP_PERMISSIONS = "1";
@@ -164,5 +200,21 @@ _: {
     # Caveman helpers
     caveman-install = "claude plugin marketplace add JuliusBrussee/caveman && claude plugin install caveman@caveman && npx skills add JuliusBrussee/caveman -a codex";
     caveman-stats = "claude /caveman-stats";
+
+    # LiteLLM proxy management
+    litellm-start = "litellm-proxy --config ~/litellm_config.yaml --host 127.0.0.1 --port 8888 > ~/litellm.log 2>&1 &";
+    litellm-stop = "pkill -f 'litellm-proxy --config'";
+    litellm-status = "curl -s http://localhost:8888/health || echo 'LiteLLM not running'";
+    litellm-log = "tail -f ~/litellm.log";
+
+    # Claude Code with local model (starts litellm if needed)
+    claude-local = ''
+      if ! curl -s http://localhost:8888/health > /dev/null 2>&1; then
+        echo "Starting LiteLLM proxy..."
+        litellm-proxy --config ~/litellm_config.yaml --host 127.0.0.1 --port 8888 > ~/litellm.log 2>&1 &
+        sleep 3
+      fi
+      ANTHROPIC_BASE_URL="http://127.0.0.1:8888" ANTHROPIC_AUTH_TOKEN="sk-local-dummy-key" ANTHROPIC_MODEL="gemma-local" CLAUDE_CODE_MAX_OUTPUT_TOKENS="2048" claude --bare --model gemma-local
+    '';
   };
 }

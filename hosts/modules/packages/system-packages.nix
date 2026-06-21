@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  imports = [
+    ./python-packages.nix
+  ];
+
   environment.systemPackages = with pkgs; [
     #* AI Tools
     antigravity-cli # AI-powered command-line interface
@@ -42,13 +46,6 @@
     #* Language-Specific Tools
     bun # JavaScript runtime and package manager
     nodejs_22 # JavaScript runtime environment; Expo/RN tooling target
-    (python3.withPackages (ps:
-      with ps; [
-        dnspython # DNS toolkit for Python
-        jmespath # JSON query language for Python
-        pip # Python package installer
-        virtualenv # Python virtual environment creator
-      ]))
     pipenv # Python dependency management tool
     ruff # Extremely fast Python linter
     uv # Fast Python package installer and resolver

@@ -1,0 +1,35 @@
+{pkgs, ...}: let
+  litellmWithProxy = pkgs.python3Packages.litellm.overridePythonAttrs (old: {
+    dependencies =
+      old.dependencies
+      ++ old.optional-dependencies.proxy
+      ++ old.optional-dependencies.proxy-runtime;
+  });
+
+  pythonEnv = pkgs.python3.withPackages (ps:
+    [
+      litellmWithProxy
+    ]
+    ++ (with ps; [
+      # Networking
+      dnspython # DNS toolkit for Python
+
+      # Data/Query
+      jmespath # JSON query language for Python
+
+      # Development
+      pip # Python package installer
+      virtualenv # Python virtual environment creator
+    ]));
+
+  litellmProxy = pkgs.writeShellApplication {
+    name = "litellm-proxy";
+    runtimeInputs = [pythonEnv];
+    text = ''exec python3 -m litellm.proxy.proxy_cli "$@"'';
+  };
+in {
+  environment.systemPackages = [
+    litellmProxy
+    pythonEnv
+  ];
+}
