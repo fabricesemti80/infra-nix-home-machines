@@ -9,6 +9,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
     ./hardware-configuration.nix
 
+    ../modules/ai-tools.nix
     ../modules/nixos-server-common.nix
     ../modules/tailscale.nix
   ];

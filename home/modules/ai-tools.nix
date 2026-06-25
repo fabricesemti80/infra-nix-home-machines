@@ -1,8 +1,19 @@
 # Module: AI Tools
-# Purpose: Centralize Claude Code, Codex, and related AI tooling configuration
+# Purpose: Per-user Claude Code, Codex, OpenCode, Antigravity and related AI tooling configuration
 # Platform: All (cross-platform)
-# Includes: token-saving ignore files, caveman install helper, shell aliases, litellm proxy
-{...}: {
+# Includes: token-saving ignore files, plugin auto-loading, shell aliases, litellm proxy
+{
+  config,
+  lib,
+  pkgs,
+  userConfig,
+  ...
+}: let
+  homeDir =
+    if pkgs.stdenv.isDarwin
+    then "/Users/${userConfig.name}"
+    else "/home/${userConfig.name}";
+in {
   # Token-saving ignore files — prevent AI from indexing build artifacts, caches, large binaries
   home.file = {
     ".claudeignore".text = ''
@@ -139,10 +150,12 @@
     '';
 
     # Claude Code settings with plugins
+    # Caveman and ponytail are auto-loaded once installed (see ai-plugins-install alias).
     ".claude/settings.json".text = builtins.toJSON {
       enabledPlugins = {
         "warp@claude-code-warp" = true;
         "caveman@caveman" = true;
+        "ponytail@ponytail" = true;
       };
       extraKnownMarketplaces = {
         "claude-code-warp" = {
@@ -157,10 +170,35 @@
             repo = "JuliusBrussee/caveman";
           };
         };
+        "ponytail" = {
+          source = {
+            source = "github";
+            repo = "DietrichGebert/ponytail";
+          };
+        };
       };
       env = {
         CLAUDE_CODE_ATTRIBUTION_HEADER = "0";
         CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
+      };
+    };
+
+    # OpenCode global config with plugins
+    # ponytail and caveman are loaded from local plugin paths written by
+    # ai-plugins-install (caveman installer + manual ponytail clone).
+    ".config/opencode/opencode.jsonc" = {
+      force = true;
+      text = builtins.toJSON {
+        "$schema" = "https://opencode.ai/config.json";
+        plugin = [
+          "${homeDir}/.config/opencode/plugins/ponytail/.opencode/plugins/ponytail.mjs"
+          "${homeDir}/.config/opencode/plugins/caveman/plugin.js"
+        ];
+        agent = {
+          explore.disable = true;
+          general.disable = true;
+        };
+        shell = "zsh";
       };
     };
 
@@ -175,13 +213,15 @@
     '';
   };
 
-  # Additional token-saving environment variables
-  home.sessionVariables = {
-    # Claude Code: disable auto-execution to save tokens on wrong guesses
-    CLAUDE_CODE_SKIP_PERMISSIONS = "1";
-    # Claude Code: prefer compact mode
-    CLAUDE_CODE_COMPACT = "1";
-  };
+  # Claude Code keeps plugin metadata in settings.json and the `claude plugin install`
+  # command needs to read/write it. Home-manager normally symlinks the file to the Nix
+  # store (read-only), so copy it back to the home directory as a regular writable file
+  # after activation. On each switch the content is reset to the Nix-defined config.
+  home.activation.claudeWritableSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    $DRY_RUN_CMD rm -f $HOME/.claude/settings.json
+    $DRY_RUN_CMD cp ${config.home.file.".claude/settings.json".source} $HOME/.claude/settings.json
+    $DRY_RUN_CMD chmod 644 $HOME/.claude/settings.json
+  '';
 
   # Shell aliases for quick AI tool access
   programs.zsh.shellAliases = {
@@ -200,6 +240,55 @@
     # Caveman helpers
     caveman-install = "claude plugin marketplace add JuliusBrussee/caveman && claude plugin install caveman@caveman && npx skills add JuliusBrussee/caveman -a codex";
     caveman-stats = "claude /caveman-stats";
+
+    # Ponytail helpers
+    ponytail-install = "claude plugin marketplace add DietrichGebert/ponytail && claude plugin install ponytail@ponytail";
+    ponytail = "claude /ponytail";
+
+    # One-shot install/update of caveman and ponytail across all mainstream AI tools.
+    # Claude Code and OpenCode will auto-load them afterwards via settings.json/opencode.jsonc.
+    # Codex requires enabling the plugin via its /plugins UI after the marketplace is added.
+    ai-plugins-install = ''
+            echo "==> Installing caveman for all detected agents..."
+            curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.sh | bash
+
+            # The caveman installer writes its own ~/.config/opencode/opencode.json which conflicts
+            # with our Nix-managed ~/.config/opencode/opencode.jsonc. Remove the stray file.
+            if [ -f "$HOME/.config/opencode/opencode.json" ]; then
+              rm -f "$HOME/.config/opencode/opencode.json"
+            fi
+
+            echo "==> Installing ponytail for Claude Code..."
+            claude plugin marketplace add DietrichGebert/ponytail
+            claude plugin install ponytail@ponytail || echo "ponytail Claude install skipped/failed"
+
+            echo "==> Installing ponytail for Codex..."
+            codex plugin marketplace add DietrichGebert/ponytail || echo "ponytail Codex marketplace add skipped/failed"
+            # Codex has no CLI 'plugin install'; enable by appending to its config.toml.
+            if [ -f "$HOME/.codex/config.toml" ] && ! grep -q '^\[plugins\."ponytail@ponytail"\]' "$HOME/.codex/config.toml"; then
+              cat >> "$HOME/.codex/config.toml" <<'EOF'
+
+      [plugins."ponytail@ponytail"]
+      enabled = true
+      EOF
+            fi
+
+            echo "==> Installing ponytail for OpenCode..."
+            mkdir -p "$HOME/.config/opencode/plugins"
+            rm -rf "$HOME/.config/opencode/plugins/ponytail"
+            git clone --depth 1 https://github.com/DietrichGebert/ponytail.git "$HOME/.config/opencode/plugins/ponytail" || echo "ponytail OpenCode clone skipped/failed"
+
+            echo "==> Installing ponytail for Antigravity/Gemini..."
+            if command -v agy >/dev/null 2>&1; then
+              agy plugin install https://github.com/DietrichGebert/ponytail || echo "ponytail Antigravity install skipped/failed"
+            elif command -v gemini >/dev/null 2>&1; then
+              gemini extensions install https://github.com/DietrichGebert/ponytail || echo "ponytail Gemini install skipped/failed"
+            else
+              echo "Antigravity/Gemini CLI not found, skipping"
+            fi
+
+            echo "==> Done. Restart Claude Code/Codex/OpenCode/Antigravity to pick up changes."
+    '';
 
     # LiteLLM proxy management
     litellm-start = "litellm-proxy --config ~/litellm_config.yaml --host 127.0.0.1 --port 8888 > ~/litellm.log 2>&1 &";

@@ -18,7 +18,7 @@ _: {
 
     casks = [
       #* AI Tools
-      # "claude" # Claude AI client
+      "claude" # Claude AI client
       "claude-code" # Claude CLI
       # "chatgpt" # ChatGPT desktop client
       # "kiro" # AI editor
@@ -102,6 +102,7 @@ _: {
       "microsoft-teams"
 
       #* Media Players
+      "capcut" # Video editor
       "iina" # Modern media player for macOS
 
       #* Gaming

@@ -3,6 +3,7 @@
 # Platform: macOS (Apple Silicon)
 {userConfig, ...}: {
   imports = [
+    ../modules/ai-tools.nix
     ../modules/avatar.nix
     ../modules/darwin-common.nix
     ../modules/mac-common.nix

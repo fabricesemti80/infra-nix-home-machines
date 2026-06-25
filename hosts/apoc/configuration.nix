@@ -8,6 +8,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ../modules/ai-tools.nix
     ../modules/docker.nix
     ../modules/kde.nix
     ../modules/pipewire.nix
