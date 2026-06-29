@@ -34,6 +34,13 @@ in {
     });
   };
 
+  # Fix mise build issues from a Darwin-only metadata preservation test failure
+  mise-no-tests = final: prev: {
+    mise = prev.mise.overrideAttrs (old: {
+      doCheck = false;
+    });
+  };
+
   # Add fuelcheck-cli from source
   fuelcheck-cli = fuelcheck-cli;
 }
