@@ -14,6 +14,11 @@ _: {
       "powershell/tap"
       "Adembc/homebrew-tap"
       "manaflow-ai/cmux"
+      "matt-wright86/homebrew-tap"
+    ];
+
+    brews = [
+      "beads" # Memory upgrade for your coding agent - https://gastownhall.github.io/beads/community-tools
     ];
 
     casks = [

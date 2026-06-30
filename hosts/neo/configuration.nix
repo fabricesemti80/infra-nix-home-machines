@@ -37,6 +37,7 @@
       "/Applications/Warp.app"
       "/Applications/WhatsApp.app"
       "/Applications/Cursor.app"
+      "/Applications/Freelens.app"
       "/Applications/Visual Studio Code.app"
       "/Applications/OpenCode.app"
       "/Applications/Telegram.app"
