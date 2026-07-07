@@ -13,7 +13,7 @@ _: {
       "nikitabobko/tap"
       "powershell/tap"
       "Adembc/homebrew-tap"
-      "manaflow-ai/cmux"
+      # "manaflow-ai/cmux"
       "matt-wright86/homebrew-tap"
     ];
 

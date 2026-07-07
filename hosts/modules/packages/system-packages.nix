@@ -41,6 +41,7 @@
     #* Networking
     doggo # DNS client
     lazyssh # Minimal SSH config tool
+    ngrok # Public tunnels for local services
     nmap # Network exploration tool
 
     #* Language-Specific Tools

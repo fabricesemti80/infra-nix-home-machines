@@ -151,35 +151,38 @@ in {
 
     # Claude Code settings with plugins
     # Caveman and ponytail are auto-loaded once installed (see ai-plugins-install alias).
-    ".claude/settings.json".text = builtins.toJSON {
-      enabledPlugins = {
-        "warp@claude-code-warp" = true;
-        "caveman@caveman" = true;
-        "ponytail@ponytail" = true;
-      };
-      extraKnownMarketplaces = {
-        "claude-code-warp" = {
-          source = {
-            source = "github";
-            repo = "warpdotdev/claude-code-warp";
+    ".claude/settings.json" = {
+      force = true;
+      text = builtins.toJSON {
+        enabledPlugins = {
+          "warp@claude-code-warp" = true;
+          "caveman@caveman" = true;
+          "ponytail@ponytail" = true;
+        };
+        extraKnownMarketplaces = {
+          "claude-code-warp" = {
+            source = {
+              source = "github";
+              repo = "warpdotdev/claude-code-warp";
+            };
+          };
+          "caveman" = {
+            source = {
+              source = "github";
+              repo = "JuliusBrussee/caveman";
+            };
+          };
+          "ponytail" = {
+            source = {
+              source = "github";
+              repo = "DietrichGebert/ponytail";
+            };
           };
         };
-        "caveman" = {
-          source = {
-            source = "github";
-            repo = "JuliusBrussee/caveman";
-          };
+        env = {
+          CLAUDE_CODE_ATTRIBUTION_HEADER = "0";
+          CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
         };
-        "ponytail" = {
-          source = {
-            source = "github";
-            repo = "DietrichGebert/ponytail";
-          };
-        };
-      };
-      env = {
-        CLAUDE_CODE_ATTRIBUTION_HEADER = "0";
-        CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
       };
     };
 
