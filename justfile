@@ -3,14 +3,14 @@
 # Determine the hostname dynamically
 hostname := `hostname`
 enabled_darwin_hosts := "neo"
-enabled_nixos_hosts := "morpheus apoc"
+enabled_nixos_hosts := "morpheus apoc trinity"
 
 # All known host names in the flake (used to validate explicit host filters).
 valid_hosts := "neo trinity apoc morpheus"
 
 # Per-lane host sets: every host that can be deployed in a given lane.
 darwin_hosts := "neo"
-nixos_hosts := "morpheus apoc"
+nixos_hosts := "morpheus apoc trinity"
 
 # Default recipe: Shows available commands
 default:
@@ -259,6 +259,9 @@ _nixos-target host:
       apoc)
         echo "fs@10.211.55.8"
         ;;
+      trinity)
+        echo "fs@10.0.40.61"
+        ;;
       *)
         echo "No physical NixOS target configured for '{{host}}'" >&2
         exit 1
@@ -275,6 +278,9 @@ _nixos-home-target host:
         ;;
       apoc)
         echo "fs@10.211.55.8"
+        ;;
+      trinity)
+        echo "fs@10.0.40.61"
         ;;
       *)
         echo "No physical NixOS Home Manager target configured for '{{host}}'" >&2
@@ -342,6 +348,24 @@ nixos-switch host="all":
       fi
     done < <(just _resolve-hosts "{{host}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
 
+# Push deploy-time secrets from 1Password to a NixOS host before switching.
+_nixos-push-secrets host target:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    case "{{host}}" in
+      trinity|morpheus)
+        if ! command -v op >/dev/null 2>&1; then
+          echo "1Password CLI (op) not found; skipping Tailscale secret push" >&2
+          exit 0
+        fi
+        auth_key=$(op read "op://iac/tailscale-key-server-container/credential")
+        printf '%s' "$auth_key" | ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
+          'sudo mkdir -p /var/lib/tailscale && sudo tee /var/lib/tailscale/tailscale-authkey > /dev/null && sudo chmod 600 /var/lib/tailscale/tailscale-authkey && sudo chown root:root /var/lib/tailscale/tailscale-authkey'
+        ;;
+      *)
+        ;;
+    esac
+
 # Switch NixOS on a single physical host.
 _nixos-switch-one host:
     #!/usr/bin/env bash
@@ -349,14 +373,9 @@ _nixos-switch-one host:
     target=$(just _nixos-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$target"
     just _banner 32 nixos "{{host}}" "Switching physical host on ${target}"
+    just _nixos-push-secrets "{{host}}" "$target"
     export NIX_SSHOPTS="-o StrictHostKeyChecking=no"
     nix run nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host "$target" --build-host "$target" --sudo --no-reexec --fast
-
-    auth_key=$(doppler run -- printenv TAILSCALE_AUTH_KEY 2>/dev/null || true)
-    if [ -n "$auth_key" ]; then
-      ssh $NIX_SSHOPTS "$target" "tailscale up --auth-key='$auth_key' --ssh" || true
-    fi
-
     just _nixos-home-switch-one "{{host}}"
 
 # Build Home Manager on selected physical NixOS hosts ("all" or comma-list).
