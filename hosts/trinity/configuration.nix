@@ -13,6 +13,7 @@
     ../modules/ai-tools.nix
     ../modules/nixos-server-common.nix
     ../modules/tailscale-router.nix
+    ./containers.nix
   ];
 
   networking.hostName = hostname;

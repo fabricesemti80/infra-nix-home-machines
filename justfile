@@ -354,13 +354,37 @@ _nixos-push-secrets host target:
     set -euo pipefail
     case "{{host}}" in
       trinity|morpheus)
-        if ! command -v op >/dev/null 2>&1; then
+        if command -v op >/dev/null 2>&1; then
+          auth_key=$(op read "op://iac/tailscale-key-server-container/credential")
+          printf '%s' "$auth_key" | ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
+            'sudo mkdir -p /var/lib/tailscale && sudo tee /var/lib/tailscale/tailscale-authkey > /dev/null && sudo chmod 600 /var/lib/tailscale/tailscale-authkey && sudo chown root:root /var/lib/tailscale/tailscale-authkey'
+        else
           echo "1Password CLI (op) not found; skipping Tailscale secret push" >&2
-          exit 0
         fi
-        auth_key=$(op read "op://iac/tailscale-key-server-container/credential")
-        printf '%s' "$auth_key" | ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
-          'sudo mkdir -p /var/lib/tailscale && sudo tee /var/lib/tailscale/tailscale-authkey > /dev/null && sudo chmod 600 /var/lib/tailscale/tailscale-authkey && sudo chown root:root /var/lib/tailscale/tailscale-authkey'
+        ;;
+      *)
+        ;;
+    esac
+    case "{{host}}" in
+      trinity)
+        if ! command -v op >/dev/null 2>&1; then
+          echo "1Password CLI (op) not found; skipping DockTail secret push" >&2
+        else
+          client_id=$(op read "op://iac/tailscale-oauth/client_id")
+          client_secret=$(op read "op://iac/tailscale-oauth/client_secret")
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
+            "sudo mkdir -p /var/lib/docktail && printf '%s\\n' 'TAILSCALE_OAUTH_CLIENT_ID=${client_id}' 'TAILSCALE_OAUTH_CLIENT_SECRET=${client_secret}' | sudo tee /var/lib/docktail/env > /dev/null && sudo chmod 600 /var/lib/docktail/env && sudo chown root:root /var/lib/docktail/env"
+        fi
+
+        # Seed Portainer data from morpheus once, preserving the existing password.
+        morpheus_target=$(just _nixos-target morpheus)
+        if ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$morpheus_target" true 2>&1; then
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
+            'if [ ! -f /var/lib/portainer-data/portainer.db ]; then sudo mkdir -p /var/lib/portainer-data && sudo tar -xzf - -C /var/lib/portainer-data; else cat > /dev/null; fi' \
+            < <(ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$morpheus_target" 'cat /tmp/portainer_data.tar.gz')
+        else
+          echo "Morpheus is offline; skipping Portainer data seed" >&2
+        fi
         ;;
       *)
         ;;

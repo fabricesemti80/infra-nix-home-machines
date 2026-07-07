@@ -99,7 +99,10 @@
     enable = true;
     rootless = {
       enable = true;
-      setSocketVariable = true;
+      # Do not override DOCKER_HOST; Nix-managed containers run on the system
+      # Docker daemon, and a rootless socket that is not running makes docker
+      # commands appear empty.
+      setSocketVariable = false;
     };
   };
 
