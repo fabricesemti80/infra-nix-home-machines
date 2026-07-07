@@ -12,7 +12,7 @@
 
     ../modules/ai-tools.nix
     ../modules/nixos-server-common.nix
-    ../modules/tailscale.nix
+    ../modules/tailscale-router.nix
   ];
 
   networking.hostName = hostname;
@@ -37,7 +37,13 @@
     ipv6.method = "ignore";
   };
 
-  tailscale.enable = true;
+  tailscale-router = {
+    enable = true;
+    advertiseRoutes = ["10.0.0.0/16" "192.168.0.0/16"];
+    advertiseExitNode = true;
+    ssh = true;
+    tags = ["tag:server"];
+  };
 
   # Keep the existing dbus implementation; switching to broker triggers a switch inhibitor.
   services.dbus.implementation = "dbus";
