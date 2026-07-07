@@ -468,7 +468,15 @@ home-switch host="current":
     if [ "$target" = "current" ]; then
       target="{{hostname}}"
     fi
-    just darwin-home-switch "$target"
+    just _validate-hosts "$target"
+    if echo "{{darwin_hosts}}" | tr ' ' '\n' | grep -qx "$target"; then
+      just darwin-home-switch "$target"
+    elif echo "{{nixos_hosts}}" | tr ' ' '\n' | grep -qx "$target"; then
+      just nixos-home-switch "$target"
+    else
+      echo "Host '$target' is not in a Home Manager lane. Valid: {{valid_hosts}}" >&2
+      exit 1
+    fi
 
 # Build Home Manager for the current local host, or pass a host explicitly.
 home-build host="current":
@@ -478,7 +486,15 @@ home-build host="current":
     if [ "$target" = "current" ]; then
       target="{{hostname}}"
     fi
-    just darwin-home-build "$target"
+    just _validate-hosts "$target"
+    if echo "{{darwin_hosts}}" | tr ' ' '\n' | grep -qx "$target"; then
+      just darwin-home-build "$target"
+    elif echo "{{nixos_hosts}}" | tr ' ' '\n' | grep -qx "$target"; then
+      just nixos-home-build "$target"
+    else
+      echo "Host '$target' is not in a Home Manager lane. Valid: {{valid_hosts}}" >&2
+      exit 1
+    fi
 
 # ============================================================================
 # System Information

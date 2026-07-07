@@ -39,7 +39,8 @@
     advertiseRoutes = ["10.0.0.0/16" "192.168.0.0/16"];
     advertiseExitNode = true;
     ssh = true;
-    tags = ["tag:server"];
+    # Tag is applied by the auth key in 1Password.
+    tags = [];
   };
 
   services.dbus.implementation = "dbus";
