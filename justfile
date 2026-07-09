@@ -3,14 +3,14 @@
 # Determine the hostname dynamically
 hostname := `hostname`
 enabled_darwin_hosts := "neo"
-enabled_nixos_hosts := "morpheus apoc trinity"
+enabled_nixos_hosts := "apoc"
 
 # All known host names in the flake (used to validate explicit host filters).
-valid_hosts := "neo trinity apoc morpheus"
+valid_hosts := "neo apoc"
 
 # Per-lane host sets: every host that can be deployed in a given lane.
 darwin_hosts := "neo"
-nixos_hosts := "morpheus apoc trinity"
+nixos_hosts := "apoc"
 
 # Default recipe: Shows available commands
 default:
@@ -96,7 +96,7 @@ _quick-update-filter filter enabled lane_hosts:
 # ============================================================================
 
 # Update flake inputs, then switch every enabled deployment lane. Pass a host or
-# comma-separated host list (e.g. `quick-update neo` or `quick-update neo,morpheus`)
+# comma-separated host list (e.g. `quick-update neo` or `quick-update neo,apoc`)
 # to limit the scope; lanes that have no matching hosts are skipped.
 quick-update hosts="all":
     #!/usr/bin/env bash
@@ -253,14 +253,8 @@ _nixos-target host:
     #!/usr/bin/env bash
     set -euo pipefail
     case "{{host}}" in
-      morpheus)
-        echo "root@10.0.40.19"
-        ;;
       apoc)
         echo "fs@10.211.55.8"
-        ;;
-      trinity)
-        echo "fs@10.0.40.61"
         ;;
       *)
         echo "No physical NixOS target configured for '{{host}}'" >&2
@@ -273,14 +267,8 @@ _nixos-home-target host:
     #!/usr/bin/env bash
     set -euo pipefail
     case "{{host}}" in
-      morpheus)
-        echo "fs@10.0.40.19"
-        ;;
       apoc)
         echo "fs@10.211.55.8"
-        ;;
-      trinity)
-        echo "fs@10.0.40.61"
         ;;
       *)
         echo "No physical NixOS Home Manager target configured for '{{host}}'" >&2
@@ -300,8 +288,7 @@ _nixos-check-ssh host target:
     Cannot reach physical NixOS host {{host}} at {{target}} over SSH.
 
     Check that this machine is on the same LAN/VPN as the server, or that the
-    server is already reachable through Tailscale. For morpheus, the direct LAN
-    target is 10.0.40.19.
+    server is already reachable through Tailscale.
     EOF
     exit 1
 
@@ -348,47 +335,9 @@ nixos-switch host="all":
       fi
     done < <(just _resolve-hosts "{{host}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
 
-# Push deploy-time secrets from 1Password to a NixOS host before switching.
+# Deploy-time secrets no longer needed (morpheus dropped).
 _nixos-push-secrets host target:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    case "{{host}}" in
-      trinity|morpheus)
-        if command -v op >/dev/null 2>&1; then
-          auth_key=$(op read "op://iac/tailscale-key-server-container/credential")
-          printf '%s' "$auth_key" | ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
-            'sudo mkdir -p /var/lib/tailscale && sudo tee /var/lib/tailscale/tailscale-authkey > /dev/null && sudo chmod 600 /var/lib/tailscale/tailscale-authkey && sudo chown root:root /var/lib/tailscale/tailscale-authkey'
-        else
-          echo "1Password CLI (op) not found; skipping Tailscale secret push" >&2
-        fi
-        ;;
-      *)
-        ;;
-    esac
-    case "{{host}}" in
-      trinity)
-        if ! command -v op >/dev/null 2>&1; then
-          echo "1Password CLI (op) not found; skipping DockTail secret push" >&2
-        else
-          client_id=$(op read "op://iac/tailscale-oauth/client_id")
-          client_secret=$(op read "op://iac/tailscale-oauth/client_secret")
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
-            "sudo mkdir -p /var/lib/docktail && printf '%s\\n' 'TAILSCALE_OAUTH_CLIENT_ID=${client_id}' 'TAILSCALE_OAUTH_CLIENT_SECRET=${client_secret}' | sudo tee /var/lib/docktail/env > /dev/null && sudo chmod 600 /var/lib/docktail/env && sudo chown root:root /var/lib/docktail/env"
-        fi
-
-        # Seed Portainer data from morpheus once, preserving the existing password.
-        morpheus_target=$(just _nixos-target morpheus)
-        if ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$morpheus_target" true 2>&1; then
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "{{target}}" \
-            'if [ ! -f /var/lib/portainer-data/portainer.db ]; then sudo mkdir -p /var/lib/portainer-data && sudo tar -xzf - -C /var/lib/portainer-data; else cat > /dev/null; fi' \
-            < <(ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$morpheus_target" 'cat /tmp/portainer_data.tar.gz')
-        else
-          echo "Morpheus is offline; skipping Portainer data seed" >&2
-        fi
-        ;;
-      *)
-        ;;
-    esac
+    true
 
 # Switch NixOS on a single physical host.
 _nixos-switch-one host:

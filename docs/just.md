@@ -17,10 +17,10 @@ environment values are available consistently.
 : Updates the flake lock, then switches every enabled deployment lane:
 `darwin-switch`, `nixos-switch`, and `vm-switch`.
 
-Aggregate recipes are best-effort per host. If a physical host or VM is
-offline, the aggregate command prints a skip message for that host and continues
-with the remaining lanes. Explicit host commands such as
-`just nixos-switch morpheus` still fail when that host cannot be reached.
+Aggregate recipes are best-effort per host. If a host is offline, the aggregate
+command prints a skip message for that host and continues with the remaining
+lanes. Explicit host commands such as `just nixos-switch apoc` still fail when
+that host cannot be reached.
 
 Long-running recipes print colored section banners so the `quick-update` output
 is easier to scan. Flake/update steps are yellow, Darwin is cyan, Home Manager
@@ -31,16 +31,15 @@ Current enabled targets:
 | Lane | Default Targets | What It Switches |
 |------|-----------------|------------------|
 | `darwin-*` | `neo` | nix-darwin plus `fs@neo` Home Manager |
-| `nixos-*` | `morpheus` | Physical NixOS host plus `fs@morpheus` Home Manager over SSH |
-| `vm-*` | `trinity` | Terraform-managed NixOS VM plus `fs@trinity` Home Manager over SSH |
+| `nixos-*` | `apoc` | NixOS host plus `fs@apoc` Home Manager over SSH |
 
 `home-switch`
 : Keeps the old local muscle memory. It switches Home Manager for the current
 hostname, or for an explicit host with `just home-switch <hostname>`.
 
 `quick-update-lane <lane>`
-: Updates the flake lock, then switches one lane. Valid lanes are `darwin`,
-`nixos`, and `vm`.
+: Updates the flake lock, then switches one lane. Valid lanes are `darwin` and
+`nixos`.
 
 ## Darwin Hosts
 
@@ -81,13 +80,13 @@ hostname to target one host.
 
 ```sh
 just nixos-build
-just nixos-build morpheus
+just nixos-build apoc
 just nixos-switch
-just nixos-switch morpheus
+just nixos-switch apoc
 just nixos-home-build
-just nixos-home-build morpheus
+just nixos-home-build apoc
 just nixos-home-switch
-just nixos-home-switch morpheus
+just nixos-home-switch apoc
 ```
 
 `nixos-build`
@@ -108,14 +107,12 @@ driven from an Apple Silicon Mac.
 : Archives the current flake to the physical host, builds the Home Manager
 activation package there, then runs the activation script as `fs`.
 
-Both physical NixOS recipes check SSH reachability before starting the remote
-build or switch. If `10.0.40.19` is unreachable, run them from the same LAN/VPN
-as Morpheus, or use a reachable Tailscale target once the host has joined
-Tailscale.
+Physical NixOS recipes check SSH reachability before starting the remote build
+or switch.
 
 Physical host SSH targets are resolved in private recipes in the `justfile`. At
-the moment, `morpheus` resolves to `root@10.0.40.19` for system operations and
-`fs@10.0.40.19` for Home Manager activation.
+the moment, `apoc` resolves to `fs@10.211.55.8` for both system operations and
+Home Manager activation.
 
 ## Flake Management
 
@@ -164,49 +161,7 @@ runs the Linux build inside Docker.
 : Builds the cloud image, uploads/imports it through Terraform, and applies VM
 infrastructure changes.
 
-`vm-recreate <hostname>`
-: Rebuilds the image and recreates one Terraform-managed VM from it. The
-default host is `trinity`.
-
-`vm-wait <hostname>`
-: Reads the host's SSH target from Terraform output and waits until SSH is
-reachable.
-
-`vm-switch`
-: Switches all enabled VM hosts. At the moment this switches `trinity`.
-
-`vm-switch <hostname>`
-: Runs `nixos-rebuild switch` remotely against one Terraform-managed VM, then
-attempts to bring up Tailscale SSH, then switches the matching Home Manager
-profile.
-
-`vm-home-build`
-: Builds Home Manager activation packages for all enabled VM hosts.
-
-`vm-home-build <hostname>`
-: Archives the current flake to one VM and builds its Home Manager activation
-package there.
-
-`vm-home-switch`
-: Switches Home Manager on all enabled VM hosts.
-
-`vm-home-switch <hostname>`
-: Archives the current flake to one VM, builds the Home Manager activation
-package there, then runs the activation script as `fs`.
-
-`vm-switch-all`
-: Compatibility alias for `vm-switch`.
-
-`vm-home-switch-all` and `vm-home-build-all`
-: Compatibility aliases for the all-host VM Home Manager recipes.
-
-`vm-deploy`
-: Full VM path: build image, apply Terraform, wait for SSH, and switch the VM
-NixOS configuration.
-
-`vm-redeploy`
-: Recreate selected VMs from a fresh image, then switch their NixOS
-configuration.
+(VM deployment recipes removed — no VM hosts remain in the config.)
 
 ## Quality And Maintenance
 

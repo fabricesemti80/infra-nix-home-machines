@@ -16,12 +16,7 @@ map; operational details live in the linked pages below.
 System outputs are declared in `flake.nix`.
 
 - `neo`: macOS host.
-- `trinity`: Proxmox NixOS VM.
-- `morpheus`: physical NixOS host.
 - `apoc`: NixOS VM host (Parallels).
-
-Home Manager outputs use the `user@host` shape, for example `fs@neo` and
-`fs@trinity`.
 
 ## Common Commands
 

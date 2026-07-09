@@ -114,9 +114,7 @@
       };
   in {
     nixosConfigurations = {
-      "trinity" = mkNixosConfiguration "trinity" "fs";
       "apoc" = mkNixosConfiguration "apoc" "fs";
-      "morpheus" = mkNixosConfiguration "morpheus" "fs";
     };
 
     darwinConfigurations = {
@@ -124,9 +122,7 @@
     };
 
     homeConfigurations = {
-      "fs@trinity" = mkHomeConfiguration "x86_64-linux" "fs" "trinity";
       "fs@apoc" = mkHomeConfiguration "aarch64-linux" "fs" "apoc";
-      "fs@morpheus" = mkHomeConfiguration "x86_64-linux" "fs" "morpheus";
       "fs@neo" = mkHomeConfiguration "aarch64-darwin" "fs" "neo";
     };
 

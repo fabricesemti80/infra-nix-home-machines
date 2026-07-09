@@ -173,17 +173,4 @@ Do not reuse the existing VM disko file for a physical host. It targets
 `/dev/vda`, which is the usual virtual disk name, not the usual physical disk
 name.
 
-## Replacing `morpheus`
-
-`morpheus` is now a physical host. To add another physical machine that
-used to be a Proxmox VM:
-
-1. Rework `hosts/<name>/configuration.nix` so it imports physical modules
-   (e.g. `../modules/nixos-server-common.nix`) instead of `../modules/qemu-vm.nix`.
-2. Generate or write `hosts/<name>/hardware-configuration.nix`.
-3. Add `<name>` to `nixosConfigurations` in `flake.nix`.
-4. Keep it out of any VM recipes unless it becomes a Proxmox VM again.
-5. Add or keep `home/fs/<name>.nix` and the `fs@<name>` Home Manager output.
-
-The important rule: physical hosts should be deployed with NixOS tooling,
-not the legacy Proxmox/VM recipes (which are no longer part of this repo).
+(No physical hosts remain in the config.)
