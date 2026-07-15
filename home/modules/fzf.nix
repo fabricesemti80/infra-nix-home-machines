@@ -4,6 +4,7 @@
 _: {
   programs.fzf = {
     enable = true;
+    historyWidget.command = "";
     defaultCommand = "find .";
     defaultOptions = [
       "--bind '?:toggle-preview'"
