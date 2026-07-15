@@ -12,6 +12,7 @@
     ../modules/docker.nix
     ../modules/kde.nix
     ../modules/pipewire.nix
+    ../modules/packages/linux/system.nix
   ];
 
   # Bootloader

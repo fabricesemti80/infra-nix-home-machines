@@ -1,7 +1,7 @@
 _: {
   imports = [
-    ./packages/system-packages.nix
-    ./packages/homebrew-packages.nix
+    ./packages/darwin/system.nix
+    ./packages/darwin/homebrew.nix
   ];
 
   nix = {

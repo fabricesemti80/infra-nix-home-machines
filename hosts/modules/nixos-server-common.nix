@@ -7,6 +7,10 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./packages/linux/system.nix
+  ];
+
   nixpkgs = {
     overlays = [
       outputs.overlays.stable-packages
@@ -71,29 +75,6 @@
   users.users.root.openssh.authorizedKeys.keys = userConfig.sshKeys;
 
   security.sudo.wheelNeedsPassword = false;
-
-  environment.systemPackages = with pkgs; [
-    btop
-    curl
-    delta
-    dig
-    docker-compose
-    dust
-    eza
-    fd
-    git
-    home-manager
-    jq
-    lazydocker
-    lazygit
-    neovim
-    nh
-    ripgrep
-    tailscale
-    tree
-    unzip
-    vim
-  ];
 
   virtualisation.docker = {
     enable = true;
