@@ -63,6 +63,10 @@
   programs.firefox.enable = true;
   programs.zsh.enable = true;
 
+  environment.systemPackages = with pkgs; [
+    vlc
+  ];
+
   # SSH (key-only)
   services.openssh = {
     enable = true;
