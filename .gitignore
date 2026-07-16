@@ -91,3 +91,9 @@ infra/tunell_cred/**
 infra/tunnel_cred/**
 omni.asc
 .envrc.bak.**
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
