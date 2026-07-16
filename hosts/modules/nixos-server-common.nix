@@ -8,7 +8,7 @@
   ...
 }: {
   imports = [
-    ./packages/linux/system.nix
+    ./packages/linux/server.nix
   ];
 
   nixpkgs = {

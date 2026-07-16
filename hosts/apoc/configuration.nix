@@ -12,7 +12,7 @@
     ../modules/docker.nix
     ../modules/kde.nix
     ../modules/pipewire.nix
-    ../modules/packages/linux/system.nix
+    ../modules/packages/linux/desktop.nix
   ];
 
   # Bootloader
@@ -64,9 +64,7 @@
   programs.firefox.enable = true;
   programs.zsh.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    vlc
-  ];
+  environment.systemPackages = with pkgs; [];
 
   # SSH (key-only)
   services.openssh = {
