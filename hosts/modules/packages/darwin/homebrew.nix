@@ -38,7 +38,7 @@ _: {
       "block-goose" # AI coding assistant
       "lm-studio" # Local AI model runner and chat interface
       "opencode-desktop"
-      "orca" # Local AI agent by Stably AI
+      #"orca" # Local AI agent by Stably AI
 
       #* Authentication & Security
       "1password" # Secure password manager
