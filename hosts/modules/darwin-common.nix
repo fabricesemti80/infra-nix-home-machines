@@ -22,7 +22,6 @@
       outputs.overlays.stable-packages
       outputs.overlays.fish-no-tests
       outputs.overlays.direnv-no-tests
-      outputs.overlays.mise-no-tests
     ];
     config.allowUnfree = true;
   };

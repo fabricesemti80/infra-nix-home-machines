@@ -18,7 +18,7 @@
     doppler # Doppler CLI for secrets management
     gh # GitHub CLI
     hcp # HashiCorp Cloud Platform CLI
-    # kubernetes-helm # Kubernetes package manager — nixpkgs build broken (substitute error on missing test file), use `brew install helm` or `nix-shell -p kubernetes-helm` until fixed
+    kubernetes-helm # Kubernetes package manager
     k3d # Lightweight Kubernetes in Docker
     kubectl # Kubernetes command-line tool
     kubectx # Switch between Kubernetes contexts

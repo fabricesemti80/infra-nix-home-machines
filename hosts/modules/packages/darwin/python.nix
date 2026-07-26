@@ -1,11 +1,28 @@
 {pkgs, ...}: let
-  # ponytail: flaky timing test fails in sandbox
-  pythonPackages = pkgs.python3Packages.overrideScope (final: prev: {
-    opentelemetry-exporter-otlp-proto-grpc = prev.opentelemetry-exporter-otlp-proto-grpc.overridePythonAttrs (_: {
-      doCheck = false;
-      dontCheckRuntimeDeps = true;
-    });
-  });
+  # ponytail: apply overrides to the interpreter's package set so they propagate
+  # into python3.withPackages and every env package (not just litellm's deps).
+  python3' = pkgs.python3.override {
+    self = python3';
+    packageOverrides = final: prev: {
+      # ponytail: langfuse pins wrapt < 2.0 but nixpkgs ships 2.2.2; relax until upstream catches up
+      langfuse = prev.langfuse.overridePythonAttrs (old: {
+        pythonRelaxDeps = ["wrapt"] ++ (old.pythonRelaxDeps or []);
+      });
+      # ponytail: pytest collection breaks on Python 3.14 deprecation warnings and
+      # pythonImportsCheck tries to import pandas, which pandas-stubs does not propagate
+      pandas-stubs = prev.pandas-stubs.overridePythonAttrs (_: {
+        doCheck = false;
+        pythonImportsCheck = [];
+      });
+      # ponytail: flaky timing test fails in sandbox
+      opentelemetry-exporter-otlp-proto-grpc = prev.opentelemetry-exporter-otlp-proto-grpc.overridePythonAttrs (_: {
+        doCheck = false;
+        dontCheckRuntimeDeps = true;
+      });
+    };
+  };
+
+  pythonPackages = python3'.pkgs;
 
   litellmWithProxy = pythonPackages.litellm.overridePythonAttrs (old: {
     dependencies =
@@ -14,7 +31,7 @@
       ++ old.optional-dependencies.proxy-runtime;
   });
 
-  pythonEnv = pkgs.python3.withPackages (ps:
+  pythonEnv = python3'.withPackages (ps:
     [
       litellmWithProxy
     ]
