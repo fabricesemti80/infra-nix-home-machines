@@ -13,18 +13,25 @@
     #* DevOps & Infrastructure
     ansible # IT automation and configuration management
     awscli2 # AWS Command Line Interface
+    age # age encryption tool used by SOPS
+    argocd # Argo CD CLI
+    cilium-cli # Cilium CLI
     cloudflared # Cloudflare Tunnel client
     docker-compose # Multi-container Docker application tool
     doppler # Doppler CLI for secrets management
     gh # GitHub CLI
     hcp # HashiCorp Cloud Platform CLI
+    helmfile # Declarative Helm release orchestration
     kubernetes-helm # Kubernetes package manager
     k3d # Lightweight Kubernetes in Docker
     kubectl # Kubernetes command-line tool
     kubectx # Switch between Kubernetes contexts
+    kubeconform # Kubernetes manifest validation
+    kustomize # Kubernetes manifest customization
     lazydocker # Terminal UI for Docker management
     opentofu # Open-source infrastructure as code tool
     packer # Infrastructure as code tool for image building
+    talhelper # Talos cluster configuration helper
     talosctl # CLI for managing Talos Linux clusters
     terraform # Infrastructure as code tool
 
@@ -32,11 +39,17 @@
     codex # OpenAI Codex CLI
     delta # Enhanced git diff viewer
     direnv # Environment variable manager
+    cue # Data validation language
+    gitleaks # Secret scanning
     glow # Markdown terminal viewer
     gnupg # GNU Privacy Guard
     hugo # Fast static site generator
-    mise # Runtime environment manager
+    prettier # Multi-language formatter
+    shellcheck # Shell script linting
+    shfmt # Shell script formatter
+    tflint # Terraform/OpenTofu linting
     tree-sitter # Parser generator for nvim-treesitter
+    yamllint # YAML linting
 
     #* Networking
     doggo # DNS client
