@@ -96,7 +96,6 @@
     kubectl
     lazydocker
     lazygit
-    mise
     neovim
     ripgrep
     starship
@@ -133,10 +132,6 @@
 
     if command -v kubectl >/dev/null 2>&1; then
       source <(kubectl completion zsh)
-    fi
-
-    if command -v mise >/dev/null 2>&1; then
-      eval "$(mise activate zsh)"
     fi
 
     if command -v direnv >/dev/null 2>&1; then
