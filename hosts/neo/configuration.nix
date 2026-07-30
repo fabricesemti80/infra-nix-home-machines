@@ -40,6 +40,8 @@
       "/Applications/Freelens.app"
       "/Applications/Visual Studio Code.app"
       "/Applications/OpenCode.app"
+      "/Applications/Orca.app"
+      "/Applications/Wispr Flow.app"
       "/Applications/Telegram.app"
       "/Applications/Capacities.app"
     ];

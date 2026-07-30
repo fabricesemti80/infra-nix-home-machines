@@ -91,6 +91,13 @@ _quick-update-filter filter enabled lane_hosts:
         fi
     done | paste -sd ',' -
 
+# Stage nix files, lockfile, and referenced assets so nix flake archive
+# sees new/untracked files before deploying.
+_stage-flake:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    git add -A -- flake.nix flake.lock files home hosts lib overlays users
+
 # ============================================================================
 # Quick Update Commands
 # ============================================================================
@@ -172,6 +179,7 @@ darwin-switch host="all":
 _darwin-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     just _banner 36 darwin "{{host}}" "Switching nix-darwin configuration"
     if command -v brew >/dev/null 2>&1; then
       for trust_target in nikitabobko/tap nikitabobko/tap/aerospace powershell/tap adembc/tap manaflow-ai/cmux; do
@@ -196,6 +204,7 @@ darwin-home-switch host="all":
 _darwin-home-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     just _banner 34 home "fs@{{host}}" "Switching Home Manager configuration"
     doppler run -- home-manager switch --flake .#fs@{{host}}
 
@@ -214,6 +223,7 @@ darwin-build host="all":
 _darwin-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     just _banner 36 darwin "{{host}}" "Building nix-darwin configuration"
     doppler run -- nix run nix-darwin -- build --flake .#{{host}}
     just _darwin-home-build-one "{{host}}"
@@ -233,6 +243,7 @@ darwin-home-build host="all":
 _darwin-home-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     just _banner 34 home "fs@{{host}}" "Building Home Manager configuration"
     doppler run -- home-manager build --flake .#fs@{{host}}
 
@@ -312,6 +323,7 @@ nixos-build host="all":
 _nixos-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     target=$(just _nixos-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$target"
     just _banner 32 nixos "{{host}}" "Building physical host on ${target}"
@@ -343,6 +355,7 @@ _nixos-push-secrets host target:
 _nixos-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     target=$(just _nixos-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$target"
     just _banner 32 nixos "{{host}}" "Switching physical host on ${target}"
@@ -371,6 +384,7 @@ nixos-home-build host="all":
 _nixos-home-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     root_target=$(just _nixos-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$root_target"
     just _banner 34 home "fs@{{host}}" "Building Home Manager activation package on ${root_target}"
@@ -403,6 +417,7 @@ nixos-home-switch host="all":
 _nixos-home-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _stage-flake
     root_target=$(just _nixos-target "{{host}}")
     user_target=$(just _nixos-home-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$root_target"

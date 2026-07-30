@@ -2,6 +2,7 @@
   imports = [
     ../modules/home.nix
     ../modules/common.nix
+    ../modules/plasma.nix
     ../modules/starship.nix
     ../modules/zsh.nix
   ];

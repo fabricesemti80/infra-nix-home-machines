@@ -38,7 +38,7 @@ _: {
       "block-goose" # AI coding assistant
       "lm-studio" # Local AI model runner and chat interface
       "opencode-desktop"
-      #"orca" # Local AI agent by Stably AI
+      "stablyai/orca/orca" # Local AI agent by Stably AI
 
       #* Authentication & Security
       "1password" # Secure password manager
@@ -67,6 +67,7 @@ _: {
       "clop" # Clipboard manager
       # "disk-inventory-x"
       "daisydisk" # Disk space analyzer
+      "wispr-flow" # Voice dictation
       # "transmission"
 
       #* DevOps & Containers
