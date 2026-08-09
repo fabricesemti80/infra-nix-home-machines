@@ -15,7 +15,6 @@ _: {
       "Adembc/homebrew-tap"
       # "manaflow-ai/cmux"
       "matt-wright86/homebrew-tap"
-      "stablyai/orca"
     ];
 
     brews = [
@@ -35,10 +34,9 @@ _: {
       "codex" # Codex desktop client
       "claudebar"
       "cursor" # AI editor
-      "block-goose" # AI coding assistant
+      # "block-goose" # AI coding assistant
       "lm-studio" # Local AI model runner and chat interface
       "opencode-desktop"
-      "stablyai/orca/orca" # Local AI agent by Stably AI
 
       #* Authentication & Security
       "1password" # Secure password manager
