@@ -90,31 +90,30 @@ on-focus-changed = "move-mouse window-lazy-center"
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 [workspace-to-monitor-force-assignment]
-# main =>    Main monitor, usually the built-in one
-# built-in => Laptop's built-in monitor
-# 2778G5 =>  AOC/Vertical 2778G5 monitor
-# len => Lenovo LEN Y44w-10 monitor
-1 = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority (apps that are OK with portrait mode)
-2 = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority (apps that are OK with portrait mode)
-3 = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority (apps that are OK with portrait mode)
-4 = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority (apps that are OK with portrait mode)
-5 = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority (apps that are OK with portrait mode)
-A = ['main', 'built-in', '2778G5'] # MAIN screen priority
-B = ['main', 'built-in', '2778G5'] # MAIN screen priority
-C = ['main', 'built-in', '2778G5'] # MAIN screen priority
-D = ['main', 'built-in', '2778G5'] # MAIN screen priority
-E = ['main', 'built-in', '2778G5'] # MAIN screen priority
-F = ['main', 'built-in', '2778G5'] # MAIN screen priority
-K = ['main', 'built-in', '2778G5'] # MAIN screen priority
-M = ['main', 'built-in', '2778G5'] # MAIN screen priority
-N = ['main', 'built-in', '2778G5'] # MAIN screen priority
-# O = ['main', 'built-in', '2778G5'] # MAIN screen priority (unused)
-P = ['main', 'built-in', '2778G5'] # MAIN screen priority
-S = ['main', 'built-in', '2778G5'] # MAIN screen priority
-T = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority
-U = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority
-V = ['2778G5', 'built-in', 'main'] # AOC/Vertical monitor priority
-W = ['main', 'built-in', '2778G5'] # MAIN screen priority
+# main => Main monitor fallback
+# 1 => DELL S2725QC (1), primary Dell
+# 2 => DELL S2725QC (2), secondary Dell
+1 = ['2', '1', 'main'] # secondary monitor priority
+2 = ['2', '1', 'main'] # secondary monitor priority
+3 = ['2', '1', 'main'] # secondary monitor priority
+4 = ['2', '1', 'main'] # secondary monitor priority
+5 = ['2', '1', 'main'] # secondary monitor priority
+A = ['1', '2', 'main'] # primary monitor priority
+B = ['1', '2', 'main'] # primary monitor priority
+C = ['1', '2', 'main'] # primary monitor priority
+D = ['1', '2', 'main'] # primary monitor priority
+E = ['1', '2', 'main'] # primary monitor priority
+F = ['1', '2', 'main'] # primary monitor priority
+K = ['1', '2', 'main'] # primary monitor priority
+M = ['1', '2', 'main'] # primary monitor priority
+N = ['1', '2', 'main'] # primary monitor priority
+# O = ['1', '2', 'main'] # primary monitor priority (unused)
+P = ['1', '2', 'main'] # primary monitor priority
+S = ['1', '2', 'main'] # primary monitor priority
+T = ['2', '1', 'main'] # secondary monitor priority
+U = ['2', '1', 'main'] # secondary monitor priority
+V = ['2', '1', 'main'] # secondary monitor priority
+W = ['1', '2', 'main'] # primary monitor priority
 
 #! -------------------------------------------------------------------------- #¨¨
 #!                                Gaps Settings                               #
