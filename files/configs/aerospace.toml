@@ -427,6 +427,10 @@ if.app-id = 'dev.warp.Warp-Stable'
 run = ['move-node-to-workspace T']
 
 [[on-window-detected]]
+if.app-id = 'com.stablyai.orca'
+run = 'move-node-to-workspace T'
+
+[[on-window-detected]]
 if.app-id = 'com.orbstack.orbstack'
 run = 'move-node-to-workspace U'
 
@@ -468,8 +472,7 @@ run = 'move-node-to-workspace U'
 #! ---------------------------- Windows & Work ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'com.citrix.receiver.icaviewer.mac'
-check-further-callbacks = true
-run = ['layout tiling', 'move-node-to-workspace W']
+run = ['layout floating', 'move-node-to-workspace W']
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.rdc.macos'
