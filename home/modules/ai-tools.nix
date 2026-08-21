@@ -19,7 +19,7 @@ in {
       name = "dsh";
       runtimeInputs = [pkgs.nodejs_22];
       text = ''
-        exec npx --yes @deepseek-ai/dsh@0.1.0-rc.7 "$@"
+        exec corepack pnpm dlx @deepseek-ai/dsh@0.1.0-rc.7 "$@"
       '';
     })
   ];
