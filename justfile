@@ -512,13 +512,29 @@ show-config:
 # Maintenance & Cleanup
 # ============================================================================
 
-# Cleanup Nix store and old generations
+# Cleanup Nix store and old generations locally and on enabled NixOS targets
 clean:
     @echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     @echo "🧹 Cleaning up Nix store and old generations..."
     @echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     doppler run -- nix-collect-garbage -d
     doppler run -- home-manager expire-generations "-7 days"
+    @for h in {{enabled_nixos_hosts}}; do \
+      target=$(just _nixos-target "$h"); \
+      if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$target" true 2>&1; then \
+        just _skip 32 clean "$h" "host is offline (SSH unreachable)"; \
+        continue; \
+      fi; \
+      just _clean-nixos-one "$h"; \
+    done
+
+# Cleanup Nix store and old generations on a single NixOS target.
+_clean-nixos-one host:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    target=$(just _nixos-target "{{host}}")
+    just _banner 32 clean "{{host}}" "Cleaning Nix store on ${target}"
+    ssh -o BatchMode=yes -o StrictHostKeyChecking=no "$target" 'sudo nix-collect-garbage -d && nix-collect-garbage -d && df -h / /nix'
 
 # ============================================================================
 # Code Quality & Formatting
