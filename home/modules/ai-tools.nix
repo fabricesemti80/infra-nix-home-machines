@@ -14,6 +14,16 @@
     then "/Users/${userConfig.name}"
     else "/home/${userConfig.name}";
 in {
+  home.packages = [
+    (pkgs.writeShellApplication {
+      name = "dsh";
+      runtimeInputs = [pkgs.nodejs_22];
+      text = ''
+        exec npx --yes @deepseek-ai/dsh@0.1.0-rc.7 "$@"
+      '';
+    })
+  ];
+
   # Token-saving ignore files — prevent AI from indexing build artifacts, caches, large binaries
   home.file = {
     ".claudeignore".text = ''
@@ -236,6 +246,9 @@ in {
     # Codex
     cx = "codex";
     cxq = "codex --quick";
+
+    # DeepSeek Harness
+    dsh-web = "dsh web";
 
     # AI file search (token-aware)
     aif = "find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/.cache/*' | head -50";
