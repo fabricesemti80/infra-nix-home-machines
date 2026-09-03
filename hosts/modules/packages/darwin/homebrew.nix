@@ -76,6 +76,7 @@ _: {
       "citrix-workspace" # Client for virtual desktops
 
       #* Display & Graphics
+      "ddpm" # Dell Display and Peripheral Manager
       "displaylink" # Driver for USB display adapters
 
       #* System Enhancements
