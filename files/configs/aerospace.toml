@@ -91,29 +91,28 @@ on-focus-changed = "move-mouse window-lazy-center"
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 [workspace-to-monitor-force-assignment]
 # main => Main monitor fallback
-# 1 => DELL S2725QC (1), primary Dell
-# 2 => DELL S2725QC (2), secondary Dell
-1 = ['2', '1', 'main'] # secondary monitor priority
-2 = ['2', '1', 'main'] # secondary monitor priority
-3 = ['2', '1', 'main'] # secondary monitor priority
-4 = ['2', '1', 'main'] # secondary monitor priority
-5 = ['2', '1', 'main'] # secondary monitor priority
-A = ['1', '2', 'main'] # primary monitor priority
-B = ['1', '2', 'main'] # primary monitor priority
-C = ['1', '2', 'main'] # primary monitor priority
-D = ['1', '2', 'main'] # primary monitor priority
-E = ['1', '2', 'main'] # primary monitor priority
-F = ['1', '2', 'main'] # primary monitor priority
-K = ['1', '2', 'main'] # primary monitor priority
-M = ['1', '2', 'main'] # primary monitor priority
-N = ['1', '2', 'main'] # primary monitor priority
-# O = ['1', '2', 'main'] # primary monitor priority (unused)
-P = ['1', '2', 'main'] # primary monitor priority
-S = ['1', '2', 'main'] # primary monitor priority
-T = ['2', '1', 'main'] # secondary monitor priority
-U = ['2', '1', 'main'] # secondary monitor priority
-V = ['2', '1', 'main'] # secondary monitor priority
-W = ['1', '2', 'main'] # primary monitor priority
+# DELL U4025QW => external Dell
+1 = ['DELL U4025QW', 'main'] # Dell monitor priority
+2 = ['DELL U4025QW', 'main'] # Dell monitor priority
+3 = ['DELL U4025QW', 'main'] # Dell monitor priority
+4 = ['DELL U4025QW', 'main'] # Dell monitor priority
+5 = ['DELL U4025QW', 'main'] # Dell monitor priority
+A = ['DELL U4025QW', 'main'] # Dell monitor priority
+B = ['DELL U4025QW', 'main'] # Dell monitor priority
+C = ['DELL U4025QW', 'main'] # Dell monitor priority
+D = ['DELL U4025QW', 'main'] # Dell monitor priority
+E = ['DELL U4025QW', 'main'] # Dell monitor priority
+F = ['DELL U4025QW', 'main'] # Dell monitor priority
+K = ['DELL U4025QW', 'main'] # Dell monitor priority
+M = ['DELL U4025QW', 'main'] # Dell monitor priority
+N = ['DELL U4025QW', 'main'] # Dell monitor priority
+# O = ['DELL U4025QW', 'main'] # Dell monitor priority (unused)
+P = ['DELL U4025QW', 'main'] # Dell monitor priority
+S = ['DELL U4025QW', 'main'] # Dell monitor priority
+T = ['DELL U4025QW', 'main'] # Dell monitor priority
+U = ['DELL U4025QW', 'main'] # Dell monitor priority
+V = ['DELL U4025QW', 'main'] # Dell monitor priority
+W = ['DELL U4025QW', 'main'] # Dell monitor priority
 
 #! -------------------------------------------------------------------------- #¨¨
 #!                                Gaps Settings                               #
@@ -370,10 +369,6 @@ run = 'move-node-to-workspace M'
 #! ---------------------------- Notes & News ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'com.apple.news'
-run = 'move-node-to-workspace N'
-
-[[on-window-detected]]
-if.app-id = 'io.capacities.app'
 run = 'move-node-to-workspace N'
 
 [[on-window-detected]]

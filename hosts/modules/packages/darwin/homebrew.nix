@@ -51,7 +51,6 @@ _: {
       #* Productivity & Utilities
       # "rectangle"
       # "tolaria"
-      "capacities" # Connected knowledge management tool
       "fliqlo" # Digital clock screensaver
       "hiddenbar" # Menu bar icon organization tool
       # "keycastr"
@@ -65,7 +64,6 @@ _: {
       "clop" # Clipboard manager
       # "disk-inventory-x"
       "daisydisk" # Disk space analyzer
-      "wispr-flow" # Voice dictation
       # "transmission"
 
       #* DevOps & Containers

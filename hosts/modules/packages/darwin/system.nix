@@ -6,6 +6,7 @@
   environment.systemPackages = with pkgs; [
     #* AI Tools
     antigravity-cli # AI-powered command-line interface
+    cliamp # Amp CLI
     llmfit
     # ollama # Local AI model manager and runner
     opencode # AI coding agent for the terminal
