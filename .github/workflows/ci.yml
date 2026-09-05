@@ -19,7 +19,7 @@ jobs:
             Enable flakes: mkdir -p ~/.config/nix && echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
 
       - name: Cache Nix store
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.cache/nix
