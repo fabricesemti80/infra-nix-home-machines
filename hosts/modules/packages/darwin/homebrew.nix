@@ -1,4 +1,4 @@
-_: {
+{userConfig, ...}: {
   homebrew = {
     enable = true;
     onActivation = {
@@ -52,7 +52,6 @@ _: {
       # "rectangle"
       # "tolaria"
       "fliqlo" # Digital clock screensaver
-      "hiddenbar" # Menu bar icon organization tool
       # "keycastr"
       # "hyperkey"
       "keyclu"
@@ -76,7 +75,8 @@ _: {
       "citrix-workspace" # Client for virtual desktops
 
       #* Display & Graphics
-      "displaylink" # Driver for USB display adapters
+      "ddpm" # Dell Display and Peripheral Manager
+      # "displaylink" # Driver for USB display adapters
 
       #* System Enhancements
       "aerospace" # Tiling window manager for macOS
@@ -119,4 +119,59 @@ _: {
       "beekeeper-studio" # Modern SQL client
     ];
   };
+
+  system.activationScripts.postActivation.text = ''
+    find /Applications -maxdepth 1 -type d -name "*.app" -exec xattr -dr com.apple.quarantine {} + 2>/dev/null || true
+
+    ddpm_app="/Applications/DDPM/DDPM.app"
+    ddpm_root="/Applications/DDPM"
+    ddpm_user="/Users/${userConfig.name}/Applications/DDPM"
+
+    if [ -x "$ddpm_app/Contents/MacOS/DDPM" ]; then
+      echo "Repairing DDPM install state..."
+
+      install -d -o ${userConfig.name} -g staff -m 755 "$ddpm_user"
+
+      copy_if_missing() {
+        src="$1"
+        dst="$2"
+        owner="$3"
+        group="$4"
+        mode="$5"
+
+        if [ ! -e "$dst" ] && [ -f "$src" ]; then
+          install -o "$owner" -g "$group" -m "$mode" "$src" "$dst"
+        fi
+      }
+
+      helper_src="$ddpm_app/Contents/Library/LaunchServices/com.DDPM.Helper"
+      helper_dst="/Library/PrivilegedHelperTools/com.DDPM.Helper"
+      if [ -f "$helper_src" ] && ! cmp -s "$helper_src" "$helper_dst"; then
+        install -o root -g wheel -m 755 "$helper_src" "$helper_dst"
+      fi
+
+      plist_src="$ddpm_app/Contents/Resources/SMJobBlessHelper-Launchd.plist"
+      plist_dst="/Library/LaunchDaemons/com.DDPM.Helper.plist"
+      if [ -f "$plist_src" ] && ! cmp -s "$plist_src" "$plist_dst"; then
+        install -o root -g wheel -m 644 "$plist_src" "$plist_dst"
+      fi
+
+      if [ -f "$plist_dst" ] && ! launchctl print system/com.DDPM.Helper >/dev/null 2>&1; then
+        launchctl bootstrap system "$plist_dst" || true
+      fi
+
+      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_settings.json" "$ddpm_root/DDPM_settings_AllUser.json" root staff 666
+      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_Marketing_Name.json" "$ddpm_root/DDPM_Marketing_Name.json" root staff 644
+      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_settings.json" "$ddpm_user/DDPM_settings.json" ${userConfig.name} staff 644
+      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_Camera_Settings.json" "$ddpm_user/DDPM_Camera_Settings.json" ${userConfig.name} staff 644
+      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_CapabilityString.json" "$ddpm_user/DDPM_CapabilityString.json" ${userConfig.name} staff 644
+
+      if [ ! -f "$ddpm_user/SW_VER.json" ]; then
+        version="$(defaults read "$ddpm_app/Contents/Info.plist" CFBundleShortVersionString 2>/dev/null || echo unknown)"
+        printf '{\n    "SW_VER": "%s"\n}\n' "$version" > "$ddpm_user/SW_VER.json"
+        chown ${userConfig.name}:staff "$ddpm_user/SW_VER.json"
+        chmod 644 "$ddpm_user/SW_VER.json"
+      fi
+    fi
+  '';
 }
