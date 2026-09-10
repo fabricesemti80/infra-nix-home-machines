@@ -66,6 +66,7 @@
     uv # Fast Python package installer and resolver
 
     #* System Utilities
+    aerospace # Tiling window manager for macOS
     bashInteractive # Modern GNU Bash shell
     dust # Intuitive disk usage analyzer
     duf # Disk usage statistics utility

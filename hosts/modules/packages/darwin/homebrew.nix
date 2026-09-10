@@ -3,14 +3,12 @@
     enable = true;
     onActivation = {
       autoUpdate = true;
-      # NOTE: cleanup is deprecated in Homebrew 4.0+ — use `brew bundle cleanup` manually
-      cleanup = "none";
+      cleanup = "zap";
       upgrade = true;
     };
 
     # Homebrew Additional Repositories (kept for casks)
     taps = [
-      "nikitabobko/tap"
       "powershell/tap"
       "Adembc/homebrew-tap"
       # "manaflow-ai/cmux"
@@ -55,6 +53,7 @@
       # "keycastr"
       # "hyperkey"
       "keyclu"
+      "notion" # Workspace and note-taking app
       "numi" # Calculator and unit converter
       # "shottr"
       "appcleaner" # Thorough app uninstaller
@@ -79,7 +78,6 @@
       # "displaylink" # Driver for USB display adapters
 
       #* System Enhancements
-      "aerospace" # Tiling window manager for macOS
       "commander-one" # Dual-pane file manager
       "raycast" # Spotlight replacement and productivity launcher
       "stats" # System monitoring tool for macOS menubar
