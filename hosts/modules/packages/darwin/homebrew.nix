@@ -29,7 +29,6 @@
       # "ollama-app" # Local AI model manager and runner
       # "block-goose" # AI coding agent
       # "cmux" # AI terminal multiplexer
-      "codex" # Codex desktop client
       "claudebar"
       "cursor" # AI editor
       # "block-goose" # AI coding assistant
