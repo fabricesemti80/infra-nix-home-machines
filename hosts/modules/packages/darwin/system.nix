@@ -1,4 +1,19 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  submarine = pkgs.stdenvNoCC.mkDerivation {
+    pname = "submarine";
+    version = "0.3.8";
+    src = pkgs.fetchurl {
+      url = "https://github.com/SinaXhpm/Submarine/releases/download/v0.3.8/Submarine-v0.3.8-macos-arm64.app.zip";
+      hash = "sha256-nlGahdLXwILRHU2gvy1WJmV5Y9pgA0aiwOmms2qxruo=";
+    };
+    nativeBuildInputs = [pkgs.unzip];
+    dontUnpack = true;
+    installPhase = ''
+      mkdir -p "$out/Applications"
+      unzip -q "$src" -d "$out/Applications"
+    '';
+  };
+in {
   imports = [
     ./python.nix
   ];
@@ -78,6 +93,7 @@
     pre-commit # Git hook framework
     sshpass # Non-interactive SSH password auth
     sops # Secrets management tool
+    submarine # SSH and SFTP client
     tree # Directory structure viewer
 
     #* Modern CLI Replacements
