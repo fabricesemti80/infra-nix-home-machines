@@ -7,16 +7,9 @@
       upgrade = true;
     };
 
-    # Homebrew Additional Repositories (kept for casks)
-    taps = [
-      "powershell/tap"
-      "Adembc/homebrew-tap"
-      # "manaflow-ai/cmux"
-      "matt-wright86/homebrew-tap"
-    ];
-
     brews = [
       "beads" # Memory upgrade for your coding agent - https://gastownhall.github.io/beads/community-tools
+      # ponytail: opencode moved to nixpkgs (system.nix) - brew upgrade needs Xcode 27 on macOS 27
     ];
 
     casks = [

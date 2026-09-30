@@ -24,8 +24,8 @@ in {
     chatgpt # ChatGPT desktop app with Codex
     cliamp # Amp CLI
     llmfit
+    opencode # AI coding agent CLI
     # ollama # Local AI model manager and runner
-    opencode # AI coding agent for the terminal
 
     #* DevOps & Infrastructure
     ansible # IT automation and configuration management

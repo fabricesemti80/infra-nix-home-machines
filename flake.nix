@@ -34,7 +34,9 @@
 
     # Homebrew
     nix-homebrew = {
-      url = "github:zhaofengli/nix-homebrew";
+      # ponytail: pinned, c11cccf shim breaks brew (missing HOMEBREW_ORIGINAL_BREW_FILE
+      # export) - unpin when https://github.com/zhaofengli/nix-homebrew/issues/187 fixed
+      url = "github:zhaofengli/nix-homebrew/09a921d0181146cf6163ec2cc1db7b6fd539a885";
       inputs.brew-src = {
         url = "github:Homebrew/brew/6.0.13";
         flake = false;
