@@ -97,3 +97,9 @@ omni.asc
 *.db
 .beads-credential-key
 .beads/proxieddb/
+
+# nix-direnv cache (regenerated)
+.direnv/
+
+# beads gate lock
+.beads.gate.lock
