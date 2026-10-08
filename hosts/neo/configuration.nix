@@ -33,14 +33,13 @@
       # "/Applications/OrbStack.app"
       "/Applications/Parallels Desktop.app"
       "/Applications/Safari.app"
-      "/Applications/Termius.app"
+      "/Applications/Nix Apps/Submarine.app"
+      "/Applications/Nix Apps/ChatGPT.app"
       "/Applications/Warp.app"
       "/Applications/WhatsApp.app"
-      "/Applications/Cursor.app"
       "/Applications/Freelens.app"
       "/Applications/Visual Studio Code.app"
       "/Applications/OpenCode.app"
-      "/Applications/Telegram.app"
     ];
   };
 

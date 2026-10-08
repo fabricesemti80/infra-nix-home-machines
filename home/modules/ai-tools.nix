@@ -15,6 +15,7 @@
     else "/home/${userConfig.name}";
 in {
   home.packages = [
+    pkgs.pi-coding-agent
     (pkgs.writeShellApplication {
       name = "dsh";
       runtimeInputs = [pkgs.nodejs_22];

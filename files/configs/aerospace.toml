@@ -494,6 +494,10 @@ run = 'move-node-to-workspace A'
 if.app-id = 'ai.opencode.desktop'
 run = ['layout tiling', 'move-node-to-workspace A']
 
+[[on-window-detected]]
+if.app-id = 'com.openai.codex'
+run = ['layout tiling', 'move-node-to-workspace A']
+
 #! ---------------------------- Security ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'com.1password.1password'
