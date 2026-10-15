@@ -22,8 +22,8 @@
       # "ollama-app" # Local AI model manager and runner
       # "block-goose" # AI coding agent
       # "cmux" # AI terminal multiplexer
-      "claudebar"
       "cursor" # AI editor
+      "xiufengsun/tokentracker/tokentracker" # Token usage & cost tracker menu bar app
       # "block-goose" # AI coding assistant
       "lm-studio" # Local AI model runner and chat interface
       "opencode-desktop"
