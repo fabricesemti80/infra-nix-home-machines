@@ -10,7 +10,6 @@
   # Homebrew package manager configuration
   nix-homebrew = {
     enable = true;
-    enableRosetta = true;
     user = "${userConfig.name}";
     autoMigrate = true;
   };

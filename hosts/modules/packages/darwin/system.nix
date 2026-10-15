@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  inputs,
+  pkgs,
+  ...
+}: let
   submarine = pkgs.stdenvNoCC.mkDerivation {
     pname = "submarine";
     version = "0.3.8";
@@ -23,6 +27,7 @@ in {
     antigravity-cli # AI-powered command-line interface
     chatgpt # ChatGPT desktop app with Codex
     cliamp # Amp CLI
+    inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default # Terminal workspace for coding agents
     llmfit
     opencode # AI coding agent CLI
     # ollama # Local AI model manager and runner

@@ -82,7 +82,7 @@
       "visual-studio-code" # Code editor
       # "zed"
       "pycharm" # IDE for Python development
-      # "ghostty"
+      "ghostty" # GPU-accelerated terminal emulator
       "warp" # Modern terminal with AI features
 
       #* Browsers & Communication

@@ -5,6 +5,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    # Herdr terminal workspace (keep upstream's locked build dependencies)
+    herdr.url = "github:herdrdev/herdr/v0.9.3";
+
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";

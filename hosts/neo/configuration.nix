@@ -28,6 +28,7 @@
       # "/Applications/1Password.app"
       "/Applications/Brave Browser.app"
       "/Applications/Commander One.app"
+      "/Applications/Ghostty.app"
       # "/Applications/Kiro.app"
       # "/Applications/Lens.app"
       # "/Applications/OrbStack.app"
@@ -40,6 +41,7 @@
       "/Applications/Freelens.app"
       "/Applications/Visual Studio Code.app"
       "/Applications/OpenCode.app"
+      "/Applications/Obsidian.app"
     ];
   };
 

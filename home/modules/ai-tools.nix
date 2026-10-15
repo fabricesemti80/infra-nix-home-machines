@@ -13,6 +13,19 @@
     if pkgs.stdenv.isDarwin
     then "/Users/${userConfig.name}"
     else "/home/${userConfig.name}";
+
+  # Shared global instructions for all coding agents (Claude Code, Codex, OpenCode).
+  # Single source: edit here, all three tools stay in sync declaratively.
+  # Tool-specific content (e.g. caveman mode) is appended per-file below.
+  sharedAgentInstructions = ''
+    ## Knowledge base (permanent wiki)
+
+    - Wiki root: `${homeDir}/Documents/repositories/documentation/obsidian-vaults/online-vault`
+    - BEFORE answering preference-, person-, or domain-specific questions: search the wiki first (`rg -il "<topic>" wiki/`, then read the best matches). Do not infer personal facts when the wiki may hold them.
+    - When working inside the vault, or reading/writing its notes: follow the vault's own `CLAUDE.md` and `.codex/references/ai-first-rules.md` (PARA layout, AI-first frontmatter, `## For future agent` preambles, wikilinks, dated/source-backed claims).
+    - AFTER learning something durable about the user, their systems, or their preferences: offer to ingest it into the wiki per those rules (correct PARA folder, update `wiki/index.md`, append to `wiki/log.md`). Do not write without approval.
+    - `raw/daily/` and `raw/from-the-internet/` are permanent and immutable — never move, edit, or delete their content. Attachments belong in vault-root `files/`.
+  '';
 in {
   home.packages = [
     pkgs.pi-coding-agent
@@ -160,6 +173,48 @@ in {
       .direnv/
     '';
 
+    # Shared global agent instructions (see sharedAgentInstructions above).
+    # force: these replace any hand-edited copies on activation.
+    ".codex/AGENTS.md" = {
+      force = true;
+      text = ''
+        # Global Instructions
+
+        ${sharedAgentInstructions}'';
+    };
+
+    ".claude/CLAUDE.md" = {
+      force = true;
+      text = ''
+        # Global Instructions
+
+        ${sharedAgentInstructions}'';
+    };
+
+    ".config/opencode/AGENTS.md" = {
+      force = true;
+      text = ''
+        <!-- caveman-begin -->
+        Respond terse like smart caveman. All technical substance stay. Only fluff die.
+
+        Rules:
+        - Drop: articles (a/an/the), filler (just/really/basically), pleasantries, hedging
+        - Fragments OK. Short synonyms. Technical terms exact. Code unchanged.
+        - Pattern: [thing] [action] [reason]. [next step].
+        - Not: "Sure! I'd be happy to help you with that."
+        - Yes: "Bug in auth middleware. Fix:"
+
+        Switch level: /caveman lite|full|ultra|wenyan
+        Stop: "stop caveman" or "normal mode"
+
+        Auto-Clarity: drop caveman for security warnings, irreversible actions, user confused. Resume after.
+
+        Boundaries: code/commits/PRs written normal.
+        <!-- caveman-end -->
+
+        ${sharedAgentInstructions}'';
+    };
+
     # Claude Code settings with plugins
     # Caveman and ponytail are auto-loaded once installed (see ai-plugins-install alias).
     ".claude/settings.json" = {
@@ -235,6 +290,30 @@ in {
     $DRY_RUN_CMD rm -f $HOME/.claude/settings.json
     $DRY_RUN_CMD cp ${config.home.file.".claude/settings.json".source} $HOME/.claude/settings.json
     $DRY_RUN_CMD chmod 644 $HOME/.claude/settings.json
+  '';
+
+  programs.zsh.initContent = lib.optionalString pkgs.stdenv.isDarwin ''
+    claude() {
+      local lms="$HOME/.lmstudio/bin/lms"
+      local model="google/gemma-4-26b-a4b-qat"
+
+      if [[ ! -x "$lms" ]]; then
+        print -u2 "LM Studio CLI is missing; open LM Studio once to install lms."
+        return 1
+      fi
+      if ! "$lms" server status 2>&1 | grep -Fq "running on port 1234"; then
+        "$lms" server start --port 1234 || return
+      fi
+      if ! "$lms" ps | grep -Fq "$model"; then
+        "$lms" load "$model" --context-length 65536 --yes || return
+      fi
+
+      ANTHROPIC_BASE_URL=http://127.0.0.1:1234 \
+        ANTHROPIC_AUTH_TOKEN=lmstudio \
+        CLAUDE_CODE_ATTRIBUTION_HEADER=0 \
+        CLAUDE_CODE_MAX_CONTEXT_TOKENS=65536 \
+        command /opt/homebrew/bin/claude --model "$model" "$@"
+    }
   '';
 
   # Shell aliases for quick AI tool access
@@ -313,14 +392,6 @@ in {
     litellm-status = "curl -s http://localhost:8888/health || echo 'LiteLLM not running'";
     litellm-log = "tail -f ~/litellm.log";
 
-    # Claude Code with local model (starts litellm if needed)
-    claude-local = ''
-      if ! curl -s http://localhost:8888/health > /dev/null 2>&1; then
-        echo "Starting LiteLLM proxy..."
-        litellm-proxy --config ~/litellm_config.yaml --host 127.0.0.1 --port 8888 > ~/litellm.log 2>&1 &
-        sleep 3
-      fi
-      ANTHROPIC_BASE_URL="http://127.0.0.1:8888" ANTHROPIC_AUTH_TOKEN="sk-local-dummy-key" ANTHROPIC_MODEL="gemma-local" CLAUDE_CODE_MAX_OUTPUT_TOKENS="2048" claude --bare --model gemma-local
-    '';
+    claude-local = "claude";
   };
 }

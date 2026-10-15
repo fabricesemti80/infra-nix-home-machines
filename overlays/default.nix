@@ -34,6 +34,13 @@ in {
     });
   };
 
+  # Fix atuin build issues by disabling tests (flaky e2e capture test on macOS)
+  atuin-no-tests = final: prev: {
+    atuin = prev.atuin.overrideAttrs (old: {
+      doCheck = false;
+    });
+  };
+
   # Add fuelcheck-cli from source
   fuelcheck-cli = fuelcheck-cli;
 }
