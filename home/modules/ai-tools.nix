@@ -268,6 +268,13 @@ in {
           general.disable = true;
         };
         shell = "zsh";
+        mcp = {
+          whatsapp = {
+            type = "local";
+            command = ["npx" "-y" "@kahflane/whatsapp-mcp"];
+            enabled = true;
+          };
+        };
       };
     };
 
