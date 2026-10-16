@@ -53,6 +53,29 @@ class ImportTests(unittest.TestCase):
             after = subprocess.check_output(["ssh", "-G", "-F", str(snapshot / "config"), alias], stderr=subprocess.DEVNULL)
             self.assertEqual(before, after)
 
+    @unittest.skipUnless(shutil.which("ssh"), "OpenSSH needed for effective-config comparison")
+    def test_symlink_glob_preserves_matched_name_order(self):
+        targets = self.ssh / "targets"
+        targets.mkdir()
+        (targets / "z.conf").write_text("User first\n")
+        (targets / "a.conf").write_text("User second\n")
+        includes = self.ssh / "conf.d"
+        includes.mkdir()
+        (includes / "10-first.conf").symlink_to(targets / "z.conf")
+        (includes / "20-second.conf").symlink_to(targets / "a.conf")
+        config = self.ssh / "config"
+        config.write_text(f'Host fixture\n Include "{includes}/*.conf"\n')
+        snapshot = Path(self.tmp.name) / "snapshot"
+        snapshot.mkdir()
+        importer = self.Importer(self.ssh, managed_prefix=str(snapshot))
+        importer.snapshot()
+        for name, content in importer.files.items():
+            (snapshot / name).write_text(content)
+        before = subprocess.check_output(["ssh", "-G", "-F", str(config), "fixture"], stderr=subprocess.DEVNULL)
+        after = subprocess.check_output(["ssh", "-G", "-F", str(snapshot / "config"), "fixture"], stderr=subprocess.DEVNULL)
+        self.assertIn(b"user first\n", before)
+        self.assertEqual(before, after)
+
     def test_recursive_include_is_rejected(self):
         (self.ssh / "config").write_text('Include config\n')
         with self.assertRaisesRegex(ValueError, "Recursive"):

@@ -68,7 +68,8 @@ class Importer:
                     result.append(f'Include {json.dumps(pattern)}\n')
                     self.external_includes.append(pattern)
                     continue
-                matches = sorted(Path(p).resolve() for p in glob.glob(str(expanded)))
+                # OpenSSH orders wildcard matches by their names, not symlink targets.
+                matches = [Path(p).resolve() for p in sorted(glob.glob(str(expanded)))]
                 for child in matches:
                     if not self.local(child):
                         raise ValueError(f"Include symlink leaves SSH directory: {child}")
