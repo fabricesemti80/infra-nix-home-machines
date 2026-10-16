@@ -387,7 +387,16 @@ installed to be represented in your declarative Mac client configuration.
    authorized_keys workflow. For a normal Linux account, log in with existing
    working access and append the public line to `~/.ssh/authorized_keys`; use mode
    0700 on `.ssh` and 0600 on `authorized_keys`, owned by that account. Preserve
-   existing entries. An appliance UI may overwrite manual files, so use its UI.
+   existing entries. From the tool shell on neo, this standard helper appends the
+   key using an already-working login:
+
+   ```sh
+   ssh-copy-id -i "$HOME/.ssh/id_neo_auth.pub" existing-working-alias
+   ```
+
+   Replace the alias with the real existing connection. It needs working SSH
+   authentication; use the target console if none exists. An appliance UI may
+   overwrite manual files, so use its UI instead of ssh-copy-id there.
 4. Verify the server's host-key fingerprint through its console/admin interface;
    do not blindly replace a changed known_hosts entry.
 5. Build/switch neo's home configuration, and test login from a second terminal.
