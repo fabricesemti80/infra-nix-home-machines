@@ -103,3 +103,12 @@ omni.asc
 
 # beads gate lock
 .beads.gate.lock
+
+# Secret bootstrap work stays outside Git. Only SOPS ciphertext belongs in secrets/.
+.secrets-local/
+.ssh-migration/
+*.agekey
+age-key.txt
+recovery-age-key.txt
+__pycache__/
+*.py[cod]

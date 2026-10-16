@@ -7,6 +7,8 @@ map; operational details live in the linked pages below.
 
 ## Start Here
 
+- [SOPS and SSH](docs/sops-and-ssh.md): recovery in 1Password, opt-in key provisioning, SSH import and target enrollment.
+
 - [Mac deployment](docs/mac.md): install Nix, apply nix-darwin, and switch Home Manager.
 - [Just recipes](docs/just.md): what the `justfile` commands do and when to use them.
 - [Physical NixOS hosts](docs/physical-hosts.md): add and install physical machines.

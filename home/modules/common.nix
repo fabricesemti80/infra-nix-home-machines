@@ -16,6 +16,7 @@
     ./git.nix
     ./lazygit.nix
     ./neovim.nix
+    ./ssh.nix
     ./scripts.nix
     ./starship.nix
     ./tmux.nix

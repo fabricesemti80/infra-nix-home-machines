@@ -5,6 +5,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    # Encrypted runtime credentials; private age identities stay off-repository.
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -90,7 +96,11 @@
         specialArgs = {
           inherit inputs outputs hostname userConfig;
         };
-        modules = [./hosts/${hostname}/configuration.nix];
+        modules = [
+          ./hosts/${hostname}/configuration.nix
+          inputs.sops-nix.nixosModules.sops
+          ./hosts/modules/secrets.nix
+        ];
       };
 
     # Function for nix-darwin system configuration
@@ -102,6 +112,8 @@
         };
         modules = [
           ./hosts/${hostname}/configuration.nix
+          inputs.sops-nix.darwinModules.sops
+          ./hosts/modules/secrets.nix
           home-manager.darwinModules.home-manager
           nix-homebrew.darwinModules.nix-homebrew
         ];
@@ -144,6 +156,24 @@
           # Nix formatting (blocks commits if code isn't formatted)
           alejandra.enable = true;
 
+          sops-ciphertext = {
+            enable = true;
+            name = "Require encrypted SOPS payloads";
+            entry = "${(pkgsFor system).python3.withPackages (ps: [ps.pyyaml])}/bin/python ${./tools/check-secrets.py}";
+            files = "^secrets/.*\\.yaml$";
+            language = "system";
+          };
+
+          sops-ssh-tests = {
+            enable = true;
+            name = "SOPS and SSH migration tests";
+            entry = "${(pkgsFor system).python3.withPackages (ps: [ps.pyyaml])}/bin/python -m unittest discover -s tests -v";
+            language = "system";
+            pass_filenames = false;
+            always_run = true;
+            extraPackages = [(pkgsFor system).sops (pkgsFor system).age (pkgsFor system).openssh ((pkgsFor system).python3.withPackages (ps: [ps.pyyaml]))];
+          };
+
           # YAML validation
           check-yaml.enable = true;
 
@@ -168,6 +198,10 @@
           statix # Nix linter
           deadnix # Dead code detector
           nil # Nix LSP
+          age
+          sops
+          openssh
+          (python3.withPackages (ps: [ps.pyyaml]))
         ];
       };
     });
