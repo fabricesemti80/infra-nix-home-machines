@@ -1,9 +1,9 @@
 # Module: AI Tools (Host-level)
 # Purpose: System-wide AI tooling configuration
 # Platform: All
-# Note: AI tool packages are declared in hosts/modules/packages/system-packages.nix
-#       (Nix packages) and hosts/modules/packages/homebrew-packages.nix (macOS casks).
-{...}: {
+# Note: AI tool packages are declared in hosts/modules/packages/darwin/system.nix
+#       (Nix packages) and hosts/modules/packages/darwin/homebrew.nix (macOS casks).
+_: {
   # Token-saving environment variables for Claude Code.
   # These are host-level because they configure system-installed packages and
   # should apply across all user shells.

@@ -73,7 +73,8 @@
     inherit (self) outputs;
 
     # Systems to support
-    systems = ["x86_64-linux" "aarch64-darwin"];
+    systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
+    inventory = builtins.fromJSON (builtins.readFile ./inventory.json);
     forAllSystems = nixpkgs.lib.genAttrs systems;
     pkgsFor = system: import nixpkgs {localSystem = system;};
 
@@ -121,18 +122,22 @@
         ];
       };
   in {
-    nixosConfigurations = {
-      "apoc" = mkNixosConfiguration "apoc" "fs";
-    };
+    nixosConfigurations =
+      nixpkgs.lib.mapAttrs
+      (hostname: host: mkNixosConfiguration hostname host.user)
+      (nixpkgs.lib.filterAttrs (_: host: host.lane == "nixos") inventory);
 
-    darwinConfigurations = {
-      "neo" = mkDarwinConfiguration "neo" "fs";
-    };
+    darwinConfigurations =
+      nixpkgs.lib.mapAttrs
+      (hostname: host: mkDarwinConfiguration hostname host.user)
+      (nixpkgs.lib.filterAttrs (_: host: host.lane == "darwin") inventory);
 
-    homeConfigurations = {
-      "fs@apoc" = mkHomeConfiguration "aarch64-linux" "fs" "apoc";
-      "fs@neo" = mkHomeConfiguration "aarch64-darwin" "fs" "neo";
-    };
+    homeConfigurations =
+      nixpkgs.lib.mapAttrs'
+      (hostname: host:
+        nixpkgs.lib.nameValuePair "${host.user}@${hostname}"
+        (mkHomeConfiguration host.platform host.user hostname))
+      inventory;
 
     overlays = import ./overlays {inherit inputs;};
 
@@ -143,6 +148,8 @@
         hooks = {
           # Nix formatting (blocks commits if code isn't formatted)
           alejandra.enable = true;
+          statix.enable = true;
+          deadnix.enable = true;
 
           # YAML validation
           check-yaml.enable = true;

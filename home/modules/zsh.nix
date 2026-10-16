@@ -1,4 +1,9 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}: {
   # Zsh shell configuration
   programs.zsh = {
     enable = true;
@@ -10,80 +15,83 @@
     # Optional: Use zsh-autosuggestions and zsh-history-substring-search plugins
     plugins = [
       {
-        name = "zsh-autosuggestions";
-        src = inputs.zsh-autosuggestions;
-      }
-      {
         name = "zsh-history-substring-search";
         src = inputs.zsh-history-substring-search;
       }
     ];
 
-    shellAliases = {
-      cd = "__zoxide_z";
-      ff = "fastfetch";
-      ld = "lazydocker";
-      lg = "lazygit";
-      repo = "cd $HOME/Documents/repositories";
-      temp = "cd $HOME/Downloads/temp";
-      v = "nvim";
-      vi = "nvim";
-      vim = "nvim";
-      ls = "eza --icons always"; # default view
-      ll = "eza -bhl --icons --group-directories-first"; # long list
-      la = "eza -abhl --icons --group-directories-first"; # all list
-      lt = "eza --tree --level=2 --icons"; # tree
+    shellAliases =
+      {
+        cd = "__zoxide_z";
+        ff = "fastfetch";
+        ld = "lazydocker";
+        lg = "lazygit";
+        repo = "cd $HOME/Documents/repositories";
+        temp = "cd $HOME/Downloads/temp";
+        v = "nvim";
+        vi = "nvim";
+        vim = "nvim";
+        ls = "eza --icons always"; # default view
+        ll = "eza -bhl --icons --group-directories-first"; # long list
+        la = "eza -abhl --icons --group-directories-first"; # all list
+        lt = "eza --tree --level=2 --icons"; # tree
 
-      # Git aliases
-      gaa = "git add --all";
-      gcam = "git commit --all --message";
-      gcl = "git clone";
-      gco = "git checkout";
-      ggl = "git pull";
-      ggp = "git push";
+        # Git aliases
+        gaa = "git add --all";
+        gcam = "git commit --all --message";
+        gcl = "git clone";
+        gco = "git checkout";
+        ggl = "git pull";
+        ggp = "git push";
 
-      # Git log — critical info, graph, emojis for conventional commits
-      gl = "git log --oneline --graph --decorate --all -20 --format='%C(yellow)%h%C(reset) %C(auto)%d%C(reset) %s %C(green)(%cr)%C(reset) %C(blue)%an%C(reset)'";
-      gls = "git log --oneline --decorate -10";
-      glast = "git log -1 --stat";
-      glf = "git log --oneline --decorate --all --format='%C(yellow)%h%C(reset) %C(auto)%d%C(reset) %s %C(green)(%cr)%C(reset) %C(blue)%an%C(reset)'";
-      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+        # Git log — critical info, graph, emojis for conventional commits
+        gl = "git log --oneline --graph --decorate --all -20 --format='%C(yellow)%h%C(reset) %C(auto)%d%C(reset) %s %C(green)(%cr)%C(reset) %C(blue)%an%C(reset)'";
+        gls = "git log --oneline --decorate -10";
+        glast = "git log -1 --stat";
+        glf = "git log --oneline --decorate --all --format='%C(yellow)%h%C(reset) %C(auto)%d%C(reset) %s %C(green)(%cr)%C(reset) %C(blue)%an%C(reset)'";
 
-      # Kubectl aliases
-      k = "kubectl";
-      kgno = "kubectl get node";
-      kdno = "kubectl describe node";
-      kgp = "kubectl get pods";
-      kep = "kubectl edit pods";
-      kdp = "kubectl describe pods";
-      kdelp = "kubectl delete pods";
-      kgs = "kubectl get svc";
-      kes = "kubectl edit svc";
-      kds = "kubectl describe svc";
-      kdels = "kubectl delete svc";
-      kgi = "kubectl get ingress";
-      kei = "kubectl edit ingress";
-      kdi = "kubectl describe ingress";
-      kdeli = "kubectl delete ingress";
-      kgns = "kubectl get namespaces";
-      kens = "kubectl edit namespace";
-      kdns = "kubectl describe namespace";
-      kdelns = "kubectl delete namespace";
-      kgd = "kubectl get deployment";
-      ked = "kubectl edit deployment";
-      kdd = "kubectl describe deployment";
-      kdeld = "kubectl delete deployment";
-      kgsec = "kubectl get secret";
-      kdsec = "kubectl describe secret";
-      kdelsec = "kubectl delete secret";
-    };
+        # Kubectl aliases
+        k = "kubectl";
+        kgno = "kubectl get node";
+        kdno = "kubectl describe node";
+        kgp = "kubectl get pods";
+        kep = "kubectl edit pods";
+        kdp = "kubectl describe pods";
+        kdelp = "kubectl delete pods";
+        kgs = "kubectl get svc";
+        kes = "kubectl edit svc";
+        kds = "kubectl describe svc";
+        kdels = "kubectl delete svc";
+        kgi = "kubectl get ingress";
+        kei = "kubectl edit ingress";
+        kdi = "kubectl describe ingress";
+        kdeli = "kubectl delete ingress";
+        kgns = "kubectl get namespaces";
+        kens = "kubectl edit namespace";
+        kdns = "kubectl describe namespace";
+        kdelns = "kubectl delete namespace";
+        kgd = "kubectl get deployment";
+        ked = "kubectl edit deployment";
+        kdd = "kubectl describe deployment";
+        kdeld = "kubectl delete deployment";
+        kgsec = "kubectl get secret";
+        kdsec = "kubectl describe secret";
+        kdelsec = "kubectl delete secret";
+      }
+      // lib.optionalAttrs pkgs.stdenv.isDarwin {
+        tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+      };
 
     initContent = ''
       # kubectl auto-complete
-      source <(kubectl completion zsh)
+      if (( $+commands[kubectl] )); then
+        source <(kubectl completion zsh)
+      fi
 
       # direnv hook
-      eval "$(direnv hook zsh)"
+      if (( $+commands[direnv] )); then
+        eval "$(direnv hook zsh)"
+      fi
 
       # Load cached Doppler secrets
       # DISABLED: Doppler env vars no longer auto-loaded

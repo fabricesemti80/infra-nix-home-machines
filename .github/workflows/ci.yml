@@ -6,30 +6,53 @@ on:
   pull_request:
     branches: [master, main, dev]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  nix-checks:
-    runs-on: macos-latest
+  workflow-tests:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
       - uses: cachix/install-nix-action@v31
         with:
-          install_url: https://nixos.org/nix/install
-          extra_instructions: |
-            Enable flakes: mkdir -p ~/.config/nix && echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Deployment regression tests and recipe syntax
+        run: |
+          nix shell --inputs-from . nixpkgs#just --command just --list
+          nix shell --inputs-from . nixpkgs#just --command python3 -m unittest discover -s tests -v
 
-      - name: Cache Nix store
-        uses: actions/cache@v6
+  nix-checks:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15-arm64
+            host: neo
+            system_output: darwinConfigurations.neo.system
+          - runner: ubuntu-24.04-arm
+            host: apoc
+            system_output: nixosConfigurations.apoc.config.system.build.toplevel
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
         with:
-          path: |
-            ~/.cache/nix
-            /nix/var/nix/gc
-          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-nix-
-
-      - name: Verify flake (validates all configurations)
-        run: nix flake check
-
-      - name: Run pre-commit
-        run: nix develop --command pre-commit run --all-files
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      # Derivation evaluation is explicit: flake check alone does not cover
+      # standalone Home Manager and Darwin outputs.
+      - name: Evaluate native system and home
+        run: python3 tasks/check-configs.py --host ${{ matrix.host }}
+      - name: Formatting and structured-file checks
+        run: nix flake check --no-update-lock-file
+      - name: Build native system and home without activation
+        run: |
+          nix build --no-link --no-update-lock-file '.#${{ matrix.system_output }}'
+          nix build --no-link --no-update-lock-file '.#homeConfigurations."fs@${{ matrix.host }}".activationPackage'

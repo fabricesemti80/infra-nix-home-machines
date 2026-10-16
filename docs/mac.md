@@ -50,10 +50,10 @@ just home-switch-neo
 
 ## Normal Updates
 
-For the current hostname:
+For the Mac explicitly:
 
 ```sh
-just quick-update
+just quick-update neo
 ```
 
 These update the flake lock, switch nix-darwin, and switch Home Manager.
@@ -88,3 +88,5 @@ first, then re-run Home Manager:
 just darwin-switch
 just home-switch
 ```
+
+See [branch validation](branch-validation.md) for changed maintenance behaviour and recovery.

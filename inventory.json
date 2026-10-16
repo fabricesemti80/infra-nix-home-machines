@@ -1,0 +1,16 @@
+{
+  "neo": {
+    "platform": "aarch64-darwin",
+    "user": "fs",
+    "lane": "darwin",
+    "enabled": true,
+    "target": null
+  },
+  "apoc": {
+    "platform": "aarch64-linux",
+    "user": "fs",
+    "lane": "nixos",
+    "enabled": true,
+    "target": "fs@10.211.55.8"
+  }
+}

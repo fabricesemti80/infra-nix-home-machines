@@ -103,3 +103,7 @@ omni.asc
 
 # beads gate lock
 .beads.gate.lock
+
+# Python validation helpers
+__pycache__/
+*.py[cod]
