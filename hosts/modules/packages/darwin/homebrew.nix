@@ -22,8 +22,8 @@
       # "ollama-app" # Local AI model manager and runner
       # "block-goose" # AI coding agent
       # "cmux" # AI terminal multiplexer
-      "claudebar"
       "cursor" # AI editor
+      "xiufengsun/tokentracker/tokentracker" # Token usage & cost tracker menu bar app
       # "block-goose" # AI coding assistant
       "lm-studio" # Local AI model runner and chat interface
       "opencode-desktop"
@@ -82,7 +82,7 @@
       "visual-studio-code" # Code editor
       # "zed"
       "pycharm" # IDE for Python development
-      # "ghostty"
+      "ghostty" # GPU-accelerated terminal emulator
       "warp" # Modern terminal with AI features
 
       #* Browsers & Communication

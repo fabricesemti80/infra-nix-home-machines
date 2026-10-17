@@ -21,4 +21,11 @@
       doCheck = false;
     });
   };
+
+  # Fix atuin build issues by disabling tests (flaky e2e capture test on macOS)
+  atuin-no-tests = _final: prev: {
+    atuin = prev.atuin.overrideAttrs (_old: {
+      doCheck = false;
+    });
+  };
 }

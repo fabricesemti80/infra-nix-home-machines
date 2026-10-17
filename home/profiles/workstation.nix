@@ -13,6 +13,7 @@
     ../modules/fish.nix
     ../modules/fuelcheck.nix
     ../modules/fzf.nix
+    ../modules/ghostty.nix
     ../modules/git.nix
     ../modules/lazygit.nix
     ../modules/neovim.nix
@@ -28,6 +29,7 @@
       outputs.overlays.stable-packages
       outputs.overlays.fish-no-tests
       outputs.overlays.direnv-no-tests
+      outputs.overlays.atuin-no-tests
     ];
     config.allowUnfree = true;
   };

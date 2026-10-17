@@ -126,3 +126,11 @@ bd prime                # Refresh Beads context
 
 **Architecture in one line:** issues live in a local Dolt DB; sync uses `refs/dolt/data` on your git remote; `.beads/issues.jsonl` is a passive export. See https://github.com/gastownhall/beads/blob/main/docs/SYNC_CONCEPTS.md for details and anti-patterns.
 <!-- END BEADS CODEX SETUP -->
+
+## Operational notes (from prior agent sessions)
+
+- **Update flow**: `just quick-update neo` = targeted neo update (flake inputs + Darwin switch + Home Manager). `just _darwin-home-switch-one neo` activates Home Manager alone. `You have not agreed to the Xcode license agreements` is an environmental gate (`sudo xcodebuild -license`, then rerun `just darwin-switch neo`), not a Nix failure. Home Manager activation does not update already-open shells — restart/reload them.
+- **Module map**: AI tooling is `home/modules/ai-tools.nix` (there is no `ai.nix`). Dock config is `hosts/neo/configuration.nix`. AeroSpace source is `files/configs/aerospace.toml` managed by `home/modules/darwin-aerospace.nix` — parse TOML dotted keys as nested (`rule["if"]["app-id"]`). Ghostty config is `home/modules/ghostty.nix`; macOS uses the Homebrew cask (`package = null`), Linux uses nixpkgs `ghostty`.
+- **Apps**: Codex Desktop comes from nixpkgs `chatgpt` (`/Applications/Nix Apps/ChatGPT.app`, bundle `com.openai.codex`); nixpkgs `codex` is CLI-only. OpenCode CLI is `{ name = "anomalyco/tap/opencode"; }` — `HEAD` fails. AeroSpace rule for both: `run = ['layout tiling', 'move-node-to-workspace A']`.
+- **nix-homebrew**: keep pin `09a921d0181146cf6163ec2cc1db7b6fd539a885` (Homebrew 6.0.22). `c11cccf` generates a Homebrew 7.0.4 wrapper missing `HOMEBREW_ORIGINAL_BREW_FILE` and breaks bundle activation.
+- **Validation**: `alejandra --check`, `nix build '.#homeConfigurations."fs@neo".activationPackage' --no-link`, `git diff --check`. `fatal: Unable to create .../.git/index.lock: Operation not permitted` and `Can't connect to AeroSpace server` mean sandbox-permission issues → use elevated execution, then verify live state. `lms server status` writes to stderr — keep `2>&1` when probing LM Studio.
