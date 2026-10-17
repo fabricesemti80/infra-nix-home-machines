@@ -5,7 +5,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.tailscale-router;
@@ -52,7 +51,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.tailscale = {
       enable = true;
-      authKeyFile = cfg.authKeyFile;
+      inherit (cfg) authKeyFile;
       openFirewall = true;
       useRoutingFeatures = "server";
       extraUpFlags =

@@ -1,7 +1,7 @@
 {...}: {
   imports = [
     ../modules/home.nix
-    ../modules/common.nix
+    ../profiles/workstation.nix
     ../modules/darwin-aerospace.nix
     ../modules/raycast.nix
   ];

@@ -7,6 +7,9 @@ map; operational details live in the linked pages below.
 
 ## Start Here
 
+- [Configuration map](docs/architecture.md): where each setting belongs.
+- [Trying the cleanup branch](docs/branch-validation.md): validation and recovery.
+
 - [Mac deployment](docs/mac.md): install Nix, apply nix-darwin, and switch Home Manager.
 - [Just recipes](docs/just.md): what the `justfile` commands do and when to use them.
 - [Physical NixOS hosts](docs/physical-hosts.md): add and install physical machines.
@@ -38,6 +41,9 @@ environment values to come from there.
 .
 ├── flake.nix          # flake inputs and host/home outputs
 ├── justfile           # task runner for deploys, builds, checks, and formatting
+├── inventory.json     # shared host/platform/deployment inventory
+├── modules/           # reusable system settings and shared environments
+├── tasks/             # imported recipes and validation helpers
 ├── hosts/             # system-level host configurations
 ├── home/              # Home Manager configurations
 ├── users/             # user identity and SSH key data

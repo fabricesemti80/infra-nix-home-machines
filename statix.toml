@@ -1,0 +1,2 @@
+# Dotted assignments keep modules readable in sections without deep nesting.
+disabled = ["repeated_keys"]

@@ -2,9 +2,9 @@
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-      upgrade = true;
+      autoUpdate = false;
+      cleanup = "none";
+      upgrade = false;
     };
 
     brews = [
@@ -111,8 +111,6 @@
   };
 
   system.activationScripts.postActivation.text = ''
-    find /Applications -maxdepth 1 -type d -name "*.app" -exec xattr -dr com.apple.quarantine {} + 2>/dev/null || true
-
     ddpm_app="/Applications/DDPM/DDPM.app"
     ddpm_root="/Applications/DDPM"
     ddpm_user="/Users/${userConfig.name}/Applications/DDPM"

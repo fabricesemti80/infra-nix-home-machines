@@ -1,10 +1,8 @@
 {...}: {
   imports = [
     ../modules/home.nix
-    ../modules/common.nix
+    ../profiles/workstation.nix
     ../modules/plasma.nix
-    ../modules/starship.nix
-    ../modules/zsh.nix
   ];
 
   programs.home-manager.enable = true;
