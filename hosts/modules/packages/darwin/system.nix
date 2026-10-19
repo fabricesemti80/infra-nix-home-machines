@@ -45,7 +45,6 @@ in {
     hcp # HashiCorp Cloud Platform CLI — https://github.com/hashicorp/hcp
     helmfile # Declarative Helm release orchestration — https://helmfile.readthedocs.io/
     kubernetes-helm # Kubernetes package manager — https://helm.sh/
-    k3d # Lightweight Kubernetes in Docker — https://github.com/k3d-io/k3d/
     kubectl # Kubernetes command-line tool — https://github.com/kubernetes/kubectl
     kubectx # Switch between Kubernetes contexts — https://github.com/ahmetb/kubectx
     kubeconform # Kubernetes manifest validation — https://github.com/yannh/kubeconform/
@@ -112,9 +111,6 @@ in {
     jq # Command-line JSON processor — https://jqlang.github.io/jq/
     just # Modern command runner — https://github.com/casey/just
     yq # Command-line YAML processor — https://github.com/kislyuk/yq
-
-    #* Terminal Recording
-    vhs # Terminal GIF/video recorder — https://github.com/charmbracelet/vhs
 
     #* Miscellaneous
     cmatrix # Terminal Matrix animation — https://github.com/abishekvashok/cmatrix
