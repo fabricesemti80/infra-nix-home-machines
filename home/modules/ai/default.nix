@@ -32,8 +32,8 @@ in {
   home.packages = [
     pkgs.omp # Oh My Pi coding agent — https://omp.sh/
     (pkgs.writeShellApplication {
-      name = "dsh";
-      runtimeInputs = [pkgs.nodejs_22];
+      name = "dsh"; # DeepSeek Harness — https://github.com/deepseek-ai/DeepSeek-Harness
+      runtimeInputs = [pkgs.nodejs_22]; # https://nodejs.org/
       text = ''
         exec corepack pnpm dlx @deepseek-ai/dsh@latest "$@"
       '';
