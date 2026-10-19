@@ -58,7 +58,8 @@
   docker.enable = true;
   kde.enable = true;
   pipewire.enable = true;
-  services.displayManager.defaultSession = "plasmax11";
+  # Current Plasma provides only the Wayland session; SDDM can still use X11.
+  services.displayManager.defaultSession = "plasma";
   services.displayManager.sddm.wayland.enable = false;
   services.printing.enable = true;
   programs.firefox.enable = true;
@@ -90,12 +91,12 @@
   # Passwordless sudo → enables nixos-rebuild over SSH without a tty.
   security.sudo.wheelNeedsPassword = false;
 
-  system.activationScripts.sddmPlasmaX11Session.text = ''
+  system.activationScripts.sddmPlasmaSession.text = ''
     mkdir -p /var/lib/sddm
     printf '%s\n' \
       '[Last]' \
       'User=${userConfig.name}' \
-      'Session=${config.services.displayManager.sessionData.desktops}/share/xsessions/plasmax11.desktop' \
+      'Session=${config.services.displayManager.sessionData.desktops}/share/wayland-sessions/plasma.desktop' \
       > /var/lib/sddm/state.conf
   '';
 
