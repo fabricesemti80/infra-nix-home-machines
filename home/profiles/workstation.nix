@@ -30,6 +30,7 @@
       outputs.overlays.fish-no-tests
       outputs.overlays.direnv-no-tests
       outputs.overlays.atuin-no-tests
+      outputs.overlays.omp-hash-fix
     ];
     config.allowUnfree = true;
   };

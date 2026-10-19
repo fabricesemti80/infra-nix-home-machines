@@ -28,4 +28,15 @@
       doCheck = false;
     });
   };
+
+  # Refresh pinned source hash for omp (can1357/oh-my-pi v18.11.0);
+  # upstream tarball content drifted from the hash shipped in nixpkgs,
+  # and the build sandbox consistently receives the older tarball content.
+  omp-hash-fix = _final: prev: {
+    omp = prev.omp.overrideAttrs (_old: {
+      src = _old.src.overrideAttrs (_: {
+        hash = "sha256-pIAoAc3vE8nfVacsY+IEGcQVFCfMvVrK5qPcxi7NTho=";
+      });
+    });
+  };
 }
