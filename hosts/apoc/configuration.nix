@@ -62,7 +62,7 @@
   services.displayManager.sddm.wayland.enable = false;
   services.printing.enable = true;
   programs.firefox.enable = true;
-  programs.zsh.enable = true;
+  programs.zsh.enable = true; # https://www.zsh.org/
 
   environment.systemPackages = with pkgs; [];
 

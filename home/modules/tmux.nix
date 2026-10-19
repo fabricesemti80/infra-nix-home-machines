@@ -2,6 +2,7 @@
 # Purpose: Configures tmux with custom keybindings and Catppuccin theme
 # Platform: All
 _: {
+  # https://github.com/tmux/tmux
   programs.tmux = {
     enable = true;
     baseIndex = 1;

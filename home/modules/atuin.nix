@@ -2,6 +2,7 @@
 # Purpose: Configures Atuin for enhanced shell history with sync capabilities
 # Platform: All
 _: {
+  # https://atuin.sh/
   programs.atuin = {
     enable = true;
     settings = {

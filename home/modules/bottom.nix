@@ -2,6 +2,7 @@
 # Purpose: Configures bottom (btm) system resource monitor
 # Platform: All
 _: {
+  # https://clementtsang.github.io/bottom/
   programs.bottom = {
     enable = true;
     settings = {

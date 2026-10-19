@@ -2,6 +2,7 @@
 # Purpose: Provides a dedicated Fish shell entrypoint for VS Code/Cursor
 # Platform: All
 {pkgs, ...}: {
+  # https://fishshell.com/
   programs.fish = {
     enable = true;
     shellInit = "set fish_greeting ''";

@@ -3,7 +3,7 @@
 in {
   # Install fastfetch via home-manager package
   home.packages = with pkgs; [
-    fastfetch
+    fastfetch # https://github.com/fastfetch-cli/fastfetch
   ];
 
   # Source fastfetch config from the home-manager store

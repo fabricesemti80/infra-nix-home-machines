@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  # https://ghostty.org/
   programs.ghostty = {
     enable = true;
 
