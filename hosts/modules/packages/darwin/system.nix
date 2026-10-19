@@ -81,7 +81,7 @@ in {
 
     #* Language-Specific Tools
     bun # JavaScript runtime and package manager — https://bun.sh
-    nodejs_22 # JavaScript runtime environment; Expo/RN tooling target — https://nodejs.org/
+    nodejs_24 # Node.js 24 LTS runtime — https://nodejs.org/
     pipenv # Python dependency management tool — https://github.com/pypa/pipenv
     ruff # Extremely fast Python linter — https://github.com/astral-sh/ruff
     uv # Fast Python package installer and resolver — https://github.com/astral-sh/uv
