@@ -5,7 +5,7 @@
     ../modules/plasma.nix
   ];
 
-  programs.home-manager.enable = true;
+  programs.home-manager.enable = true; # https://nix-community.github.io/home-manager/
 
   systemd.user.startServices = "sd-switch";
 

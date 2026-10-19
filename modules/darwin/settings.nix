@@ -29,7 +29,7 @@
   nix = {
     settings.experimental-features = "nix-command flakes";
     optimise.automatic = true;
-    package = pkgs.nix;
+    package = pkgs.nix; # https://nix.dev/
     gc = {
       automatic = true;
       interval = {Weekday = 7;}; # Run on Sunday
@@ -135,12 +135,12 @@
   '';
 
   # Enable Zsh as the default shell
-  programs.zsh.enable = true;
+  programs.zsh.enable = true; # https://www.zsh.org/
 
   # Install system fonts
   fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.meslo-lg
-    roboto
+    nerd-fonts.jetbrains-mono # https://www.nerdfonts.com/
+    nerd-fonts.meslo-lg # https://www.nerdfonts.com/
+    roboto # https://github.com/googlefonts/roboto-3-classic
   ];
 }

@@ -3,6 +3,6 @@
 # Platform: All
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    amp-cli
+    amp-cli # https://ampcode.com/
   ];
 }

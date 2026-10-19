@@ -5,6 +5,7 @@
   ...
 }: {
   # Zsh shell configuration
+  # https://www.zsh.org/
   programs.zsh = {
     enable = true;
     enableCompletion = true;

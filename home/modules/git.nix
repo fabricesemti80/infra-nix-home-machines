@@ -2,6 +2,7 @@
 # Purpose: Configures Git with SSH signing and Delta diff viewer
 # Platform: All
 {userConfig, ...}: {
+  # https://git-scm.com/
   programs.git = {
     enable = true;
     signing.format = "ssh";
@@ -22,6 +23,7 @@
     };
   };
 
+  # https://github.com/dandavison/delta
   programs.delta = {
     enable = true;
     enableGitIntegration = true;

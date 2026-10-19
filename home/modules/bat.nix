@@ -2,6 +2,6 @@
 # Purpose: Configures bat as a cat replacement with syntax highlighting
 # Platform: All
 _: {
-  programs.bat.enable = true;
+  programs.bat.enable = true; # https://github.com/sharkdp/bat
   catppuccin.bat.enable = true;
 }
