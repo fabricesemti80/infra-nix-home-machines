@@ -30,7 +30,7 @@ in {
   imports = [./ignores.nix];
 
   home.packages = [
-    pkgs.pi-coding-agent
+    pkgs.omp # Oh My Pi coding agent — https://omp.sh/
     (pkgs.writeShellApplication {
       name = "dsh";
       runtimeInputs = [pkgs.nodejs_22];
