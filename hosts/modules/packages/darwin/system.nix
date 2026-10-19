@@ -45,7 +45,6 @@ in {
     hcp # HashiCorp Cloud Platform CLI — https://github.com/hashicorp/hcp
     helmfile # Declarative Helm release orchestration — https://helmfile.readthedocs.io/
     kubernetes-helm # Kubernetes package manager — https://helm.sh/
-    k3d # Lightweight Kubernetes in Docker — https://github.com/k3d-io/k3d/
     kubectl # Kubernetes command-line tool — https://github.com/kubernetes/kubectl
     kubectx # Switch between Kubernetes contexts — https://github.com/ahmetb/kubectx
     kubeconform # Kubernetes manifest validation — https://github.com/yannh/kubeconform/
@@ -81,7 +80,7 @@ in {
 
     #* Language-Specific Tools
     bun # JavaScript runtime and package manager — https://bun.sh
-    nodejs_22 # JavaScript runtime environment; Expo/RN tooling target — https://nodejs.org/
+    nodejs_24 # Node.js 24 LTS runtime — https://nodejs.org/
     pipenv # Python dependency management tool — https://github.com/pypa/pipenv
     ruff # Extremely fast Python linter — https://github.com/astral-sh/ruff
     uv # Fast Python package installer and resolver — https://github.com/astral-sh/uv
@@ -112,9 +111,6 @@ in {
     jq # Command-line JSON processor — https://jqlang.github.io/jq/
     just # Modern command runner — https://github.com/casey/just
     yq # Command-line YAML processor — https://github.com/kislyuk/yq
-
-    #* Terminal Recording
-    vhs # Terminal GIF/video recorder — https://github.com/charmbracelet/vhs
 
     #* Miscellaneous
     cmatrix # Terminal Matrix animation — https://github.com/abishekvashok/cmatrix

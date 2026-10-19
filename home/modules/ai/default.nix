@@ -31,13 +31,6 @@ in {
 
   home.packages = [
     pkgs.pi-coding-agent
-    (pkgs.writeShellApplication {
-      name = "dsh";
-      runtimeInputs = [pkgs.nodejs_22];
-      text = ''
-        exec corepack pnpm dlx @deepseek-ai/dsh@latest "$@"
-      '';
-    })
   ];
 
   # Token-saving ignore files — prevent AI from indexing build artifacts, caches, large binaries
@@ -202,9 +195,6 @@ in {
     # Codex
     cx = "codex";
     cxq = "codex --quick";
-
-    # DeepSeek Harness
-    dsh-web = "dsh web";
 
     # AI file search (token-aware)
     aif = "find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/.cache/*' | head -50";
