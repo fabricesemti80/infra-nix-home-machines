@@ -33,21 +33,21 @@
 
   pythonEnv = python3'.withPackages (ps:
     [
-      litellmWithProxy
+      litellmWithProxy # LiteLLM with proxy dependencies — https://docs.litellm.ai/
     ]
     ++ (with ps; [
       # Networking
-      dnspython # DNS toolkit for Python
+      dnspython # DNS toolkit for Python — https://www.dnspython.org/
 
       # Data/Query
-      jmespath # JSON query language for Python
+      jmespath # JSON query language for Python — https://github.com/jmespath/jmespath.py
 
       # Document conversion
-      markitdown # Convert files and office documents to Markdown
+      markitdown # Convert files and office documents to Markdown — https://github.com/microsoft/markitdown
 
       # Development
-      pip # Python package installer
-      virtualenv # Python virtual environment creator
+      pip # Python package installer — https://pip.pypa.io/
+      virtualenv # Python virtual environment creator — https://virtualenv.pypa.io/
     ]));
 
   litellmProxy = pkgs.writeShellApplication {
@@ -57,8 +57,8 @@
   };
 in {
   environment.systemPackages = [
-    litellmProxy
-    pythonEnv
-    pkgs.ffmpeg # Runtime dependency for markitdown audio conversion
+    litellmProxy # Local CLI wrapper for LiteLLM — https://docs.litellm.ai/
+    pythonEnv # Python environment with the packages listed above — https://www.python.org/
+    pkgs.ffmpeg # Runtime dependency for markitdown audio conversion — https://ffmpeg.org/
   ];
 }

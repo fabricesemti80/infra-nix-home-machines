@@ -68,7 +68,7 @@
       "wheel"
     ];
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.zsh; # https://www.zsh.org/
     openssh.authorizedKeys.keys = userConfig.sshKeys;
   };
 
@@ -87,11 +87,11 @@
     };
   };
 
-  programs.zsh.enable = true;
+  programs.zsh.enable = true; # https://www.zsh.org/
 
   fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.meslo-lg
+    nerd-fonts.jetbrains-mono # https://www.nerdfonts.com/
+    nerd-fonts.meslo-lg # https://www.nerdfonts.com/
   ];
 
   services.openssh = {

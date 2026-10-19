@@ -4,7 +4,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    ghostty
-    vlc
+    ghostty # https://ghostty.org/
+    vlc # https://www.videolan.org/vlc/
   ];
 }

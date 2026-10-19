@@ -2,6 +2,7 @@
 # Purpose: Configures fzf command-line fuzzy finder with custom keybindings
 # Platform: All
 _: {
+  # https://github.com/junegunn/fzf
   programs.fzf = {
     enable = true;
     historyWidget.command = "";

@@ -3,7 +3,7 @@
 in {
   # Install swaync via home-manager package
   home.packages = with pkgs; [
-    swaynotificationcenter
+    swaynotificationcenter # https://github.com/ErikReider/SwayNotificationCenter
   ];
 
   # Source swaync config from the home-manager store

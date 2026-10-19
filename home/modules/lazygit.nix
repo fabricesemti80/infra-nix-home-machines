@@ -2,6 +2,7 @@
 # Purpose: Configures lazygit terminal UI for git with delta integration
 # Platform: All
 _: {
+  # https://github.com/jesseduffield/lazygit
   programs.lazygit = {
     enable = true;
     settings.git.paging = {

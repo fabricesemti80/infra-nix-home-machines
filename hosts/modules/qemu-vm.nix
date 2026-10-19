@@ -75,38 +75,38 @@
     description = userConfig.fullName;
     extraGroups = ["wheel" "docker"];
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.zsh; # https://www.zsh.org/
     openssh.authorizedKeys.keys = userConfig.sshKeys;
   };
 
   security.sudo.wheelNeedsPassword = false;
 
   environment.systemPackages = with pkgs; [
-    curl
-    docker-compose
-    direnv
-    doppler
-    eza
-    fastfetch
-    fzf
-    git
-    home-manager
-    htop
-    jq
-    kubectl
-    lazydocker
-    lazygit
-    neovim
-    ripgrep
-    starship
-    tailscale
-    tree
-    vim
-    zoxide
-    zsh-syntax-highlighting
+    curl # https://curl.se/
+    docker-compose # https://github.com/docker/compose
+    direnv # https://direnv.net
+    doppler # https://doppler.com
+    eza # https://github.com/eza-community/eza
+    fastfetch # https://github.com/fastfetch-cli/fastfetch
+    fzf # https://github.com/junegunn/fzf
+    git # https://git-scm.com/
+    home-manager # https://nix-community.github.io/home-manager/
+    htop # https://htop.dev/
+    jq # https://jqlang.github.io/jq/
+    kubectl # https://github.com/kubernetes/kubectl
+    lazydocker # https://github.com/jesseduffield/lazydocker
+    lazygit # https://github.com/jesseduffield/lazygit
+    neovim # https://neovim.io/
+    ripgrep # https://github.com/BurntSushi/ripgrep
+    starship # https://starship.rs
+    tailscale # https://tailscale.com
+    tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
+    vim # https://www.vim.org/
+    zoxide # https://github.com/ajeetdsouza/zoxide
+    zsh-syntax-highlighting # https://github.com/zsh-users/zsh-syntax-highlighting
   ];
 
-  programs.zsh.enable = true;
+  programs.zsh.enable = true; # https://www.zsh.org/
 
   environment.etc."zsh/vm-zshrc".text = ''
     # Managed by NixOS. Mirrors the reusable shell setup from home/modules/zsh.nix.

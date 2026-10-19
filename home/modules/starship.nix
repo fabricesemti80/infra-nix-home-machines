@@ -2,6 +2,7 @@
 # Purpose: Configures starship cross-shell prompt with custom styling
 # Platform: All
 _: {
+  # https://starship.rs/
   programs.starship = {
     enable = true;
     enableZshIntegration = true;

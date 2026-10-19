@@ -8,105 +8,105 @@
     };
 
     brews = [
-      "beads" # Memory upgrade for your coding agent - https://gastownhall.github.io/beads/community-tools
+      "beads" # Memory upgrade for your coding agent - https://github.com/gastownhall/beads
       # ponytail: opencode moved to nixpkgs (system.nix) - brew upgrade needs Xcode 27 on macOS 27
     ];
 
     casks = [
       #* AI Tools
-      "claude" # Claude AI client
-      "claude-code" # Claude CLI
-      # "chatgpt" # ChatGPT desktop client
-      # "kiro" # AI editor
-      "antigravity-cli" # Google Antigravity CLI (agy) - Gemini CLI replacement
-      # "ollama-app" # Local AI model manager and runner
-      # "block-goose" # AI coding agent
-      # "cmux" # AI terminal multiplexer
-      "cursor" # AI editor
-      "xiufengsun/tokentracker/tokentracker" # Token usage & cost tracker menu bar app
-      # "block-goose" # AI coding assistant
-      "lm-studio" # Local AI model runner and chat interface
-      "opencode-desktop"
+      "claude" # Claude AI client — https://claude.com/download
+      "claude-code" # Claude CLI — https://claude.com/product/claude-code
+      # "chatgpt" # ChatGPT desktop client — https://chatgpt.com/
+      # "kiro" # AI editor — https://kiro.dev/
+      "antigravity-cli" # Google Antigravity CLI (agy) - Gemini CLI replacement — https://antigravity.google/product/antigravity-cli
+      # "ollama-app" # Local AI model manager and runner — https://ollama.com/
+      # "block-goose" # AI coding agent — https://block.github.io/goose/
+      # "cmux" # AI terminal multiplexer — https://www.cmux.dev/
+      "cursor" # AI editor — https://www.cursor.com/
+      "xiufengsun/tokentracker/tokentracker" # Token usage & cost tracker menu bar app — https://github.com/xiufengsun/tokentracker
+      # "block-goose" # AI coding assistant — https://block.github.io/goose/
+      "lm-studio" # Local AI model runner and chat interface — https://lmstudio.ai/
+      "opencode-desktop" # https://opencode.ai/
 
       #* Authentication & Security
-      "1password" # Secure password manager
-      "1password-cli" # Command-line interface for 1Password
+      "1password" # Secure password manager — https://1password.com/
+      "1password-cli" # Command-line interface for 1Password — https://developer.1password.com/docs/cli
 
       #* 3D Printing
-      # "autodesk-fusion"
-      "bambu-studio" # 3D printer
-      # "openscad@snapshot"
-      # "blender"
+      # "autodesk-fusion" # https://www.autodesk.com/products/fusion-360/overview
+      "bambu-studio" # 3D printer — https://bambulab.com/en/download/studio
+      # "openscad@snapshot" # https://www.openscad.org/downloads.html#snapshots
+      # "blender" # https://www.blender.org/
 
       #* Productivity & Utilities
-      # "rectangle"
-      # "tolaria"
-      "fliqlo" # Digital clock screensaver
-      # "keycastr"
-      # "hyperkey"
-      "keyclu"
-      "notion" # Workspace and note-taking app
-      "numi" # Calculator and unit converter
-      # "shottr"
-      "appcleaner" # Thorough app uninstaller
-      # "tailscale" #! installed from App Store
-      "wifiman"
-      "clop" # Clipboard manager
-      # "disk-inventory-x"
-      "daisydisk" # Disk space analyzer
-      # "transmission"
+      # "rectangle" # https://rectangleapp.com/
+      # "tolaria" # https://tolaria.md/
+      "fliqlo" # Digital clock screensaver — https://fliqlo.com/
+      # "keycastr" # https://github.com/keycastr/keycastr
+      # "hyperkey" # https://hyperkey.app/
+      "keyclu" # https://sergii.tatarenkov.name/apps/keyclu/
+      "notion" # Workspace and note-taking app — https://www.notion.com/
+      "numi" # Calculator and unit converter — https://numi.app/
+      # "shottr" # https://shottr.cc/
+      "appcleaner" # Thorough app uninstaller — https://freemacsoft.net/appcleaner/
+      # "tailscale" #! installed from App Store — https://tailscale.com/
+      "wifiman" # https://wifiman.com/
+      "clop" # Clipboard manager — https://lowtechguys.com/clop/
+      # "disk-inventory-x" # https://www.derlien.com/
+      "daisydisk" # Disk space analyzer — https://daisydiskapp.com/
+      # "transmission" # https://transmissionbt.com/
 
       #* DevOps & Containers
-      # "headlamp"
-      "freelens" # Kubernetes IDE (OpenLens)
-      "orbstack" # Fast, lightweight Docker alternative
-      # "vagrant"
+      # "headlamp" # https://headlamp.dev/
+      "freelens" # Kubernetes IDE (OpenLens) — https://freelens.app/
+      "orbstack" # Fast, lightweight Docker alternative — https://orbstack.dev/
+      # "vagrant" # https://www.vagrantup.com/
 
       #* Virtualization
-      "citrix-workspace" # Client for virtual desktops
+      "citrix-workspace" # Client for virtual desktops — https://docs.citrix.com/en-us/citrix-workspace
 
       #* Display & Graphics
-      "ddpm" # Dell Display and Peripheral Manager
-      # "displaylink" # Driver for USB display adapters
+      "ddpm" # Dell Display and Peripheral Manager — https://www.dell.com/support/kbdoc/en-uk/000214454/dell-display-and-peripheral-manager-for-macos
+      # "displaylink" # Driver for USB display adapters — https://www.synaptics.com/products/displaylink-graphics
 
       #* System Enhancements
-      "commander-one" # Dual-pane file manager
-      "raycast" # Spotlight replacement and productivity launcher
-      "stats" # System monitoring tool for macOS menubar
+      "commander-one" # Dual-pane file manager — https://mac.eltima.com/file-manager.html
+      "raycast" # Spotlight replacement and productivity launcher — https://raycast.com/
+      "stats" # System monitoring tool for macOS menubar — https://github.com/exelban/stats
 
       #* Development Tools
-      "obsidian" # Knowledge base and note-taking tool
-      # "logseq"
-      "powershell" # Cross-platform automation tool
-      "termius" # Cross-platform SSH client and terminal
-      "visual-studio-code" # Code editor
-      # "zed"
-      "pycharm" # IDE for Python development
-      "ghostty" # GPU-accelerated terminal emulator
-      "warp" # Modern terminal with AI features
+      "obsidian" # Knowledge base and note-taking tool — https://obsidian.md/
+      # "logseq" # https://github.com/logseq/logseq
+      "powershell" # Cross-platform automation tool — https://learn.microsoft.com/powershell/
+      "termius" # Cross-platform SSH client and terminal — https://www.termius.com/
+      "visual-studio-code" # Code editor — https://code.visualstudio.com/
+      # "zed" # https://zed.dev/
+      "pycharm" # IDE for Python development — https://www.jetbrains.com/pycharm/
+      "ghostty" # GPU-accelerated terminal emulator — https://ghostty.org/
+      "warp" # Modern terminal with AI features — https://www.warp.dev/terminal
 
       #* Browsers & Communication
-      # "vivaldi"
-      "discord" # Communication platform
-      "brave-browser" # Privacy-focused web browser
-      "netdownloadhelpercoapp"
-      "telegram" # Messaging application
-      "whatsapp" # Secure messaging application
-      # "zen-browser"
-      "microsoft-teams"
+      # "vivaldi" # https://vivaldi.com/
+      "discord" # Communication platform — https://discord.com/
+      "brave-browser" # Privacy-focused web browser — https://brave.com/
+      "netdownloadhelpercoapp" # https://www.downloadhelper.net/w/CoApp-Installation
+      "telegram" # Messaging application — https://macos.telegram.org/
+      "whatsapp" # Secure messaging application — https://www.whatsapp.com/
+      # "zen-browser" # https://zen-browser.app/
+      "microsoft-teams" # https://www.microsoft.com/en/microsoft-teams/group-chat-software/
 
       #* Media Players
-      "capcut" # Video editor
-      "iina" # Modern media player for macOS
+      "capcut" # Video editor — https://www.capcut.com/
+      "iina" # Modern media player for macOS — https://iina.io/
 
       #* Gaming
-      # "steam"
+      # "steam" # https://store.steampowered.com/about/
 
       #* Fonts
-      "font-hack-nerd-font" # Developer-oriented font with programming glyphs
+      "font-hack-nerd-font" # Developer-oriented font with programming glyphs — https://www.nerdfonts.com/
 
       #* Database Tools
-      "beekeeper-studio" # Modern SQL client
+      "beekeeper-studio" # Modern SQL client — https://www.beekeeperstudio.io/
     ];
   };
 

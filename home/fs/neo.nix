@@ -7,7 +7,7 @@
   ];
 
   # Enable home-manager
-  programs.home-manager.enable = true;
+  programs.home-manager.enable = true; # https://nix-community.github.io/home-manager/
 
   # Ensure homebrew is in the PATH
   home.sessionPath = [

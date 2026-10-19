@@ -174,10 +174,10 @@
         inherit (self.checks.${system}.pre-commit-check) shellHook;
         buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
         packages = with pkgs; [
-          alejandra # Nix formatter
-          statix # Nix linter
-          deadnix # Dead code detector
-          nil # Nix LSP
+          alejandra # Nix formatter — https://github.com/kamadorueda/alejandra
+          statix # Nix linter — https://github.com/molybdenumsoftware/statix
+          deadnix # Dead code detector — https://github.com/astro/deadnix
+          nil # Nix LSP — https://github.com/oxalica/nil
         ];
       };
     });
