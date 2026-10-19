@@ -43,6 +43,11 @@ To add a host, add its inventory entry, system configuration and user home entry
 point. User identity still comes from `users/`. Keep deployment addresses out of
 the task recipes.
 
+`apoc` uses Plasma's Wayland desktop session (`plasma`); the pinned nixpkgs no
+longer provides `plasmax11`. SDDM's greeter still runs on X11 independently of
+the desktop session. Its saved session points to
+`share/wayland-sessions/plasma.desktop`.
+
 ## Validation and changes
 
 Run `just check` to evaluate native system/home derivations, run flake checks (formatting, Statix, Deadnix and structured files), and run
