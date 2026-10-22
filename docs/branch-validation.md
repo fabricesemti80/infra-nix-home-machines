@@ -6,10 +6,9 @@ Your daily command remains:
 just quick-update neo
 ```
 
-Before updating the lockfile, `quick-update` runs the 30-day cleanup locally and
-on every enabled NixOS host, including apoc—even when `neo` is the only deployment
-target. It then builds and switches only the selected hosts. Cleanup failures stop
-the update; build failures prevent switching.
+`quick-update` updates the lockfile, builds, then switches only selected hosts.
+It does not run generation cleanup. Run `just clean` separately when you need
+disk space; cleanup failures stop that task, and build failures prevent switching.
 
 ## First run on this branch
 
@@ -22,9 +21,10 @@ just darwin-build neo
 just darwin-switch neo
 ```
 
-The cleanup retains current and last-30-day generations, then `quick-update neo`
-builds the selected system and Home Manager outputs before activating them. Input
-updates remain shared across hosts; inspect the lock diff even when deploying one.
+Run `just clean` separately when reclaiming space; it retains current and
+last-30-day generations on the Mac and enabled NixOS hosts. `quick-update neo`
+updates shared inputs, then builds the selected system and Home Manager outputs
+before activating them. Inspect the lock diff even when deploying one host.
 
 ## Intentional changes
 
@@ -36,8 +36,8 @@ updates remain shared across hosts; inspect the lock diff even when deploying on
 - SSH accepts and records a new host key, but refuses a changed key. Compare the
   initial fingerprint through a trusted channel before the first connection if
   the destination is not already in your known-hosts file.
-- Cleanup keeps generations newer than 30 days. On macOS, `clean` uses sudo to
-  prune the root-owned system profile, then expires local Home Manager and Nix
+- `clean` remains explicit and keeps generations newer than 30 days. On macOS it
+  uses sudo for the root-owned system profile, then expires Home Manager and Nix
   generations; it also cleans enabled remote NixOS hosts.
 - The shared shell only uses the Mac Tailscale application path on Darwin and
   checks that kubectl/direnv exist before loading their shell hooks.

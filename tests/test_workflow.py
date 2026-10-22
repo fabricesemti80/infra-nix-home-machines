@@ -80,7 +80,7 @@ class DeploymentTests(unittest.TestCase):
         self.assertIn("Available recipes", result.stdout)
         self.assertFalse(self.log.exists())
 
-    def test_missing_nom_preflights_before_cleanup_build_or_activation(self):
+    def test_missing_nom_preflights_before_update_build_or_activation(self):
         (self.bin / "nom").unlink()
         fallback = Path(self.tmp.name) / "required-tools"
         fallback.mkdir()
@@ -115,8 +115,7 @@ class DeploymentTests(unittest.TestCase):
             for call in calls
         ))
 
-    def test_quick_update_does_not_switch_after_failed_build(self):
-        self.env["SSH_EXIT"] = "0"
+    def test_quick_update_does_not_clean_or_switch_after_failed_build(self):
         for failed_build in (
             "darwin#darwin-rebuild -- build",
             "home-manager -- build",
@@ -127,8 +126,8 @@ class DeploymentTests(unittest.TestCase):
                 result = self.run_just("quick-update", "neo")
                 self.assertNotEqual(result.returncode, 0)
                 calls = self.log.read_text().splitlines()
-                self.assertIn("flake update", calls)
-                self.assertTrue(any("nix-collect-garbage" in call for call in calls))
+                self.assertFalse(any("nix-collect-garbage" in call for call in calls))
+                self.assertFalse(any(call.startswith("ssh ") for call in calls))
                 self.assertTrue(any(failed_build in call for call in calls))
                 self.assertTrue(any(call.startswith("nom ") for call in calls))
                 self.assertIn("simulated build failure", result.stdout)

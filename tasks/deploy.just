@@ -278,8 +278,18 @@ _nixos-home-build-one host:
     just _banner 34 home "fs@{{host}}" "Building Home Manager activation package on ${root_target}"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
     flake_path=$(nix flake archive --to "ssh://${root_target}" --json | jq -r .path)
-    ssh -o StrictHostKeyChecking=accept-new "$root_target" \
-      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"${home_name}\".activationPackage'" |& nom
+    just _nixos-home-activation-build "$root_target" "$flake_path" "$home_name"
+
+[private]
+_nixos-home-activation-build target flake_path home_name:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _require-nom
+    activation_ref="{{flake_path}}#homeConfigurations.\"{{home_name}}\".activationPackage"
+    remote_build="build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '$activation_ref'"
+    ssh -o StrictHostKeyChecking=accept-new "{{target}}" \
+      "if command -v nom >/dev/null 2>&1; then nom $remote_build; elif [ -x \"\$HOME/.nix-profile/bin/nom\" ]; then \"\$HOME/.nix-profile/bin/nom\" $remote_build; else nix $remote_build; fi"
+
 
 # Switch Home Manager on selected remote NixOS hosts ("all" or comma-list).
 [private]
@@ -323,8 +333,7 @@ _nixos-home-switch-one host:
     just _banner 34 home "fs@{{host}}" "Switching Home Manager on ${user_target}"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
     flake_path=$(nix flake archive --to "ssh://${root_target}" --json | jq -r .path)
-    out=$(ssh -o StrictHostKeyChecking=accept-new "$root_target" \
-      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"${home_name}\".activationPackage'" 2> >(nom >&2))
+    out=$(just _nixos-home-activation-build "$root_target" "$flake_path" "$home_name")
     ssh -o StrictHostKeyChecking=accept-new "$user_target" "$out/activate"
 
 # Compatibility alias for switching all enabled remote NixOS hosts.

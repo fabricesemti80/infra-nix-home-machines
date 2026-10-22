@@ -47,10 +47,10 @@ For the Mac explicitly:
 just quick-update neo
 ```
 
-Before updating, `quick-update` runs the 30-day cleanup locally and on every
-enabled NixOS host, including apoc, then builds and switches the selected Mac.
-The local cleanup uses sudo for root-owned Darwin system generations; allow the
-sudo prompt if needed.
+`quick-update` updates flake inputs, builds and switches the selected Mac after
+successful builds. Generation cleanup remains separate: run `just clean` when
+you want to reclaim space. It retains current and 30-day generations and includes
+enabled NixOS hosts such as apoc.
 
 ## Build Without Switching
 

@@ -103,15 +103,14 @@ _check-source:
 # Quick Update Commands
 # ============================================================================
 
-# Host filters limit deployments, not shared input updates or cleanup.
-# Prune old generations, update inputs, build selected lanes, then switch.
+# Host filters limit deployments; cleanup remains an explicit `just clean` task.
+# Update inputs, build selected lanes, then switch after successful builds.
 quick-update hosts="all":
     #!/usr/bin/env bash
     set -euo pipefail
     just _validate-hosts "{{hosts}}"
     just _check-source
     just _require-nom
-    just clean
     just update
 
     # Build a per-lane filter (silently dropping cross-lane entries) and call each lane

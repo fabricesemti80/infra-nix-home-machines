@@ -7,7 +7,7 @@ and `tasks/quality.just`.
 
 | Command | Purpose |
 | --- | --- |
-| `just quick-update neo` | Clean old generations, update inputs, build and switch after successful builds |
+| `just quick-update neo` | Update inputs, build and switch after successful builds |
 | `just darwin-build neo` | Build system and home without activation |
 | `just darwin-switch neo` | Switch using the current lockfile |
 | `just home-build neo` / `just home-switch neo` | Build/switch only the home |
@@ -20,28 +20,35 @@ and `tasks/quality.just`.
 | `just brew-update` | Intentionally upgrade Homebrew packages |
 | `just clean` | Prune >30-day local system/user generations and enabled NixOS hosts, including apoc |
 
-`quick-update neo` checks the source tree, then runs `just clean` locally and on all
-enabled NixOS hosts, including apoc, before updating shared flake inputs. Cleanup
-uses sudo for root-owned Darwin system generations, expires local Home Manager
-generations, and collects Nix garbage. It keeps the current and last 30 days of
-generations. Cleanup failure stops the update; a build failure prevents switching.
-`just update` alone does not clean generations.
+`quick-update neo` checks the source tree and `nom`, updates shared flake inputs,
+then builds and switches only the selected hosts. It does not clean generations.
+`just update` alone only updates flake inputs.
+
+`just clean` is a separate task. It uses sudo for root-owned Darwin system
+generations, expires local Home Manager generations, and collects Nix garbage;
+it also cleans enabled NixOS hosts, including apoc. The 30-day retention keeps
+current and recent generations. A cleanup failure stops `just clean`.
+
 Nix build and switch commands pass output through `nom` (`nix-output-monitor`):
 successful builds are summarized as a dependency/progress tree, while failed
 derivations and their diagnostics stay visible. `nom` is installed in the Home
 Manager environment and the repository dev shell. Full derivation logs remain
 available with `nix log <derivation>`.
 
-Deployment recipes check for `nom` before cleanup, builds, or activation and stop
-with a bootstrap hint if it is unavailable. Before Home Manager's first activation,
-or from a plain shell, use the repository dev shell:
+Remote Home Manager builds run `nom` on the target so it reads the target's Nix
+store; before `nom` is installed there, they fall back to native Nix output.
+
+Build, switch, and quick-update recipes check for `nom` before running a build,
+activation, or input update. If it is unavailable, they stop with a bootstrap hint.
+Before Home Manager's first activation, or from a plain shell, use the repository
+dev shell:
 
 ```sh
 nix develop --command just quick-update neo
 ```
 
-This runs the full update workflow, including 30-day cleanup on the Mac and enabled
-NixOS hosts, flake updates, builds, and switching; it is not only a shell bootstrap.
+This runs the full update workflow—input update, build, and switch—but not
+generation cleanup. Run `just clean` separately when you want to reclaim space.
 
 `quick-update` without a host still targets every enabled machine. Host filters
 accept comma-separated names. The remote NixOS commands remain available:
