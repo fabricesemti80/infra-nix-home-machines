@@ -32,6 +32,17 @@ derivations and their diagnostics stay visible. `nom` is installed in the Home
 Manager environment and the repository dev shell. Full derivation logs remain
 available with `nix log <derivation>`.
 
+Deployment recipes check for `nom` before cleanup, builds, or activation and stop
+with a bootstrap hint if it is unavailable. Before Home Manager's first activation,
+or from a plain shell, use the repository dev shell:
+
+```sh
+nix develop --command just quick-update neo
+```
+
+This runs the full update workflow, including 30-day cleanup on the Mac and enabled
+NixOS hosts, flake updates, builds, and switching; it is not only a shell bootstrap.
+
 `quick-update` without a host still targets every enabled machine. Host filters
 accept comma-separated names. The remote NixOS commands remain available:
 `just nixos-build apoc`, `just nixos-switch apoc`, `just nixos-home-build apoc`

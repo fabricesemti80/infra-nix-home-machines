@@ -110,6 +110,7 @@ quick-update hosts="all":
     set -euo pipefail
     just _validate-hosts "{{hosts}}"
     just _check-source
+    just _require-nom
     just clean
     just update
 

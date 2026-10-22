@@ -80,6 +80,29 @@ class DeploymentTests(unittest.TestCase):
         self.assertIn("Available recipes", result.stdout)
         self.assertFalse(self.log.exists())
 
+    def test_missing_nom_preflights_before_cleanup_build_or_activation(self):
+        (self.bin / "nom").unlink()
+        fallback = Path(self.tmp.name) / "required-tools"
+        fallback.mkdir()
+        for tool in ("python3", "git", "hostname", "bash", "sh", "tr", "xargs", "grep"):
+            resolved = shutil.which(tool)
+            if resolved:
+                (fallback / tool).symlink_to(resolved)
+        self.env["PATH"] = f"{self.bin}:{fallback}"
+
+        for command in (
+            ("quick-update", "neo"),
+            ("darwin-build", "neo"),
+            ("darwin-switch", "neo"),
+            ("_nixos-home-switch-one", "apoc"),
+        ):
+            with self.subTest(command=command):
+                self.log.unlink(missing_ok=True)
+                result = self.run_just(*command)
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("nix develop --command just quick-update neo", result.stderr)
+                self.assertFalse(self.log.exists())
+
     def test_clean_prunes_local_system_user_and_apoc_generations(self):
         self.env["SSH_EXIT"] = "0"
         result = self.run_just("clean")

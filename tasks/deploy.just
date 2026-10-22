@@ -2,6 +2,18 @@
 # Darwin (macOS System) Management
 # ============================================================================
 
+# Ensure output monitoring is available before a build or activation starts.
+[private]
+_require-nom:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if ! command -v nom >/dev/null 2>&1; then
+      echo "Missing required nom (nix-output-monitor)." >&2
+      echo "Try: nix develop --command just quick-update neo" >&2
+      exit 127
+    fi
+
+
 # Switch nix-darwin and Home Manager on selected Macs ("all" or comma-list).
 darwin-switch host="all":
     #!/usr/bin/env bash
@@ -22,6 +34,7 @@ darwin-switch host="all":
 _darwin-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     just _banner 36 darwin "{{host}}" "Switching nix-darwin configuration"
     if command -v brew >/dev/null 2>&1; then
@@ -53,6 +66,7 @@ darwin-home-switch host="all":
 _darwin-home-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     just _banner 34 home "fs@{{host}}" "Switching Home Manager configuration"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
@@ -78,6 +92,7 @@ darwin-build host="all":
 _darwin-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     just _banner 36 darwin "{{host}}" "Building nix-darwin configuration"
     doppler run -- nix run --inputs-from . darwin#darwin-rebuild -- build --flake .#{{host}} |& nom
@@ -104,6 +119,7 @@ darwin-home-build host="all":
 _darwin-home-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     just _banner 34 home "fs@{{host}}" "Building Home Manager configuration"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
@@ -178,6 +194,7 @@ nixos-build host="all":
 _nixos-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     target=$(just _nixos-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$target"
@@ -217,6 +234,7 @@ _nixos-push-secrets host target:
 _nixos-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     target=$(just _nixos-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$target"
@@ -253,6 +271,7 @@ nixos-home-build host="all":
 _nixos-home-build-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     root_target=$(just _nixos-target "{{host}}")
     just _nixos-check-ssh "{{host}}" "$root_target"
@@ -295,6 +314,7 @@ nixos-home-switch host="all":
 _nixos-home-switch-one host:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _require-nom
     just _check-source
     root_target=$(just _nixos-target "{{host}}")
     user_target=$(just _nixos-home-target "{{host}}")
