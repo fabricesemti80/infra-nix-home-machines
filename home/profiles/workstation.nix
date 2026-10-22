@@ -26,11 +26,10 @@
 
   nixpkgs = {
     overlays = [
-      outputs.overlays.stable-packages
       outputs.overlays.fish-no-tests
       outputs.overlays.direnv-no-tests
       outputs.overlays.atuin-no-tests
-      outputs.overlays.omp-hash-fix
+      outputs.overlays.omp-herdr-fix
     ];
     config.allowUnfree = true;
   };

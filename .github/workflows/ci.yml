@@ -23,6 +23,8 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
+      - name: Scan repository files for secrets
+        run: nix shell --inputs-from . nixpkgs#gitleaks --command gitleaks dir --redact --no-banner .
       - name: Deployment regression tests and recipe syntax
         run: |
           nix shell --inputs-from . nixpkgs#just --command just --list

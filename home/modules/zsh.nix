@@ -79,7 +79,7 @@
         kdsec = "kubectl describe secret";
         kdelsec = "kubectl delete secret";
       }
-      // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
         tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
       };
 

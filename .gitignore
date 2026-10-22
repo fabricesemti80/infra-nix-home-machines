@@ -34,9 +34,8 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 
-# Keep committed examples and the imported local state that anchors the VM.
+# Example variable files are tracked; Terraform state, plans, and credentials stay local.
 !*.tfvars.example
-!infra/terraform.tfstate
 
 # Local .terraform directories
 .terraform/

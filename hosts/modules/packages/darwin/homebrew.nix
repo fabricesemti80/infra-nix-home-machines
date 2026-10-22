@@ -18,7 +18,7 @@
       "claude-code" # Claude CLI — https://claude.com/product/claude-code
       # "chatgpt" # ChatGPT desktop client — https://chatgpt.com/
       # "kiro" # AI editor — https://kiro.dev/
-      "antigravity-cli" # Google Antigravity CLI (agy) - Gemini CLI replacement — https://antigravity.google/product/antigravity-cli
+      "antigravity-cli" # Google Antigravity CLI (agy); Homebrew is its sole owner.
       # "ollama-app" # Local AI model manager and runner — https://ollama.com/
       # "block-goose" # AI coding agent — https://block.github.io/goose/
       # "cmux" # AI terminal multiplexer — https://www.cmux.dev/
@@ -118,8 +118,6 @@
     if [ -x "$ddpm_app/Contents/MacOS/DDPM" ]; then
       echo "Repairing DDPM install state..."
 
-      install -d -o ${userConfig.name} -g staff -m 755 "$ddpm_user"
-
       copy_if_missing() {
         src="$1"
         dst="$2"
@@ -150,16 +148,33 @@
 
       copy_if_missing "$ddpm_app/Contents/Resources/DDPM_settings.json" "$ddpm_root/DDPM_settings_AllUser.json" root staff 666
       copy_if_missing "$ddpm_app/Contents/Resources/DDPM_Marketing_Name.json" "$ddpm_root/DDPM_Marketing_Name.json" root staff 644
-      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_settings.json" "$ddpm_user/DDPM_settings.json" ${userConfig.name} staff 644
-      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_Camera_Settings.json" "$ddpm_user/DDPM_Camera_Settings.json" ${userConfig.name} staff 644
-      copy_if_missing "$ddpm_app/Contents/Resources/DDPM_CapabilityString.json" "$ddpm_user/DDPM_CapabilityString.json" ${userConfig.name} staff 644
 
-      if [ ! -f "$ddpm_user/SW_VER.json" ]; then
-        version="$(defaults read "$ddpm_app/Contents/Info.plist" CFBundleShortVersionString 2>/dev/null || echo unknown)"
-        printf '{\n    "SW_VER": "%s"\n}\n' "$version" > "$ddpm_user/SW_VER.json"
-        chown ${userConfig.name}:staff "$ddpm_user/SW_VER.json"
-        chmod 644 "$ddpm_user/SW_VER.json"
+      version="$(defaults read "$ddpm_app/Contents/Info.plist" CFBundleShortVersionString 2>/dev/null || echo unknown)"
+      /usr/bin/sudo -u ${userConfig.name} /bin/sh -s -- "$ddpm_app" "$ddpm_user" "$version" <<'DDPM_USER_SETUP'
+      set -eu
+      umask 022
+      app="$1"
+      user_dir="$2"
+      version="$3"
+      /bin/mkdir -p "$user_dir"
+
+      copy_if_missing() {
+        src="$1"
+        dst="$2"
+        mode="$3"
+        if [ ! -e "$dst" ] && [ -f "$src" ]; then
+          /usr/bin/install -m "$mode" "$src" "$dst"
+        fi
+      }
+
+      copy_if_missing "$app/Contents/Resources/DDPM_settings.json" "$user_dir/DDPM_settings.json" 644
+      copy_if_missing "$app/Contents/Resources/DDPM_Camera_Settings.json" "$user_dir/DDPM_Camera_Settings.json" 644
+      copy_if_missing "$app/Contents/Resources/DDPM_CapabilityString.json" "$user_dir/DDPM_CapabilityString.json" 644
+
+      if [ ! -f "$user_dir/SW_VER.json" ]; then
+        printf '{\n    "SW_VER": "%s"\n}\n' "$version" > "$user_dir/SW_VER.json"
       fi
+    DDPM_USER_SETUP
     fi
   '';
 }

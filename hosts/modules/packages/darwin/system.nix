@@ -24,7 +24,6 @@ in {
 
   environment.systemPackages = with pkgs; [
     #* AI Tools
-    antigravity-cli # AI-powered command-line interface — https://antigravity.google
     chatgpt # ChatGPT desktop app with Codex — https://openai.com/chatgpt/desktop/
     cliamp # Terminal music player inspired by Winamp — https://github.com/bjarneo/cliamp
     inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default # Terminal workspace for coding agents — https://herdr.dev/

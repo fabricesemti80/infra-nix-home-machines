@@ -7,7 +7,7 @@ and `tasks/quality.just`.
 
 | Command | Purpose |
 | --- | --- |
-| `just quick-update neo` | Update inputs and switch the Mac system and home |
+| `just quick-update neo` | Clean old generations, update inputs, build and switch after successful builds |
 | `just darwin-build neo` | Build system and home without activation |
 | `just darwin-switch neo` | Switch using the current lockfile |
 | `just home-build neo` / `just home-switch neo` | Build/switch only the home |
@@ -18,15 +18,27 @@ and `tasks/quality.just`.
 | `just hosts` | Show machine platforms and SSH destinations |
 | `just show-config` | Show local configuration/generation information |
 | `just brew-update` | Intentionally upgrade Homebrew packages |
-| `just clean` | Expire old generations using a 30-day window |
+| `just clean` | Prune >30-day local system/user generations and enabled NixOS hosts, including apoc |
+
+`quick-update neo` checks the source tree, then runs `just clean` locally and on all
+enabled NixOS hosts, including apoc, before updating shared flake inputs. Cleanup
+uses sudo for root-owned Darwin system generations, expires local Home Manager
+generations, and collects Nix garbage. It keeps the current and last 30 days of
+generations. Cleanup failure stops the update; a build failure prevents switching.
+`just update` alone does not clean generations.
+Nix build and switch commands pass output through `nom` (`nix-output-monitor`):
+successful builds are summarized as a dependency/progress tree, while failed
+derivations and their diagnostics stay visible. `nom` is installed in the Home
+Manager environment and the repository dev shell. Full derivation logs remain
+available with `nix log <derivation>`.
 
 `quick-update` without a host still targets every enabled machine. Host filters
 accept comma-separated names. The remote NixOS commands remain available:
 `just nixos-build apoc`, `just nixos-switch apoc`, `just nixos-home-build apoc`
 and `just nixos-home-switch apoc`.
 
-Advanced recipes include `quick-update-lane`, `repl`, `lint`, `lint-fix`, `deadnix`,
-`deadnix-fix` and `install-hooks`. Existing `*-all`, `darwin-switch-neo` and
+Advanced recipes include `repl`, `lint`, `lint-fix`, `deadnix`, `deadnix-fix` and
+`install-hooks`. Existing `*-all`, `darwin-switch-neo` and
 `home-switch-neo` compatibility recipes remain available.
 
 Failures and unreachable selected hosts return a non-zero status. Aggregate

@@ -29,7 +29,7 @@ _darwin-switch-one host:
         brew trust "$trust_target" 2>/dev/null || true
       done
     fi
-    doppler run -- sudo nix run --inputs-from . darwin#darwin-rebuild -- switch --flake .#{{host}}
+    doppler run -- sudo nix run --inputs-from . darwin#darwin-rebuild -- switch --flake .#{{host}} |& nom
     just _darwin-home-switch-one "{{host}}"
 
 # Switch Home Manager on selected Macs ("all" or comma-list).
@@ -56,7 +56,7 @@ _darwin-home-switch-one host:
     just _check-source
     just _banner 34 home "fs@{{host}}" "Switching Home Manager configuration"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
-    doppler run -- nix run --inputs-from . home-manager -- switch --flake ".#$home_name"
+    doppler run -- nix run --inputs-from . home-manager -- switch --flake ".#$home_name" |& nom
 
 # Build nix-darwin and Home Manager on selected Macs ("all" or comma-list).
 darwin-build host="all":
@@ -80,7 +80,7 @@ _darwin-build-one host:
     set -euo pipefail
     just _check-source
     just _banner 36 darwin "{{host}}" "Building nix-darwin configuration"
-    doppler run -- nix run --inputs-from . darwin#darwin-rebuild -- build --flake .#{{host}}
+    doppler run -- nix run --inputs-from . darwin#darwin-rebuild -- build --flake .#{{host}} |& nom
     just _darwin-home-build-one "{{host}}"
 
 # Build Home Manager on selected Macs ("all" or comma-list).
@@ -107,7 +107,7 @@ _darwin-home-build-one host:
     just _check-source
     just _banner 34 home "fs@{{host}}" "Building Home Manager configuration"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
-    doppler run -- nix run --inputs-from . home-manager -- build --flake ".#$home_name"
+    doppler run -- nix run --inputs-from . home-manager -- build --flake ".#$home_name" |& nom
 
 # Compatibility alias for the old explicit neo command.
 [private]
@@ -183,7 +183,7 @@ _nixos-build-one host:
     just _nixos-check-ssh "{{host}}" "$target"
     just _banner 32 nixos "{{host}}" "Building remote host on ${target}"
     export NIX_SSHOPTS="-o StrictHostKeyChecking=accept-new"
-    nix run --inputs-from . nixpkgs#nixos-rebuild -- build --flake .#{{host}} --target-host "$target" --build-host "$target" --no-reexec
+    nix run --inputs-from . nixpkgs#nixos-rebuild -- build --flake .#{{host}} --target-host "$target" --build-host "$target" --no-reexec |& nom
     just _nixos-home-build-one "{{host}}"
 
 # Switch NixOS on selected remote hosts ("all" or comma-list).
@@ -223,7 +223,7 @@ _nixos-switch-one host:
     just _banner 32 nixos "{{host}}" "Switching remote host on ${target}"
     just _nixos-push-secrets "{{host}}" "$target"
     export NIX_SSHOPTS="-o StrictHostKeyChecking=accept-new"
-    nix run --inputs-from . nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host "$target" --build-host "$target" --sudo --no-reexec --fast
+    nix run --inputs-from . nixpkgs#nixos-rebuild -- switch --flake .#{{host}} --target-host "$target" --build-host "$target" --sudo --no-reexec --fast |& nom
     just _nixos-home-switch-one "{{host}}"
 
 # Build Home Manager on selected remote NixOS hosts ("all" or comma-list).
@@ -260,7 +260,7 @@ _nixos-home-build-one host:
     home_name=$(python3 tasks/inventory.py home "{{host}}")
     flake_path=$(nix flake archive --to "ssh://${root_target}" --json | jq -r .path)
     ssh -o StrictHostKeyChecking=accept-new "$root_target" \
-      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"${home_name}\".activationPackage'"
+      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"${home_name}\".activationPackage'" |& nom
 
 # Switch Home Manager on selected remote NixOS hosts ("all" or comma-list).
 [private]
@@ -304,7 +304,7 @@ _nixos-home-switch-one host:
     home_name=$(python3 tasks/inventory.py home "{{host}}")
     flake_path=$(nix flake archive --to "ssh://${root_target}" --json | jq -r .path)
     out=$(ssh -o StrictHostKeyChecking=accept-new "$root_target" \
-      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"${home_name}\".activationPackage'")
+      "nix build --extra-experimental-features 'nix-command flakes' --print-out-paths --no-link '${flake_path}#homeConfigurations.\"${home_name}\".activationPackage'" 2> >(nom >&2))
     ssh -o StrictHostKeyChecking=accept-new "$user_target" "$out/activate"
 
 # Compatibility alias for switching all enabled remote NixOS hosts.

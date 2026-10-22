@@ -1,8 +1,9 @@
 #!                            General Settings                                #
 #! -------------------------------------------------------------------------- #
 
-# Place a copy of this config to ~/.aerospace.toml
-# After that, you can edit ~/.aerospace.toml to your liking
+config-version = 2
+# Managed by Home Manager from `files/configs/aerospace.toml`.
+# Edit the repository file; don't edit the generated `~/.aerospace.toml` directly.
 
 # It's not necessary to copy all keys to your config.
 # If the key is missing in your config, "default-config.toml" will serve as a fallback
@@ -17,31 +18,7 @@ after-login-command = []
 # You can use it to add commands that run after AeroSpace startup.
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = [
-    # JankyBorders has a built-in detection of already running process,
-    # so it won't be run twice on AeroSpace restart
-    # 'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
-
-    # Run Sketchybar together with AeroSpace
-    # sketchbar has a built-in detection of already running process,
-    # so it won't be run twice on AeroSpace restart
-    # # ? https://nikitabobko.github.io/AeroSpace/goodies#show-aerospace-workspaces-in-sketchybar
-    # 'exec-and-forget sketchybar'
-    'exec-and-forget /opt/homebrew/opt/sketchybar/bin/sketchybar',
-]
-
-#! ---------------------------- Workspace Change Hooks ---------------------------- #
-
-# Notify Sketchybar about workspace change
-# exec-on-workspace-change = ['/bin/bash', '-c',
-#     'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
-#       # # ? https://nikitabobko.github.io/AeroSpace/goodies#show-aerospace-workspaces-in-sketchybar
-# ]
-# exec-on-workspace-change = [
-#     '/bin/bash',
-#     '-c',
-#     '/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
-# ]
+after-startup-command = []
 
 #! ---------------------------- Login Settings ---------------------------- #
 
@@ -349,6 +326,10 @@ run = 'move-node-to-workspace F'
 if.app-id = 'com.electron.lensdesktop'
 run = 'move-node-to-workspace K'
 
+[[on-window-detected]]
+if.app-id = 'app.freelens.Freelens'
+run = ['layout tiling', 'move-node-to-workspace K']
+
 #! ---------------------------- Messaging ---------------------------- #
 [[on-window-detected]]
 if.app-id = 'net.whatsapp.WhatsApp'
@@ -398,16 +379,12 @@ if.app-name-regex-substring = 'parallels'
 run = 'move-node-to-workspace P'
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.rdc.macos'
-run = 'move-node-to-workspace P'
-
-[[on-window-detected]]
 if.app-id = 'com.hashicorp.vagrant'
 run = 'move-node-to-workspace P'
 
 #! ---------------------------- Terminals ---------------------------- #
 # Ghostty tabs are represented as separate windows in the macOS window manager API.
-# Use tiling layout but keep workspace to single window per workspace.
+# Keep new windows tiled on T; move project-specific windows to numeric workspaces as needed.
 # See: https://ghostty.org/docs/help/macos-tiling-wms
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
@@ -416,6 +393,10 @@ run = ['layout tiling', 'move-node-to-workspace T']
 [[on-window-detected]]
 if.app-id = 'com.termius-dmg.mac'
 run = 'move-node-to-workspace T'
+
+[[on-window-detected]]
+if.app-id = 'com.submarine.app'
+run = ['layout tiling', 'move-node-to-workspace T']
 
 [[on-window-detected]]
 if.app-id = 'dev.warp.Warp-Stable'

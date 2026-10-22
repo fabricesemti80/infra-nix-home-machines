@@ -18,7 +18,7 @@ Install Nix, clone this repository, and make sure flakes are available.
 
 ```sh
 git clone <repo-url>
-cd infra-nix-home-machines
+cd nix-hosts
 ```
 
 The recipes expect Doppler to be available. Log in before switching if the host
@@ -28,25 +28,16 @@ does not already have a working Doppler setup.
 doppler me
 ```
 
-Apply the system configuration:
+Apply nix-darwin and Home Manager together:
 
 ```sh
-just darwin-switch
+just darwin-switch neo
 ```
 
-Apply the user configuration:
+`darwin-switch` already runs the Home Manager activation. Use `just home-switch neo`
+only to retry Home Manager after system activation succeeds.
 
-```sh
-just home-switch
-```
-
-On a host whose system hostname does not match the flake output, use the explicit
-recipes:
-
-```sh
-just darwin-switch-neo
-just home-switch-neo
-```
+For another explicitly selected Mac, pass its flake hostname to `darwin-switch`.
 
 ## Normal Updates
 
@@ -56,7 +47,10 @@ For the Mac explicitly:
 just quick-update neo
 ```
 
-These update the flake lock, switch nix-darwin, and switch Home Manager.
+Before updating, `quick-update` runs the 30-day cleanup locally and on every
+enabled NixOS host, including apoc, then builds and switches the selected Mac.
+The local cleanup uses sudo for root-owned Darwin system generations; allow the
+sudo prompt if needed.
 
 ## Build Without Switching
 
@@ -81,12 +75,11 @@ Validate the flake:
 just verify-flake
 ```
 
-If Home Manager fails after a large package change, try a separate Darwin switch
-first, then re-run Home Manager:
+If Home Manager fails after the system switch succeeded, fix the cause and retry
+only Home Manager:
 
 ```sh
-just darwin-switch
-just home-switch
+just home-switch neo
 ```
 
 See [branch validation](branch-validation.md) for changed maintenance behaviour and recovery.

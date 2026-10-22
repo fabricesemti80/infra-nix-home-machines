@@ -18,7 +18,6 @@
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
     overlays = [
-      outputs.overlays.stable-packages
       outputs.overlays.fish-no-tests
       outputs.overlays.direnv-no-tests
     ];
@@ -60,7 +59,7 @@
       PMPrintingExpandedStateForPrint = true;
     };
 
-    LaunchServices.LSQuarantine = false;
+    LaunchServices.LSQuarantine = true;
 
     trackpad = {
       TrackpadRightClick = true;

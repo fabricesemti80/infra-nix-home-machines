@@ -230,14 +230,10 @@ trim_trailing_whitespace = false
 
 ---
 
-### 16. Optimize Overlays
-**Issue**: Only one overlay (stable-packages) - consider if both channels needed
+### 16. Remove Unused Stable Overlay (resolved)
+**Result**: `nixpkgs-stable` was removed after confirming there were no `pkgs.stable.*` consumers.
 
-**Action**: Evaluate if you actually use `pkgs.stable.*` anywhere
-- If yes, keep it
-- If no, remove nixpkgs-stable input
-
-**Impact**: Faster evaluation if removed
+**Impact**: Fewer inputs and simpler overlay configuration
 
 ---
 

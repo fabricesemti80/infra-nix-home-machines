@@ -1,6 +1,5 @@
 {
   inputs,
-  outputs,
   lib,
   config,
   userConfig,
@@ -12,10 +11,6 @@
   ];
 
   nixpkgs = {
-    overlays = [
-      outputs.overlays.stable-packages
-    ];
-
     config.allowUnfree = true;
   };
 

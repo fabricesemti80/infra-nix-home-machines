@@ -15,6 +15,6 @@ in {
 
   # Add to PATH on macOS (Linux adds ~/.local/bin automatically)
   home.sessionPath = lib.mkMerge [
-    (lib.mkIf pkgs.stdenv.isDarwin ["$HOME/.local/bin"])
+    (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin ["$HOME/.local/bin"])
   ];
 }

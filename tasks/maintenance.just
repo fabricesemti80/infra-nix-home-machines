@@ -26,12 +26,14 @@ show-config:
 # Maintenance & Cleanup
 # ============================================================================
 
-# Cleanup Nix store and old generations locally and on enabled NixOS targets
+# Clean root-owned Darwin system generations, local user generations, and enabled NixOS hosts.
 clean:
     #!/usr/bin/env bash
     set -euo pipefail
+    nix_gc=$(command -v nix-collect-garbage)
+    sudo "$nix_gc" --delete-older-than 30d
     doppler run -- home-manager expire-generations "-30 days"
-    doppler run -- nix-collect-garbage --delete-older-than 30d
+    doppler run -- "$nix_gc" --delete-older-than 30d
     failed=0
     for h in {{enabled_nixos_hosts}}; do
       if ! just _clean-nixos-one "$h"; then

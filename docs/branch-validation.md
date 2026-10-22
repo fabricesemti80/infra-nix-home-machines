@@ -6,10 +6,10 @@ Your daily command remains:
 just quick-update neo
 ```
 
-It updates the lockfile, switches the Mac system and then switches `fs@neo`.
-It never contacts `apoc` when `neo` is selected. Errors now return a non-zero exit
-status instead of appearing to succeed. An untracked flake source file is reported
-with instructions to review and add it; the command does not alter your Git index.
+Before updating the lockfile, `quick-update` runs the 30-day cleanup locally and
+on every enabled NixOS host, including apoc—even when `neo` is the only deployment
+target. It then builds and switches only the selected hosts. Cleanup failures stop
+the update; build failures prevent switching.
 
 ## First run on this branch
 
@@ -22,23 +22,23 @@ just darwin-build neo
 just darwin-switch neo
 ```
 
-Then resume `just quick-update neo`. Updating inputs on the first run introduces
-upstream changes as well as this PR, making any failure harder to attribute.
-A build is not a switch: neither the checks nor `darwin-build` activates settings.
+The cleanup retains current and last-30-day generations, then `quick-update neo`
+builds the selected system and Home Manager outputs before activating them. Input
+updates remain shared across hosts; inspect the lock diff even when deploying one.
 
 ## Intentional changes
 
 - Homebrew activation installs declared missing packages but no longer upgrades
   everything or zaps undeclared applications. Use `just brew-update` when you want
   Homebrew upgrades. There is no automatic removal of undeclared apps.
-- macOS activation no longer removes quarantine recursively from all applications.
-  The existing global `LSQuarantine` preference is retained; this is not a full
-  migration of macOS quarantine policy.
+- macOS activation keeps Launch Services quarantine enabled. This does not replace
+  the other parts of Gatekeeper or fully manage quarantine metadata on existing apps.
 - SSH accepts and records a new host key, but refuses a changed key. Compare the
   initial fingerprint through a trusted channel before the first connection if
   the destination is not already in your known-hosts file.
-- Cleanup expires generations older than 30 days, rather than removing all old
-  generations. `clean` continues to include enabled remote hosts.
+- Cleanup keeps generations newer than 30 days. On macOS, `clean` uses sudo to
+  prune the root-owned system profile, then expires local Home Manager and Nix
+  generations; it also cleans enabled remote NixOS hosts.
 - The shared shell only uses the Mac Tailscale application path on Darwin and
   checks that kubectl/direnv exist before loading their shell hooks.
 

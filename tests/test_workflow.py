@@ -50,10 +50,21 @@ class DeploymentTests(unittest.TestCase):
         self.env = dict(os.environ, PATH=f"{self.bin}:{os.environ['PATH']}", CALLS=str(self.log))
         for tool, body in {
             "doppler": 'shift 2; exec "$@"',
-            "sudo": 'exec "$@"',
+            "sudo": 'IS_SUDO=root; export IS_SUDO; exec "$@"',
             "brew": 'exit 0',
-            "ssh": 'exit 1',
-            "nix": 'printf "%s\\n" "$*" >> "$CALLS"; exit "${NIX_EXIT:-0}"',
+            "ssh": 'printf "ssh %s\\n" "$*" >> "$CALLS"; exit "${SSH_EXIT:-1}"',
+            "home-manager": 'printf "home-manager %s\\n" "$*" >> "$CALLS"; exit 0',
+            "nix-collect-garbage": 'printf "nix-collect-garbage %s %s\\n" "${IS_SUDO:-user}" "$*" >> "$CALLS"; exit 0',
+            "nom": 'printf "nom %s\\n" "$*" >> "$CALLS"; cat',
+            "nix": (
+                'printf "%s\\n" "$*" >> "$CALLS"\n'
+                'if [ -n "${NIX_FAIL_CONTAINS:-}" ]; then\n'
+                '  case "$*" in\n'
+                '    *"$NIX_FAIL_CONTAINS"*) printf "simulated build failure\\n" >&2; exit "${NIX_FAILURE_CODE:-23}" ;;\n'
+                '  esac\n'
+                'fi\n'
+                'exit "${NIX_EXIT:-0}"'
+            ),
         }.items():
             p = self.bin / tool
             p.write_text('#!/bin/sh\n' + body + '\n')
@@ -69,20 +80,45 @@ class DeploymentTests(unittest.TestCase):
         self.assertIn("Available recipes", result.stdout)
         self.assertFalse(self.log.exists())
 
-    def test_daily_mac_path_updates_then_switches_both_outputs(self):
-        result = self.run_just("quick-update", "neo")
+    def test_clean_prunes_local_system_user_and_apoc_generations(self):
+        self.env["SSH_EXIT"] = "0"
+        result = self.run_just("clean")
         self.assertEqual(result.returncode, 0, result.stderr)
         calls = self.log.read_text().splitlines()
-        self.assertEqual(calls[0], "flake update")
-        self.assertIn("darwin#darwin-rebuild -- switch --flake .#neo", calls[1])
-        self.assertIn("home-manager -- switch --flake .#fs@neo", calls[2])
-        self.assertEqual(len(calls), 3)
+        self.assertIn("nix-collect-garbage root --delete-older-than 30d", calls)
+        self.assertIn("nix-collect-garbage user --delete-older-than 30d", calls)
+        self.assertTrue(any(
+            "fs@10.211.55.8" in call and "sudo nix-collect-garbage" in call
+            for call in calls
+        ))
+
+    def test_quick_update_does_not_switch_after_failed_build(self):
+        self.env["SSH_EXIT"] = "0"
+        for failed_build in (
+            "darwin#darwin-rebuild -- build",
+            "home-manager -- build",
+        ):
+            with self.subTest(failed_build=failed_build):
+                self.log.unlink(missing_ok=True)
+                self.env["NIX_FAIL_CONTAINS"] = failed_build
+                result = self.run_just("quick-update", "neo")
+                self.assertNotEqual(result.returncode, 0)
+                calls = self.log.read_text().splitlines()
+                self.assertIn("flake update", calls)
+                self.assertTrue(any("nix-collect-garbage" in call for call in calls))
+                self.assertTrue(any(failed_build in call for call in calls))
+                self.assertTrue(any(call.startswith("nom ") for call in calls))
+                self.assertIn("simulated build failure", result.stdout)
+                self.assertFalse(any("switch --flake .#neo" in call for call in calls))
+                self.assertFalse(any("home-manager -- switch" in call for call in calls))
 
     def test_failed_switch_is_not_success_and_home_is_not_run(self):
         self.env["NIX_EXIT"] = "23"
         result = self.run_just("darwin-switch", "neo")
         self.assertNotEqual(result.returncode, 0)
-        self.assertEqual(len(self.log.read_text().splitlines()), 1)
+        calls = self.log.read_text().splitlines()
+        self.assertEqual(sum(not call.startswith("nom ") for call in calls), 1)
+        self.assertTrue(any(call.startswith("nom ") for call in calls))
 
     def test_wrong_lane_fails_before_any_build(self):
         result = self.run_just("darwin-build", "apoc")

@@ -1,96 +1,53 @@
+# Darwin AeroSpace Configuration
 
-# Darwin Aerospace Configuration
+The configuration source is `files/configs/aerospace.toml`. Home Manager installs
+it as `~/.aerospace.toml` through `home/modules/darwin-aerospace.nix`. Dock pins are
+declared separately in `hosts/neo/configuration.nix`.
 
-This document provides an overview of the AeroSpace configuration defined in the `darwin-aerospace.nix` file.
+## Workspace Allocation
 
-## AeroSpace Settings
+Dock-pinned apps use mnemonic workspaces:
 
-- **Start at Login**: `true`
-- **Normalization Settings**:
-  - Flatten Containers: `true`
-  - Opposite Orientation for Nested Containers: `true`
-- **Accordion Layout Settings**:
-  - Padding: `30`
-- **Default Root Container Settings**:
-  - Layout: `tiles`
-  - Orientation: `auto`
-- **Mouse Follows Focus Settings**:
-  - On Focused Monitor Changed: `move-mouse monitor-lazy-center`
-  - On Focus Changed: `move-mouse window-lazy-center`
-- **Automatically Unhide macOS Hidden Apps**: `true`
-- **Key Mapping Preset**: `qwerty`
+| Apps | Workspace | Focus shortcut |
+| --- | --- | --- |
+| Brave, Safari | B — Browsers | `alt-b` |
+| Commander One | F — Files | `alt-f` |
+| Ghostty, Warp, Submarine | T — Terminals / SSH | `alt-t` |
+| Parallels Desktop | P — Parallels and VMs | `alt-p` |
+| Codex (the Nix app named ChatGPT), OpenCode | A — AI | `alt-a` |
+| WhatsApp | M — Messaging | `alt-m` |
+| Freelens | K — Kubernetes | `alt-k` |
+| Visual Studio Code | C — Code editors | `alt-c` |
+| Obsidian | N — Notes | `alt-n` |
 
-## Gaps Settings
+Freelens matches `app.freelens.Freelens`; Submarine matches `com.submarine.app`.
+Both explicitly use tiling. Microsoft Remote Desktop has one rule, targeting
+W — Work, rather than conflicting P and W rules.
 
-- **Inner Gaps**:
-  - Horizontal: `6`
-  - Vertical: `6`
-- **Outer Gaps**:
-  - Left: `6`
-  - Bottom: `6`
-  - Top: `6`
-  - Right: `6`
+Numeric workspaces 1–5 remain available for manually grouped project windows.
+New Ghostty windows start on T; the rule does not enforce one window per workspace.
+Use `alt-shift-<workspace>` to move an existing window and switch to its destination.
 
-## Main Mode Bindings
+Monitor assignments remain Dell-first with `main` fallback. With only the built-in
+display connected, workspaces use that fallback. The root layout is `tiles` with
+automatic orientation: horizontal on wide displays and vertical on tall displays.
 
-- **Window Management**:
-  - Close Window: `alt-q`
-  - Layout Tiles: `alt-/`
-  - Layout Accordion: `alt-,`
-  - Fullscreen: `alt-m`
-- **Focus Movement**:
-  - Focus Left: `alt-h`
-  - Focus Down: `alt-j`
-  - Focus Up: `alt-k`
-  - Focus Right: `alt-l`
-- **Window Movement**:
-  - Move Left: `alt-shift-h`
-  - Move Down: `alt-shift-j`
-  - Move Up: `alt-shift-k`
-  - Move Right: `alt-shift-l`
-- **Resize Windows**:
-  - Resize Decrease: `alt-shift--`
-  - Resize Increase: `alt-shift-=`
-- **Workspace Management**:
-  - Workspace 1: `alt-1`
-  - Workspace 2: `alt-2`
-  - Workspace 3: `alt-3`
-  - Workspace 4: `alt-4`
-  - Workspace 5: `alt-5`
-  - Workspace 6: `alt-6`
-  - Workspace 7: `alt-7`
-  - Workspace 8: `alt-8`
-  - Workspace 9: `alt-9`
-- **Move Windows to Workspaces**:
-  - Move to Workspace 1: `alt-shift-1`
-  - Move to Workspace 2: `alt-shift-2`
-  - Move to Workspace 3: `alt-shift-3`
-  - Move to Workspace 4: `alt-shift-4`
-  - Move to Workspace 5: `alt-shift-5`
-  - Move to Workspace 6: `alt-shift-6`
-  - Move to Workspace 7: `alt-shift-7`
-  - Move to Workspace 8: `alt-shift-8`
-  - Move to Workspace 9: `alt-shift-9`
-- **Workspace Navigation**:
-  - Workspace Back and Forth: `alt-tab`
-  - Move Workspace to Monitor: `alt-shift-tab`
-- **Enter Service Mode**: `alt-shift-;`
+## Applying Changes
 
-## Service Mode Bindings
+```sh
+just home-switch neo
+aerospace reload-config --dry-run
+aerospace reload-config
+aerospace list-windows --all --format '%{app-name} | %{app-bundle-id} | %{workspace}'
+```
 
-- **Reload Config and Exit Service Mode**: `esc`
-- **Reset Layout**: `r`
-- **Toggle Floating/Tiling Layout**: `f`
-- **Close All Windows But Current**: `backspace`
-- **Join with Adjacent Windows**:
-  - Join Left: `alt-shift-h`
-  - Join Down: `alt-shift-j`
-  - Join Up: `alt-shift-k`
-  - Join Right: `alt-shift-l`
+Detection rules apply to newly detected windows; reloading does not retroactively
+relocate existing ones. To confirm the managed source and live app placements:
 
-## Window Detection Rules
+```sh
+aerospace config --config-path
+shasum -a 256 ~/.aerospace.toml files/configs/aerospace.toml
+```
 
-- **Brave Browser** (`com.brave.Browser`): Move to Workspace 1
-- **Alacritty** (`org.alacritty`): Move to Workspace 2
-- **VSCode** (`com.microsoft.VSCode`): Move to Workspace 3
-- **Obsidian** (`md.obsidian`): Move to Workspace 4
+The remaining keybindings, gaps, service-mode commands, and utility-app rules are
+maintained in the TOML source rather than duplicated here.

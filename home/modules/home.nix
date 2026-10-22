@@ -9,8 +9,9 @@
   home = {
     username = "${userConfig.name}";
     homeDirectory =
-      if pkgs.stdenv.isDarwin
+      if pkgs.stdenv.hostPlatform.isDarwin
       then "/Users/${userConfig.name}"
       else "/home/${userConfig.name}";
   };
+  home.packages = [pkgs.nix-output-monitor];
 }

@@ -10,7 +10,7 @@
   ...
 }: let
   homeDir =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.hostPlatform.isDarwin
     then "/Users/${userConfig.name}"
     else "/home/${userConfig.name}";
 
@@ -31,6 +31,7 @@ in {
 
   home.packages = [
     pkgs.omp # Oh My Pi coding agent — https://omp.sh/
+    pkgs.nodejs_24 # Runtime for the pinned local OpenCode MCP server.
   ];
 
   # Token-saving ignore files — prevent AI from indexing build artifacts, caches, large binaries
@@ -133,7 +134,7 @@ in {
         mcp = {
           whatsapp = {
             type = "local";
-            command = ["npx" "-y" "@kahflane/whatsapp-mcp"];
+            command = ["${pkgs.nodejs_24}/bin/npx" "-y" "@kahflane/whatsapp-mcp@0.2.3"];
             enabled = true;
           };
         };
@@ -161,7 +162,7 @@ in {
     $DRY_RUN_CMD chmod 644 $HOME/.claude/settings.json
   '';
 
-  programs.zsh.initContent = lib.optionalString pkgs.stdenv.isDarwin ''
+  programs.zsh.initContent = lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
     claude() {
       local lms="$HOME/.lmstudio/bin/lms"
       local model="google/gemma-4-26b-a4b-qat"

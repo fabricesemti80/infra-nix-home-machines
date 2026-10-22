@@ -103,14 +103,14 @@ _check-source:
 # Quick Update Commands
 # ============================================================================
 
-# Update flake inputs, then switch every enabled deployment lane. Pass a host or
-# comma-separated host list (e.g. `quick-update neo` or `quick-update neo,apoc`)
-# Update inputs and switch selected hosts (e.g. quick-update neo).
+# Host filters limit deployments, not shared input updates or cleanup.
+# Prune old generations, update inputs, build selected lanes, then switch.
 quick-update hosts="all":
     #!/usr/bin/env bash
     set -euo pipefail
     just _validate-hosts "{{hosts}}"
     just _check-source
+    just clean
     just update
 
     # Build a per-lane filter (silently dropping cross-lane entries) and call each lane
@@ -119,34 +119,23 @@ quick-update hosts="all":
     nixos_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
 
     failed=0
-    if [ -n "$darwin_filter" ]; then just darwin-switch "$darwin_filter" || failed=1; fi
-    if [ -n "$nixos_filter" ]; then just nixos-switch "$nixos_filter" || failed=1; fi
+    if [ -n "$darwin_filter" ]; then
+      if just darwin-build "$darwin_filter"; then
+        just darwin-switch "$darwin_filter" || failed=1
+      else
+        echo "Darwin build failed; skipping switch for $darwin_filter" >&2
+        failed=1
+      fi
+    fi
+    if [ -n "$nixos_filter" ]; then
+      if just nixos-build "$nixos_filter"; then
+        just nixos-switch "$nixos_filter" || failed=1
+      else
+        echo "NixOS build failed; skipping switch for $nixos_filter" >&2
+        failed=1
+      fi
+    fi
     exit "$failed"
-
-# Update flake inputs, then switch one enabled deployment lane. Pass a host or
-# comma-separated host list to limit the scope within the lane.
-[private]
-quick-update-lane lane hosts="all":
-    #!/usr/bin/env bash
-    set -euo pipefail
-    just _validate-hosts "{{hosts}}"
-    case "{{lane}}" in darwin|nixos) ;; *) echo "Unknown lane: {{lane}}" >&2; exit 1 ;; esac
-    just _check-source
-    just update
-    case "{{lane}}" in
-      darwin)
-        filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_darwin_hosts}}" "{{darwin_hosts}}")
-        if [ -n "$filter" ]; then just darwin-switch "$filter"; fi
-        ;;
-      nixos)
-        filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
-        if [ -n "$filter" ]; then just nixos-switch "$filter"; fi
-        ;;
-      *)
-        echo "Unknown lane '{{lane}}'. Expected one of: darwin, nixos" >&2
-        exit 1
-        ;;
-    esac
 
 # ============================================================================
 # Flake Management

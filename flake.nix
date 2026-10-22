@@ -3,10 +3,9 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
     # Herdr terminal workspace (keep upstream's locked build dependencies)
-    herdr.url = "github:herdrdev/herdr/v0.9.3";
+    herdr.url = "github:herdrdev/herdr/v0.9.5";
 
     # Home manager
     home-manager = {
@@ -41,7 +40,7 @@
       # export) - unpin when https://github.com/zhaofengli/nix-homebrew/issues/187 fixed
       url = "github:zhaofengli/nix-homebrew/09a921d0181146cf6163ec2cc1db7b6fd539a885";
       inputs.brew-src = {
-        url = "github:Homebrew/brew/6.0.13";
+        url = "github:Homebrew/brew/6.0.22";
         flake = false;
       };
     };
@@ -177,6 +176,7 @@
           alejandra # Nix formatter — https://github.com/kamadorueda/alejandra
           statix # Nix linter — https://github.com/molybdenumsoftware/statix
           deadnix # Dead code detector — https://github.com/astro/deadnix
+          nix-output-monitor # Summarize Nix builds and keep failed derivations visible.
           nil # Nix LSP — https://github.com/oxalica/nil
         ];
       };
