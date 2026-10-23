@@ -17,6 +17,7 @@
     ../modules/git.nix
     ../modules/herdr.nix
     ../modules/worktrunk.nix
+    ../modules/k9s.nix
     ../modules/kubeconfig.nix
     ../modules/lazygit.nix
     ../modules/neovim.nix

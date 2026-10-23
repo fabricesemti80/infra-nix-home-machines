@@ -3,7 +3,7 @@
 These Home Manager modules are shared by `fs@neo` and `fs@apoc`. The ideas
 come from [TechDufus/dotfiles](https://github.com/TechDufus/dotfiles), adapted
 to Nix rather than importing its bootstrap scripts or mise package management.
-K9s is deliberately excluded; FreeLens remains the graphical Kubernetes client.
+K9s is included alongside FreeLens as a terminal Kubernetes client.
 
 ## Worktrees and OMP
 
@@ -76,3 +76,15 @@ and the existing Catppuccin flavour. `?` toggles previews, Ctrl+A selects all,
 Ctrl+E opens selections in Neovim, and Ctrl+Y copies selected paths using
 `pbcopy` on macOS or `wl-copy` in a Linux Wayland session. SSH completion can
 preview DNS results; variable completion does not preview variable values.
+
+## K9s
+
+Home Manager installs K9s on both workstations and manages its configuration
+and Catppuccin skin using the shared flavour. Launch `k9s`, or use
+`k9s --context <context>` to select a cluster explicitly.
+
+In the Helm view (`:helm`), press `v` to inspect the selected release's
+user-supplied values. The shortcut passes the selected namespace and context
+to the Nix-managed Helm binary and displays the result in `less` (quit with
+`q`). It does not display chart defaults; use Helm's `--all` separately for
+computed values. FreeLens remains available.
