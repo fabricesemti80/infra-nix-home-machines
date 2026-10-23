@@ -19,7 +19,11 @@
       commit.gpgsign = true;
       gpg.format = "ssh";
       gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
-      pull.rebase = "true";
+      pull.rebase = true;
+      fetch.prune = true;
+      rerere.enabled = true;
+      diff.colorMoved = "zebra";
+      init.defaultBranch = "main";
     };
   };
 

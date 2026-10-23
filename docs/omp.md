@@ -2,8 +2,8 @@
 
 Website: https://omp.sh/ · Documentation: https://omp.sh/docs
 
-The shared Home Manager AI module installs `pkgs.omp` instead of
-`pkgs.pi-coding-agent` on macOS and Linux. The existing nixpkgs lock already
+The shared Home Manager AI module installs `pkgs.omp` and configures it through
+the dedicated `home/modules/ai/omp.nix` module. The existing nixpkgs lock already
 contains omp, so no additional flake input or imperative installer is needed.
 
 After merging, apply your normal update (`just quick-update neo` on the Mac),
@@ -15,14 +15,18 @@ cd /path/to/project
 omp
 ```
 
-Use `/login` to connect your provider, then `/model` to select a model and
-configure roles. See https://omp.sh/docs/roles for role assignments and
-https://omp.sh/docs/custom-models for LM Studio and other local endpoints.
+The module declaratively preserves the current `~/.omp/agent/config.yml`
+preferences: model roles and the `sol-default-economical` preset, `nerd`
+symbols, `pi` composer, `titanium`/`light` themes, advisor review behavior,
+prewalk, and denied AutoQA consent. It does not copy TechDufus's personal model
+choices, extensions, provider settings, or credentials.
 
-This changes the installed CLI from `pi` to `omp`. Existing Pi sessions,
-credentials, extensions and settings are not migrated or deleted. Configure
-omp separately; its default user configuration directory is `~/.omp/agent/`.
-Model and provider choices remain user-managed.
+Home Manager manages `~/.omp/agent/config.yml` as a Nix-store-backed symlink.
+Edit `home/modules/ai/omp.nix` and reapply Home Manager to change preferences;
+direct edits or `omp config set` cannot persist across activation. Use `/login`
+for provider authentication. Sessions, auth data, and extensions remain OMP
+runtime data and are not managed by this module. Existing Pi sessions,
+credentials, extensions and settings are not migrated or deleted.
 
 ## Herdr detection
 
