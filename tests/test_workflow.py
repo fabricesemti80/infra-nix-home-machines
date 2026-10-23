@@ -84,7 +84,8 @@ class DeploymentTests(unittest.TestCase):
         (self.bin / "nom").unlink()
         fallback = Path(self.tmp.name) / "required-tools"
         fallback.mkdir()
-        for tool in ("python3", "git", "hostname", "bash", "sh", "tr", "xargs", "grep"):
+        # xargs invokes external echo; shell builtins do not satisfy that lookup.
+        for tool in ("python3", "git", "hostname", "bash", "sh", "tr", "xargs", "echo", "grep"):
             resolved = shutil.which(tool)
             if resolved:
                 (fallback / tool).symlink_to(resolved)
