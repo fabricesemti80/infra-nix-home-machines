@@ -27,10 +27,9 @@
     - `raw/daily/` and `raw/from-the-internet/` are permanent and immutable — never move, edit, or delete their content. Attachments belong in vault-root `files/`.
   '';
 in {
-  imports = [./ignores.nix];
+  imports = [./ignores.nix ./omp.nix];
 
   home.packages = [
-    pkgs.omp # Oh My Pi coding agent — https://omp.sh/
     pkgs.nodejs_24 # Runtime for the pinned local OpenCode MCP server.
   ];
 
