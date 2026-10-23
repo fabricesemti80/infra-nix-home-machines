@@ -101,6 +101,7 @@
 
       #* Gaming
       # "steam" # https://store.steampowered.com/about/
+      "moonlight" # Game-streaming client — https://moonlight-stream.org/
 
       #* Fonts
       "font-hack-nerd-font" # Developer-oriented font with programming glyphs — https://www.nerdfonts.com/
