@@ -1,5 +1,11 @@
 # Inspired by https://github.com/TechDufus/dotfiles/tree/main/modules/herdr
 # Keep Herdr's default prefix (Ctrl+B) and pane bindings; tmux uses Ctrl+Q.
+onboarding = false
+
+[theme]
+name = "dracula"
+auto_switch = false
+
 [keys]
 previous_agent = "prefix+alt+p"
 next_agent = "prefix+alt+n"

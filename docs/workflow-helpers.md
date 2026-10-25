@@ -24,9 +24,11 @@ Worktrunk's merge/remove operations remain explicit commands.
 
 ## Herdr
 
-`~/.config/herdr/config.toml` is declaratively managed. If a hand-written file
-already exists, back it up and move it aside before activating Home Manager.
-Reload the configuration in Herdr with its default Ctrl+B, Shift+R binding.
+`~/.config/herdr/config.toml` is declaratively managed. Its existing
+`onboarding = false` and `dracula` theme settings are preserved in
+`files/configs/herdr.toml`; Home Manager replaces the file on activation.
+Add future local settings there before switching. Reload the configuration in
+Herdr with its default Ctrl+B, Shift+R binding.
 
 - Ctrl+B, Alt+P / Alt+N: previous/next agent.
 - Ctrl+B, Alt+1–9: focus agent by index.
