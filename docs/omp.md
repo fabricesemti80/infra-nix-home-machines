@@ -28,6 +28,20 @@ for provider authentication. Sessions, auth data, and extensions remain OMP
 runtime data and are not managed by this module. Existing Pi sessions,
 credentials, extensions and settings are not migrated or deleted.
 
+## Diagram Design skill
+
+`home/modules/ai/diagram-design.nix` installs the complete
+[Diagram Design skill](https://github.com/cathrynlavery/diagram-design) for
+OMP, Codex (`~/.agents/skills`), Claude Code, and OpenCode on both hosts.
+It is pinned to version 2.6.120; update its revision and hash together.
+No marketplace installer or automatic upstream update runs during activation.
+
+Restart the agent after switching, then ask it to use `diagram-design` for an
+HTML/SVG diagram. This installs the skill and its supporting files, not native
+marketplace slash commands. Keep custom profiles in `~/.diagram-design/profiles/`
+or select them with a project `.diagram-design` marker; the installed skill is
+read-only and should not be edited in place.
+
 ## Herdr detection
 
 The Darwin-only `omp-herdr-fix` overlay preserves `argv[0] = omp` when its Nix

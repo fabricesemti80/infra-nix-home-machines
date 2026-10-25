@@ -5,6 +5,13 @@ Personal Nix configurations for macOS, NixOS VMs, and physical NixOS hosts.
 This repository is managed through flakes and `just`. The root README is the
 map; operational details live in the linked pages below.
 
+## Logical Structure
+
+![Logical structure of the Nix configuration: flake inputs and machine inventory feed separate system and Home Manager outputs.](files/diagrams/repository-structure.svg)
+
+System and user configuration have separate owners and activations.
+See the [configuration map](docs/architecture.md) for detailed file ownership.
+
 ## Start Here
 
 - [Configuration map](docs/architecture.md): where each setting belongs.
