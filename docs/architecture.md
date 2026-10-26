@@ -13,6 +13,7 @@ enables every file it contains.
 | Where are application package lists? | `hosts/modules/packages/darwin/`, `hosts/modules/packages/linux/` |
 | Where is the shared Python environment? | `modules/shared/python.nix` |
 | Where are AI settings and ignore defaults? | `home/modules/ai/default.nix`, `home/modules/ai/ignores.nix` |
+| Where is the terminal file manager configured? | `home/modules/yazi.nix` (Yazi, enabled by the shared workstation profile) |
 | What does a deployment command do? | `justfile`, then `tasks/deploy.just` |
 | Where are validation and maintenance commands? | `tasks/quality.just`, `tasks/maintenance.just` |
 
@@ -74,3 +75,23 @@ moving the configuration files.
 The package test overrides and nix-homebrew pin retain their existing workarounds.
 Revisit them independently of this refactor. Beads remains the task tracker;
 Switchyard has not been installed into this repository.
+
+## Yazi
+
+`home/modules/yazi.nix` enables the terminal file manager on neo and apoc,
+adapted from [Pratik Thapa's guide](https://medium.com/@pthapa1/yazi-the-best-terminal-file-manager-to-boost-your-productivity-bf13f244756a).
+Run `y` in Zsh or Fish to retain the selected directory on exit, or `yazi` for
+the plain application. Press `O` (Shift+O) for the interactive opener chooser:
+Neovim is available on both hosts, with VS Code also offered on neo.
+
+The Nix package includes FFmpeg, 7-Zip, jq, Poppler, fd, ripgrep, fzf,
+zoxide, ImageMagick, Chafa, and resvg. Do not install the guide's Homebrew
+dependencies separately. Current Yazi uses FFmpeg rather than the article's
+older ffmpegthumbnailer recommendation.
+
+Ghostty supports image previews directly; no WezTerm configuration or
+terminal-variable overrides are needed. Run `ya env` inside Ghostty to inspect
+the detected image adapter. Test directly in Ghostty before diagnosing any
+multiplexer-specific issues. Existing terminal colors are retained; no flavor
+or third-party plugin is installed. Use `~` to inspect current keybindings
+rather than relying on the 2024 article's potentially outdated shortcuts.

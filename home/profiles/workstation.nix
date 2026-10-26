@@ -24,6 +24,7 @@
     ../modules/scripts.nix
     ../modules/starship.nix
     ../modules/tmux.nix
+    ../modules/yazi.nix
     ../modules/zoxide.nix
     ../modules/zsh.nix
   ];
