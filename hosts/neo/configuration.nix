@@ -40,7 +40,7 @@
       "/Applications/WhatsApp.app"
       "/Applications/Freelens.app"
       "/Applications/Visual Studio Code.app"
-      "/Applications/OpenCode.app"
+      # "/Applications/Nix Apps/OpenCode.app"
       "/Applications/Obsidian.app"
     ];
   };

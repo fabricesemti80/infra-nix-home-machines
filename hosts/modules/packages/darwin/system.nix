@@ -29,6 +29,7 @@ in {
     inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default # Terminal workspace for coding agents — https://herdr.dev/
     llmfit # https://github.com/AlexsJones/llmfit
     opencode # AI coding agent CLI — https://github.com/anomalyco/opencode
+    opencode-desktop # AI coding agent desktop client — https://opencode.ai/
     # ollama # Local AI model manager and runner — https://github.com/ollama/ollama
 
     #* DevOps & Infrastructure

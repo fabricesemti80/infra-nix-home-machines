@@ -26,7 +26,7 @@
       "xiufengsun/tokentracker/tokentracker" # Token usage & cost tracker menu bar app — https://github.com/xiufengsun/tokentracker
       # "block-goose" # AI coding assistant — https://block.github.io/goose/
       "lm-studio" # Local AI model runner and chat interface — https://lmstudio.ai/
-      "opencode-desktop" # https://opencode.ai/
+      # "opencode-desktop" # moved to nixpkgs (system.nix) — brew cask lagged behind
 
       #* Authentication & Security
       "1password" # Secure password manager — https://1password.com/
