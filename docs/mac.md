@@ -61,6 +61,17 @@ just darwin-build
 just home-build
 ```
 
+## Logitech MX Master 3
+
+Logi Options+ is declared as the `logi-options+` Homebrew cask in
+`hosts/modules/packages/darwin/homebrew.nix`. Install it with
+`just darwin-switch neo` (no flake update required), then open Logi Options+
+to configure mouse buttons, scrolling, and per-application mappings.
+
+Grant the macOS Accessibility and Input Monitoring permissions requested by
+the app. Homebrew's cask notes that a reboot is required. Permissions and mouse
+button mappings remain app-managed, not declarative Nix settings.
+
 ## Troubleshooting
 
 Show the current hostname, expected flake names, and recent generations:
@@ -81,5 +92,14 @@ only Home Manager:
 ```sh
 just home-switch neo
 ```
+
+### Homebrew wrapper pin
+
+`nix-homebrew` is pinned to `09a921d0181146cf6163ec2cc1db7b6fd539a885`.
+Revision `c11cccf` causes Homebrew bundle activation to fail with
+`key not found: "HOMEBREW_ORIGINAL_BREW_FILE"`. A Renovate package rule excludes
+the `nix-homebrew` input so automated digest updates cannot reintroduce it.
+Remove that exclusion only after [upstream issue #187](https://github.com/zhaofengli/nix-homebrew/issues/187)
+is resolved and the replacement passes an actual Darwin activation.
 
 See [branch validation](branch-validation.md) for changed maintenance behaviour and recovery.

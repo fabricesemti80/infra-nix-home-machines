@@ -6,6 +6,14 @@
   "nix": {
     "enabled": true
   },
+  "packageRules": [
+    {
+      "description": "Keep the working nix-homebrew pin until upstream issue #187 is fixed",
+      "matchManagers": ["nix"],
+      "matchDepNames": ["nix-homebrew"],
+      "enabled": false
+    }
+  ],
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [

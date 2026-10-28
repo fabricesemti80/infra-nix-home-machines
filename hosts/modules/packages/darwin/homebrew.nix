@@ -45,6 +45,7 @@
       # "keycastr" # https://github.com/keycastr/keycastr
       # "hyperkey" # https://hyperkey.app/
       "keyclu" # https://sergii.tatarenkov.name/apps/keyclu/
+      "logi-options+" # Logitech MX Master 3 button and scrolling settings — https://www.logitech.com/software/logi-options-plus.html
       "notion" # Workspace and note-taking app — https://www.notion.com/
       "numi" # Calculator and unit converter — https://numi.app/
       # "shottr" # https://shottr.cc/
