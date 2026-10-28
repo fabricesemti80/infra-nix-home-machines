@@ -1,13 +1,6 @@
 # Nix Package Overrides
 # Purpose: Workarounds for selected upstream package checks and Herdr detection.
 _: {
-  # Fix fish build issues by disabling tests
-  fish-no-tests = _final: prev: {
-    fish = prev.fish.overrideAttrs (_old: {
-      doCheck = false;
-    });
-  };
-
   # Fix direnv build issues by disabling tests (often hangs on macOS)
   direnv-no-tests = _final: prev: {
     direnv = prev.direnv.overrideAttrs (_old: {

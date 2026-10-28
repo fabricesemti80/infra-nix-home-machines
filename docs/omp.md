@@ -15,11 +15,29 @@ cd /path/to/project
 omp
 ```
 
-The module declaratively preserves the current `~/.omp/agent/config.yml`
-preferences: model roles and the `sol-default-economical` preset, `nerd`
-symbols, `pi` composer, `titanium`/`light` themes, advisor review behavior,
-prewalk, and denied AutoQA consent. It does not copy TechDufus's personal model
-choices, extensions, provider settings, or credentials.
+The module manages model roles and the `sol-default-economical` preset alongside
+`nerd` symbols, the `pi` composer, `titanium`/`light` themes, advisor review
+behavior, prewalk, and denied AutoQA consent. It does not copy TechDufus's
+personal provider settings, extensions, or credentials.
+
+### Model allocation
+
+| Role | Model | Thinking |
+| --- | --- | --- |
+| default | openai-codex/gpt-6-sol | low |
+| smol, alternate | openai-codex/gpt-6-luna | low |
+| tiny, memory, commit, vision | opencode-go/mimo-v2.5 | low |
+| task | opencode-go/kimi-k2.7-code | medium |
+| slow, advisor | openai-codex/gpt-6.1-sol | high |
+| plan | openai-codex/gpt-6-astra | high |
+
+Prewalk is enabled: its default target is `smol`, so post-plan implementation
+can switch to Luna. Use `omp --no-prewalk` when the main model should remain
+in charge of implementation. Advisor review remains enabled at `agent-end`
+using Sol high; Astra is reserved for planning. Catalog prices are estimates,
+not a guarantee of OAuth subscription billing or quota usage.
+The saved preset uses the same roles and low fallback thinking. Named task
+agents and explicit model overrides can supersede the generic `task` role.
 
 Home Manager manages `~/.omp/agent/config.yml` as a Nix-store-backed symlink.
 Edit `home/modules/ai/omp.nix` and reapply Home Manager to change preferences;
@@ -32,7 +50,7 @@ credentials, extensions and settings are not migrated or deleted.
 
 `home/modules/ai/diagram-design.nix` installs the complete
 [Diagram Design skill](https://github.com/cathrynlavery/diagram-design) for
-OMP, Codex (`~/.agents/skills`), Claude Code, and OpenCode on both hosts.
+OMP, Codex (`~/.agents/skills`), Claude Code, and OpenCode on neo's workstation profile.
 It is pinned to version 2.6.120; update its revision and hash together.
 No marketplace installer or automatic upstream update runs during activation.
 

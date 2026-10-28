@@ -18,7 +18,6 @@
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
     overlays = [
-      outputs.overlays.fish-no-tests
       outputs.overlays.direnv-no-tests
     ];
     config.allowUnfree = true;

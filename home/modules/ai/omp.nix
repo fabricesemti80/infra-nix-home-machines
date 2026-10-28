@@ -4,17 +4,17 @@
 {pkgs, ...}: let
   yamlFormat = pkgs.formats.yaml {};
 
-  # Preserve the user's existing ~/.omp/agent/config.yml preferences.
+  # Premium planning; Sol review, economical execution and routine helpers.
   modelRoles = {
     default = "openai-codex/gpt-6-sol:low";
-    smol = "@default";
+    smol = "openai-codex/gpt-6-luna:low";
     tiny = "opencode-go/mimo-v2.5:low";
     memory = "opencode-go/mimo-v2.5:low";
-    task = "opencode-go/mimo-v2.5:medium";
+    task = "opencode-go/kimi-k2.7-code:medium";
     commit = "opencode-go/mimo-v2.5:low";
     vision = "opencode-go/mimo-v2.5:low";
     slow = "openai-codex/gpt-6.1-sol:high";
-    plan = "@slow";
+    plan = "openai-codex/gpt-6-astra:high";
     advisor = "@slow";
     alternate = "openai-codex/gpt-6-luna:low";
   };
@@ -36,7 +36,7 @@
 
     modelPresets."sol-default-economical" = {
       inherit modelRoles;
-      defaultThinkingLevel = "high";
+      defaultThinkingLevel = "low";
     };
   };
 in {

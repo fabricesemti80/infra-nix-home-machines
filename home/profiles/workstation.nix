@@ -10,7 +10,6 @@
     ../modules/bat.nix
     ../modules/btop.nix
     ../modules/fastfetch.nix
-    ../modules/fish.nix
     ../modules/fuelcheck.nix
     ../modules/fzf.nix
     ../modules/ghostty.nix
@@ -31,7 +30,6 @@
 
   nixpkgs = {
     overlays = [
-      outputs.overlays.fish-no-tests
       outputs.overlays.direnv-no-tests
       outputs.overlays.atuin-no-tests
       outputs.overlays.omp-herdr-fix

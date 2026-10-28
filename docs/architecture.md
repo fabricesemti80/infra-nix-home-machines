@@ -8,7 +8,7 @@ enables every file it contains.
 | Which machines exist, and where do deployments go? | `inventory.json` |
 | How are flake outputs constructed? | `flake.nix` |
 | What is unique to my Mac or VM? | `hosts/neo/configuration.nix`, `hosts/apoc/configuration.nix` |
-| Which user features are enabled? | `home/fs/<host>.nix`, `home/profiles/workstation.nix` |
+| Which user features are enabled? | `home/fs/<host>.nix`, then `home/profiles/workstation.nix` (neo) or `home/profiles/test-vm.nix` (apoc) |
 | Where are macOS defaults and package imports? | `modules/darwin/settings.nix`, `modules/darwin/packages.nix` |
 | Where are application package lists? | `hosts/modules/packages/darwin/`, `hosts/modules/packages/linux/` |
 | Where is the shared Python environment? | `modules/shared/python.nix` |
@@ -76,13 +76,21 @@ The package test overrides and nix-homebrew pin retain their existing workaround
 Revisit them independently of this refactor. Beads remains the task tracker;
 Switchyard has not been installed into this repository.
 
+## Shells
+
+Zsh is the only configured interactive shell on neo and apoc. Neo retains Atuin;
+apoc uses native Zsh history to avoid the extra history-service build. Existing
+editor terminal profiles that launched the
+removed `vscode-fish` launcher must be switched to Zsh. Personal Fish history
+is not deleted.
+
 ## Yazi
 
-`home/modules/yazi.nix` enables the terminal file manager on neo and apoc,
+`home/modules/yazi.nix` enables the terminal file manager on neo,
 adapted from [Pratik Thapa's guide](https://medium.com/@pthapa1/yazi-the-best-terminal-file-manager-to-boost-your-productivity-bf13f244756a).
-Run `y` in Zsh or Fish to retain the selected directory on exit, or `yazi` for
+Run `y` in Zsh to retain the selected directory on exit, or `yazi` for
 the plain application. Press `O` (Shift+O) for the interactive opener chooser:
-Neovim is available on both hosts, with VS Code also offered on neo.
+Neovim and VS Code are offered on neo.
 
 The Nix package includes FFmpeg, 7-Zip, jq, Poppler, fd, ripgrep, fzf,
 zoxide, ImageMagick, Chafa, and resvg. Do not install the guide's Homebrew
@@ -95,3 +103,27 @@ the detected image adapter. Test directly in Ghostty before diagnosing any
 multiplexer-specific issues. Existing terminal colors are retained; no flavor
 or third-party plugin is installed. Use `~` to inspect current keybindings
 rather than relying on the 2024 article's potentially outdated shortcuts.
+
+## Lean apoc test VM
+
+Apoc keeps Plasma/SDDM, Dolphin, Firefox, Ghostty, PipeWire, SSH, NetworkManager,
+and the existing Parallels/hardware configuration. Its system package list is
+explicit in `hosts/apoc/configuration.nix`; the home entry point imports
+`home/profiles/test-vm.nix` instead of the full workstation profile.
+
+The test profile keeps Git/Delta, Bat, Btop, Zoxide, basic search utilities,
+and a minimal Neovim without the workstation's language servers or providers.
+It does not deploy OMP/Amp, Kubernetes tools, Atuin, Yazi, or the broader
+workstation customizations. Neo retains the full workstation profile.
+
+The system no longer imports the shared Python/LiteLLM/document-conversion
+bundle or enables Docker and printing. KDE PIM and selected desktop extras
+are excluded, and Qt 5 integration is disabled. Plasma still brings its own
+required multimedia dependencies; this is not a multimedia-free closure.
+
+Build with `just nixos-build apoc`, then explicitly deploy with
+`just nixos-switch apoc`. Old generations keep their packages alive until
+cleanup; switching alone does not reclaim their disk space. Manual cleanup
+uses `just _clean-nixos-one apoc` with 30-day retention. The existing weekly
+automatic garbage collection is retained.
+No workflow or home data is deleted by changing these package selections.

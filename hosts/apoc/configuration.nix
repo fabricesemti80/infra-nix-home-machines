@@ -8,11 +8,8 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../modules/ai-tools.nix
-    ../modules/docker.nix
     ../modules/kde.nix
     ../modules/pipewire.nix
-    ../modules/packages/linux/desktop.nix
   ];
 
   # Bootloader
@@ -55,16 +52,44 @@
   };
 
   # Programs / services
-  docker.enable = true;
   kde.enable = true;
   pipewire.enable = true;
   services.displayManager.defaultSession = "plasma";
   services.displayManager.sddm.wayland.enable = false;
-  services.printing.enable = true;
   programs.firefox.enable = true;
   programs.zsh.enable = true; # https://www.zsh.org/
 
-  environment.systemPackages = with pkgs; [];
+  # Test VM essentials only; user tools live in home/profiles/test-vm.nix.
+  environment.systemPackages = with pkgs; [
+    curl
+    git
+    home-manager
+    just
+  ];
+
+  # Keep the desktop shell and file manager, not a full KDE application suite.
+  programs.kde-pim.enable = false;
+  services.desktopManager.plasma6.enableQt5Integration = false;
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    elisa
+    gwenview
+    okular
+    kate
+    khelpcenter
+    konsole
+    plasma-browser-integration
+    plasma-workspace-wallpapers
+    spectacle
+    krdp
+    plasma-keyboard
+    qtvirtualkeyboard
+  ];
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
 
   # SSH (key-only)
   services.openssh = {
@@ -83,7 +108,8 @@
   users.users.${userConfig.name} = {
     isNormalUser = true;
     description = userConfig.fullName;
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel"];
+    shell = pkgs.zsh;
     openssh.authorizedKeys.keys = userConfig.sshKeys;
   };
 

@@ -1,13 +1,14 @@
 # Workstation workflow helpers
 
-These Home Manager modules are shared by `fs@neo` and `fs@apoc`. The ideas
+These Home Manager modules are enabled by the workstation profile on `fs@neo`;
+`fs@apoc` uses a separate lean test profile without these workflow helpers. The ideas
 come from [TechDufus/dotfiles](https://github.com/TechDufus/dotfiles), adapted
 to Nix rather than importing its bootstrap scripts or mise package management.
 K9s is included alongside FreeLens as a terminal Kubernetes client.
 
 ## Worktrees and OMP
 
-Worktrunk is installed by Home Manager, with Zsh and Fish shell integration.
+Worktrunk is installed by Home Manager, with Zsh shell integration.
 No `wt config shell install` step is needed.
 
 ```sh
@@ -81,8 +82,8 @@ preview DNS results; variable completion does not preview variable values.
 
 ## K9s
 
-Home Manager installs K9s on both workstations and manages its configuration
-and Catppuccin skin using the shared flavour. Launch `k9s`, or use
+Home Manager installs K9s on neo and manages its configuration
+and Catppuccin skin using the workstation flavour. Launch `k9s`, or use
 `k9s --context <context>` to select a cluster explicitly.
 
 In the Helm view (`:helm`), press `v` to inspect the selected release's

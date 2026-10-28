@@ -1,7 +1,7 @@
 {...}: {
   imports = [
     ../modules/home.nix
-    ../profiles/workstation.nix
+    ../profiles/test-vm.nix
     ../modules/plasma.nix
   ];
 
