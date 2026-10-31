@@ -8,7 +8,7 @@
     };
 
     brews = [
-      "beads" # Memory upgrade for your coding agent - https://github.com/gastownhall/beads
+      # "beads" # moved to nixpkgs (system.nix) — brew formulae drift from the Dolt schema
       # ponytail: opencode moved to nixpkgs (system.nix) - brew upgrade needs Xcode 27 on macOS 27
     ];
 

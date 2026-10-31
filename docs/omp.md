@@ -15,36 +15,90 @@ cd /path/to/project
 omp
 ```
 
-The module manages model roles and the `sol-default-economical` preset alongside
-`nerd` symbols, the `pi` composer, `titanium`/`light` themes, advisor review
-behavior, prewalk, and denied AutoQA consent. It does not copy TechDufus's
-personal provider settings, extensions, or credentials.
+## Provider-specific model setups
 
-### Model allocation
+`home/modules/ai/omp.nix` generates four complete configurations. Plain `omp`
+defaults to **codex**. Use the explicit launchers to select a setup, including
+when resuming a conversation whose previous main model used another provider:
 
-| Role | Model | Thinking |
-| --- | --- | --- |
-| default | openai-codex/gpt-6-sol | low |
-| smol, alternate | openai-codex/gpt-6-luna | low |
-| tiny, memory, commit, vision | opencode-go/mimo-v2.5 | low |
-| task | opencode-go/kimi-k2.7-code | medium |
-| slow, advisor | openai-codex/gpt-6.1-sol | high |
-| plan | openai-codex/gpt-6-astra | high |
+```sh
+omp-codex
+omp-opencode
+omp-claude
+omp-opencode-mixed
+omp-opencode -c
+omp-codex -c
+```
 
-Prewalk is enabled: its default target is `smol`, so post-plan implementation
-can switch to Luna. Use `omp --no-prewalk` when the main model should remain
-in charge of implementation. Advisor review remains enabled at `agent-end`
-using Sol high; Astra is reserved for planning. Catalog prices are estimates,
-not a guarantee of OAuth subscription billing or quota usage.
-The saved preset uses the same roles and low fallback thinking. Named task
-agents and explicit model overrides can supersede the generic `task` role.
+These are shared-state model setups, not OMP's isolated `--profile` credential
+stores. Authentication, sessions, skills, and extensions remain shared. Log in
+to OpenCode Go separately using `/login` before relying on the fallback; the
+Codex subscription does not fund OpenCode usage. Switching is manual, not an
+automatic retry after quota exhaustion. The **claude** setup needs an
+Anthropic login (`/login` → Anthropic) before use; **opencode-mixed** needs both
+the Codex and Anthropic logins.
 
-Home Manager manages `~/.omp/agent/config.yml` as a Nix-store-backed symlink.
-Edit `home/modules/ai/omp.nix` and reapply Home Manager to change preferences;
-direct edits or `omp config set` cannot persist across activation. Use `/login`
-for provider authentication. Sessions, auth data, and extensions remain OMP
-runtime data and are not managed by this module. Existing Pi sessions,
-credentials, extensions and settings are not migrated or deleted.
+| Role | codex (`openai-codex`) | opencode (`opencode-go`) | claude (`anthropic`) | opencode-mixed (`openai-codex` + `anthropic`) |
+| --- | --- | --- | --- | --- |
+| default | gpt-6.1-sol (low) | gpt-6-luna (medium) | sonnet-5-5 (low) | gpt-6.1-terra (medium) |
+| smol, tiny, memory, widget, alternate | gpt-6-luna (low) | gpt-6-luna (low) | haiku-5-5 (low) | gpt-6-luna (low) |
+| commit, vision | gpt-6-luna (low) | gpt-6-luna (low) | haiku-5-5 (low) | gpt-6-luna (low) |
+| slow | gpt-6.1-sol (high) | gpt-6-luna (high) | opus-5-5 (high) | gpt-6.1-terra (high) |
+| advisor | gpt-6.1-sol (high) | gpt-6-luna (low) | sonnet-5-5 (low) | gpt-6-luna (low) |
+| plan | gpt-6-astra (high) | glm-5.3 (high) | opus-5-5 (high) | opus-5-5 (high) |
+| task | gpt-6-luna (medium) | gpt-6-luna (medium) | sonnet-5-5 (medium) | gpt-6-luna (medium) |
+
+The **opencode-mixed** setup ranks cost above speed. Routine roles use OpenAI's
+cheapest model, `gpt-6-luna`; the interactive driver and deep review use
+`gpt-6.1-terra`; and only `plan` uses Claude (`opus-5-5`, the cheaper of the two
+Opus 5 tiers). Over four chat runs `gpt-6.1-terra:medium` cost about a quarter of
+`claude-sonnet-5-5:medium` at similar speed, and `gpt-6.1-sol:low` was both
+slower and costlier than terra, so Sol is not used. It runs on the Codex
+subscription allowance for OpenAI roles and on Anthropic billing for `plan`.
+
+Astra is reserved for Codex planning. The OpenCode Go setup stays on
+`gpt-6-luna` for every routine role and reserves `glm-5.3` for planning.
+Measured against the Go catalog with `omp bench`: `gpt-6-luna` starts faster
+and decodes faster than the previous `minimax-m3` default while costing a
+third as much, and `glm-5.3` is the fastest high-thinking option available.
+
+The codex, opencode, and claude setups run only their own provider's models, so
+the OpenCode Go subscription never draws on the Codex allowance and vice versa. The `vision`
+role is pinned to `gpt-6-luna` because it is the only Go model in this
+allocation that accepts image input — `glm-5.3` and `beam-free` are text-only.
+
+Models whose upstream rejects requests from this account are excluded:
+`deepseek-v4-pro` and `deepseek-v4.1-flash` require a different workspace
+region, and the free `iceman-contributor-free` and `muse-spark-*-contributor`
+models train on request data. `beam-free` is the remaining free model, but it
+answers with agent-style narration instead of the requested output, so it is
+not used for any role whose text is shown or acted on.
+Catalog prices are estimates, not a guarantee of subscription billing or quota consumption.
+The OpenCode advisor uses low thinking because `reviewMode = agent-end` runs it
+after every turn; explicit reviewer agents retain high thinking through `slow`.
+This limits repeated review depth, not a demonstrated TTFT win: the fixed-output
+bench measured similar gpt-6-luna TTFT at low and high (748ms vs 711ms p50).
+Routine helpers do not use the planning model.
+
+Prewalk remains enabled: post-plan implementation can switch to the selected
+setup's `smol` model. Use `--no-prewalk` to retain the main model for harder
+implementation work. Named scout/sonic/task/init/review agents route through
+these roles using `task.agentModelOverrides`. OMP's source-session model
+selection for historical agents, project config, extensions, environment, and
+explicit launch overrides can affect routing; provider filters are not a
+network sandbox.
+
+Home Manager manages the default `~/.omp/agent/config.yml` and
+`~/.omp/agent/model-configs/{codex,opencode,claude,opencode-mixed}.yml` as read-only symlinks.
+The launchers use the corresponding Nix-store config and explicitly select its
+main model. Each setup enables only its own providers and disables the rest.
+The old `sol-default-economical` preset, which mixed providers without a launcher, is removed.
+Edit the Nix module and reapply Home Manager to change allocations; do not use
+`omp config set` or `/modelpreset switch` to modify these managed files.
+
+The existing symbols, composer, themes, advisor cadence, prewalk, and denied
+AutoQA consent are retained. Sessions, provider credentials, extensions, and
+existing Pi data are not migrated or deleted.
 
 ## Diagram Design skill
 

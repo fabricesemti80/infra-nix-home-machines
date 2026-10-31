@@ -49,7 +49,7 @@ class DeploymentTests(unittest.TestCase):
         self.log = Path(self.tmp.name) / "calls"
         self.env = dict(os.environ, PATH=f"{self.bin}:{os.environ['PATH']}", CALLS=str(self.log))
         for tool, body in {
-            "doppler": 'shift 2; exec "$@"',
+            "doppler": 'echo "Unexpected Doppler dependency" >&2; exit 97',
             "sudo": 'IS_SUDO=root; export IS_SUDO; exec "$@"',
             "brew": 'exit 0',
             "ssh": 'printf "ssh %s\\n" "$*" >> "$CALLS"; exit "${SSH_EXIT:-1}"',
@@ -134,6 +134,19 @@ class DeploymentTests(unittest.TestCase):
                 self.assertIn("simulated build failure", result.stdout)
                 self.assertFalse(any("switch --flake .#neo" in call for call in calls))
                 self.assertFalse(any("home-manager -- switch" in call for call in calls))
+
+    def test_quick_update_builds_and_switches_without_doppler(self):
+        result = self.run_just("quick-update", "neo")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        calls = self.log.read_text().splitlines()
+        self.assertIn("flake update", calls)
+        for command in (
+            "darwin#darwin-rebuild -- build --flake .#neo",
+            "home-manager -- build --flake .#fs@neo",
+            "darwin#darwin-rebuild -- switch --flake .#neo",
+            "home-manager -- switch --flake .#fs@neo",
+        ):
+            self.assertTrue(any(command in call for call in calls), command)
 
     def test_failed_switch_is_not_success_and_home_is_not_run(self):
         self.env["NIX_EXIT"] = "23"

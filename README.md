@@ -39,8 +39,8 @@ just fmt
 just check-pre-commit
 ```
 
-Most commands run through Doppler because this repo expects secrets and local
-environment values to come from there.
+Update, build, deployment, and cleanup commands run directly without Doppler
+or a secrets-project setup.
 
 ## Repository Layout
 

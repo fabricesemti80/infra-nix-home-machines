@@ -1,27 +1,93 @@
-# Module: Oh My Pi (OMP)
-# Purpose: Install OMP and manage user preferences declaratively.
-# Platform: All (cross-platform)
-{pkgs, ...}: let
+# OMP model setups share authentication, sessions, skills, and extensions.
+# Use omp-codex / omp-opencode / omp-claude / omp-mixed to select a setup without editing runtime files.
+{
+  lib,
+  pkgs,
+  ...
+}: let
   yamlFormat = pkgs.formats.yaml {};
 
-  # Premium planning; Sol review, economical execution and routine helpers.
-  modelRoles = {
-    default = "openai-codex/gpt-6-sol:low";
-    smol = "openai-codex/gpt-6-luna:low";
-    tiny = "opencode-go/mimo-v2.5:low";
-    memory = "opencode-go/mimo-v2.5:low";
-    task = "opencode-go/kimi-k2.7-code:medium";
-    commit = "opencode-go/mimo-v2.5:low";
-    vision = "opencode-go/mimo-v2.5:low";
-    slow = "openai-codex/gpt-6.1-sol:high";
-    plan = "openai-codex/gpt-6-astra:high";
-    advisor = "@slow";
-    alternate = "openai-codex/gpt-6-luna:low";
+  profiles = {
+    codex = {
+      providers = ["openai-codex"];
+      disabledProviders = ["opencode-go" "opencode"];
+      modelRoles = {
+        default = "openai-codex/gpt-6.1-sol:low";
+        smol = "openai-codex/gpt-6-luna:low";
+        tiny = "@smol";
+        memory = "@smol";
+        task = "openai-codex/gpt-6-luna:medium";
+        commit = "@smol";
+        vision = "@smol";
+        widget = "@smol";
+        slow = "openai-codex/gpt-6.1-sol:high";
+        plan = "openai-codex/gpt-6-astra:high";
+        advisor = "@slow";
+        alternate = "@smol";
+      };
+    };
+    opencode = {
+      providers = ["opencode-go"];
+      disabledProviders = ["openai-codex" "openai"];
+      modelRoles = {
+        default = "opencode-go/gpt-6-luna:medium";
+        smol = "opencode-go/gpt-6-luna:low";
+        tiny = "@smol";
+        memory = "@smol";
+        task = "opencode-go/gpt-6-luna:medium";
+        commit = "opencode-go/gpt-6-luna:low";
+        # gpt-6-luna accepts images; glm-5.3 and beam-free are text-only.
+        vision = "opencode-go/gpt-6-luna:low";
+        widget = "@smol";
+        slow = "opencode-go/gpt-6-luna:high";
+        plan = "opencode-go/glm-5.3:high";
+        advisor = "@smol";
+        alternate = "@smol";
+      };
+    };
+    # Haiku for routine roles, Sonnet for work, Opus only for planning/review.
+    claude = {
+      providers = ["anthropic"];
+      disabledProviders = ["openai-codex" "openai" "opencode-go" "opencode"];
+      modelRoles = {
+        default = "anthropic/claude-sonnet-5-5:low";
+        smol = "anthropic/claude-haiku-5-5:low";
+        tiny = "@smol";
+        memory = "@smol";
+        task = "anthropic/claude-sonnet-5-5:medium";
+        commit = "@smol";
+        vision = "@smol";
+        widget = "@smol";
+        slow = "anthropic/claude-opus-5-5:high";
+        plan = "anthropic/claude-opus-5-5:high";
+        advisor = "anthropic/claude-sonnet-5-5:low";
+        alternate = "@smol";
+      };
+    };
+    # Cost first: luna for routine roles, terra as the driver, Opus only to plan.
+    # Catalog bench (4 runs): terra ~4x cheaper than sonnet-5-5 at similar speed;
+    # gpt-6.1-sol was slower and costlier than terra. Anthropic is used only for plan.
+    mixed = {
+      providers = ["openai-codex" "anthropic"];
+      disabledProviders = ["openai" "opencode-go" "opencode"];
+      modelRoles = {
+        default = "openai-codex/gpt-6.1-terra:medium";
+        smol = "openai-codex/gpt-6-luna:low";
+        tiny = "@smol";
+        memory = "@smol";
+        task = "openai-codex/gpt-6-luna:medium";
+        commit = "@smol";
+        vision = "@smol";
+        widget = "@smol";
+        slow = "openai-codex/gpt-6.1-terra:high";
+        plan = "anthropic/claude-opus-5-5:high";
+        advisor = "@smol";
+      };
+    };
   };
 
-  ompConfig = {
-    inherit modelRoles;
-
+  commonConfig = {
+    defaultThinkingLevel = "low";
     symbolPreset = "nerd";
     composer.shape = "pi";
     theme.dark = "titanium";
@@ -31,21 +97,50 @@
     advisor.enabled = true;
     advisor.reviewMode = "agent-end";
     advisor.continueSeverity = "blocker";
-    task.showResolvedModelBadge = true;
     prewalk.enabled = true;
-
-    modelPresets."sol-default-economical" = {
-      inherit modelRoles;
-      defaultThinkingLevel = "low";
+    task = {
+      showResolvedModelBadge = true;
+      # Route named agents through this setup's roles rather than personal pins.
+      agentModelOverrides = {
+        scout = "@smol";
+        sonic = "@tiny";
+        task = "@task";
+        init = "@task";
+        seance = "@task";
+        reviewer = "@slow";
+        security-reviewer = "@slow";
+      };
     };
   };
-in {
-  home.packages = [pkgs.omp];
 
-  # Manage only config.yml; OMP's sessions, auth, and extensions remain runtime data.
-  # force replaces the pre-existing user config with the equivalent declarative file.
-  home.file.".omp/agent/config.yml" = {
-    force = true;
-    source = yamlFormat.generate "omp-agent-config.yml" ompConfig;
+  configFiles = builtins.mapAttrs (name: profile:
+    yamlFormat.generate "omp-${name}.yml" (commonConfig
+      // {
+        inherit (profile) modelRoles disabledProviders;
+        enabledProviders = profile.providers;
+      }))
+  profiles;
+
+  launchers = lib.mapAttrsToList (name: profile:
+    pkgs.writeShellScriptBin "omp-${name}" ''
+      exec ${pkgs.omp}/bin/omp \
+        --config ${configFiles.${name}} \
+        --model ${lib.escapeShellArg profile.modelRoles.default} \
+        "$@"
+    '')
+  profiles;
+in {
+  home.packages = [pkgs.omp] ++ launchers;
+
+  # Only preferences are managed. Credentials and conversation data stay writable.
+  home.file = {
+    ".omp/agent/config.yml" = {
+      force = true;
+      source = configFiles.codex;
+    };
+    ".omp/agent/model-configs/codex.yml".source = configFiles.codex;
+    ".omp/agent/model-configs/opencode.yml".source = configFiles.opencode;
+    ".omp/agent/model-configs/claude.yml".source = configFiles.claude;
+    ".omp/agent/model-configs/mixed.yml".source = configFiles.mixed;
   };
 }

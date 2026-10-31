@@ -3,6 +3,36 @@
   pkgs,
   ...
 }: let
+  herdr-core = pkgs.stdenvNoCC.mkDerivation rec {
+    pname = "herdr-core";
+    version = "0.1.14";
+    src = pkgs.fetchurl {
+      url = "https://releases.herdr.dev/core/${version}/herdr-core-macos-${pkgs.stdenv.hostPlatform.parsed.cpu.name}.tar.gz";
+      sha256 =
+        {
+          aarch64-darwin = "ca524329d2e0630219550055dcc71f42aafd85fba356e0d543d6f51244487970";
+          x86_64-darwin = "8e16ec43a17656f80e7d7f98292bf710c60c4aeff52941cca98fb24f37f35028";
+        }.${
+          pkgs.stdenv.hostPlatform.system
+        };
+    };
+    dontUnpack = true;
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out/bin"
+      tar -xzf "$src" -C "$out/bin" herdr-core
+      chmod +x "$out/bin/herdr-core"
+      ln -s herdr-core "$out/bin/hc"
+      runHook postInstall
+    '';
+    meta = {
+      description = "Persistent terminal runtime for programs and coding agents";
+      homepage = "https://github.com/herdrdev/herdr-core";
+      license = pkgs.lib.licenses.asl20;
+      platforms = pkgs.lib.platforms.darwin;
+      mainProgram = "hc";
+    };
+  };
   submarine = pkgs.stdenvNoCC.mkDerivation {
     pname = "submarine";
     version = "0.3.8";
@@ -24,9 +54,11 @@ in {
 
   environment.systemPackages = with pkgs; [
     #* AI Tools
+    beads # Memory upgrade for your coding agent — https://github.com/gastownhall/beads
     chatgpt # ChatGPT desktop app with Codex — https://openai.com/chatgpt/desktop/
     cliamp # Terminal music player inspired by Winamp — https://github.com/bjarneo/cliamp
     inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default # Terminal workspace for coding agents — https://herdr.dev/
+    herdr-core # Persistent terminal runtime (hc) — https://github.com/herdrdev/herdr-core
     llmfit # https://github.com/AlexsJones/llmfit
     opencode # AI coding agent CLI — https://github.com/anomalyco/opencode
     opencode-desktop # AI coding agent desktop client — https://opencode.ai/

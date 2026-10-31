@@ -42,7 +42,7 @@ _darwin-switch-one host:
         brew trust "$trust_target" 2>/dev/null || true
       done
     fi
-    doppler run -- sudo nix run --inputs-from . darwin#darwin-rebuild -- switch --flake .#{{host}} |& nom
+    sudo nix run --inputs-from . darwin#darwin-rebuild -- switch --flake .#{{host}} |& nom
     just _darwin-home-switch-one "{{host}}"
 
 # Switch Home Manager on selected Macs ("all" or comma-list).
@@ -70,7 +70,7 @@ _darwin-home-switch-one host:
     just _check-source
     just _banner 34 home "fs@{{host}}" "Switching Home Manager configuration"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
-    doppler run -- nix run --inputs-from . home-manager -- switch --flake ".#$home_name" |& nom
+    nix run --inputs-from . home-manager -- switch --flake ".#$home_name" |& nom
 
 # Build nix-darwin and Home Manager on selected Macs ("all" or comma-list).
 darwin-build host="all":
@@ -95,7 +95,7 @@ _darwin-build-one host:
     just _require-nom
     just _check-source
     just _banner 36 darwin "{{host}}" "Building nix-darwin configuration"
-    doppler run -- nix run --inputs-from . darwin#darwin-rebuild -- build --flake .#{{host}} |& nom
+    nix run --inputs-from . darwin#darwin-rebuild -- build --flake .#{{host}} |& nom
     just _darwin-home-build-one "{{host}}"
 
 # Build Home Manager on selected Macs ("all" or comma-list).
@@ -123,7 +123,7 @@ _darwin-home-build-one host:
     just _check-source
     just _banner 34 home "fs@{{host}}" "Building Home Manager configuration"
     home_name=$(python3 tasks/inventory.py home "{{host}}")
-    doppler run -- nix run --inputs-from . home-manager -- build --flake ".#$home_name" |& nom
+    nix run --inputs-from . home-manager -- build --flake ".#$home_name" |& nom
 
 # Compatibility alias for the old explicit neo command.
 [private]

@@ -55,8 +55,8 @@ There is no remote deployment from CI.
 
 New flake source files must be reviewed and explicitly added with `git add`.
 Deployment no longer stages changes on your behalf. Tracked local edits are still
-included by Git flakes. Formatting, linting and inspection do not require Doppler;
-the existing update/deployment commands retain their Doppler integration.
+included by Git flakes. Update, build, deployment, cleanup, and inspection
+commands run directly without Doppler or a secrets-project setup.
 
 A file move alone is not proof of equivalent behaviour. Compare derivation paths
 with the same lockfile before making claims about evaluation equivalence. Changes

@@ -161,30 +161,6 @@ in {
     $DRY_RUN_CMD chmod 644 $HOME/.claude/settings.json
   '';
 
-  programs.zsh.initContent = lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
-    claude() {
-      local lms="$HOME/.lmstudio/bin/lms"
-      local model="google/gemma-4-26b-a4b-qat"
-
-      if [[ ! -x "$lms" ]]; then
-        print -u2 "LM Studio CLI is missing; open LM Studio once to install lms."
-        return 1
-      fi
-      if ! "$lms" server status 2>&1 | grep -Fq "running on port 1234"; then
-        "$lms" server start --port 1234 || return
-      fi
-      if ! "$lms" ps | grep -Fq "$model"; then
-        "$lms" load "$model" --context-length 65536 --yes || return
-      fi
-
-      ANTHROPIC_BASE_URL=http://127.0.0.1:1234 \
-        ANTHROPIC_AUTH_TOKEN=lmstudio \
-        CLAUDE_CODE_ATTRIBUTION_HEADER=0 \
-        CLAUDE_CODE_MAX_CONTEXT_TOKENS=65536 \
-        command /opt/homebrew/bin/claude --model "$model" "$@"
-    }
-  '';
-
   # Shell aliases for quick AI tool access
   programs.zsh.shellAliases = {
     # Claude Code
@@ -257,7 +233,5 @@ in {
     litellm-stop = "pkill -f 'litellm-proxy --config'";
     litellm-status = "curl -s http://localhost:8888/health || echo 'LiteLLM not running'";
     litellm-log = "tail -f ~/litellm.log";
-
-    claude-local = "claude";
   };
 }

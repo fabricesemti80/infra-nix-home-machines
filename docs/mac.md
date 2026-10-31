@@ -21,13 +21,6 @@ git clone <repo-url>
 cd nix-hosts
 ```
 
-The recipes expect Doppler to be available. Log in before switching if the host
-does not already have a working Doppler setup.
-
-```sh
-doppler me
-```
-
 Apply nix-darwin and Home Manager together:
 
 ```sh

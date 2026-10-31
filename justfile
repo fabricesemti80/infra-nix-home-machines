@@ -144,7 +144,7 @@ quick-update hosts="all":
 # Update flake inputs
 update:
     @just _banner 33 flake inputs "Updating flake inputs"
-    doppler run -- nix flake update
+    nix flake update
 
 # Verify flake configuration
 verify-flake:

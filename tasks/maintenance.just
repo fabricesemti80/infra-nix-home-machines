@@ -32,8 +32,8 @@ clean:
     set -euo pipefail
     nix_gc=$(command -v nix-collect-garbage)
     sudo "$nix_gc" --delete-older-than 30d
-    doppler run -- home-manager expire-generations "-30 days"
-    doppler run -- "$nix_gc" --delete-older-than 30d
+    home-manager expire-generations "-30 days"
+    "$nix_gc" --delete-older-than 30d
     failed=0
     for h in {{enabled_nixos_hosts}}; do
       if ! just _clean-nixos-one "$h"; then

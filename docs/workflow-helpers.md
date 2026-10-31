@@ -25,6 +25,11 @@ Worktrunk's merge/remove operations remain explicit commands.
 
 ## Herdr
 
+Herdr Core v0.1.14 is installed separately as `herdr-core` and `hc` on macOS.
+Its release archive and checksum are pinned in the Darwin system packages.
+Use `hc --help` for commands and `hc --skill` for the agent guide. Update the
+Nix package pin rather than running `hc update` against the Nix store.
+
 `~/.config/herdr/config.toml` is declaratively managed. Its existing
 `onboarding = false` and `dracula` theme settings are preserved in
 `files/configs/herdr.toml`; Home Manager replaces the file on activation.
