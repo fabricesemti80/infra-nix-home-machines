@@ -65,6 +65,20 @@ Grant the macOS Accessibility and Input Monitoring permissions requested by
 the app. Homebrew's cask notes that a reboot is required. Permissions and mouse
 button mappings remain app-managed, not declarative Nix settings.
 
+## Drive health (GSmartControl)
+
+`hosts/modules/drive-inspection.nix` declares the `gsmartcontrol` and
+`smartmontools` Homebrew formulae (nixpkgs does not build GSmartControl for
+Darwin). Install with `just darwin-switch neo`, then run `gsmartcontrol` or
+`smartctl -a /dev/disk0`; neither needs sudo for the internal NVMe drive.
+
+**USB drives are not readable.** macOS gives userspace no SCSI/ATA pass-through,
+so `smartctl` (including `-d sat`) fails on USB-attached disks with "Operation
+not supported by device". The only fix is the third-party SAT SMART kernel
+extension, which needs Reduced Security, Recovery Mode approval and a reboot, so
+it is not enabled here. For USB drives use a Linux machine or VM with USB
+passthrough and `smartctl -d sat`.
+
 ## Troubleshooting
 
 Show the current hostname, expected flake names, and recent generations:

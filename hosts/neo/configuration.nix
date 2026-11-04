@@ -6,6 +6,7 @@
     ../modules/ai-tools.nix
     ../modules/avatar.nix
     ../modules/darwin-common.nix
+    ../modules/drive-inspection.nix
     ../modules/mac-common.nix
     ../modules/parallels.nix
   ];
