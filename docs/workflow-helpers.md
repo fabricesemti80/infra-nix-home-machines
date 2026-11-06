@@ -30,6 +30,13 @@ Its release archive and checksum are pinned in the Darwin system packages.
 Use `hc --help` for commands and `hc --skill` for the agent guide. Update the
 Nix package pin rather than running `hc update` against the Nix store.
 
+The Herdr desktop app is the `herdr-app` Homebrew cask in
+`hosts/modules/packages/darwin/homebrew.nix` (Apple silicon, from
+https://herdr.dev/download/). It installs with `just darwin-switch neo` and
+updates itself, so unlike `herdr-core` it is not pinned. Its guide for agents is
+`~/.config/herdr-app/AGENTS.md`. The app and the terminal `herdr` (Nix, v0.9.5)
+are separate programs; the settings and plugin below configure the terminal one.
+
 `~/.config/herdr/config.toml` is declaratively managed. Its existing
 `onboarding = false` and `dracula` theme settings are preserved in
 `files/configs/herdr.toml`; Home Manager replaces the file on activation.
@@ -39,11 +46,29 @@ Herdr with its default Ctrl+B, Shift+R binding.
 - Ctrl+B, Alt+P / Alt+N: previous/next agent.
 - Ctrl+B, Alt+1–9: focus agent by index.
 - Ctrl+B, Alt+G: popup GitHub dashboard (`gh dash`).
+- Ctrl+B, Alt+R: toggle the reviewr diff pane.
 
 The dashboard needs an existing GitHub CLI login (`gh auth status`). Herdr's
-normal prefix and pane navigation are retained. Its pinned v0.9.5 supports the
+default pane navigation is retained. Its pinned v0.9.5 supports the
 settings used here. The sidebar is compact, sorted by agent priority, and
 notifications appear in the terminal. No automatic agent execution is enabled.
+
+### reviewr (diff review)
+
+`home/modules/herdr.nix` installs the
+[herdr-reviewr](https://github.com/persiyanov/herdr-reviewr) plugin, pinned to
+`v0.49.1`. It shows the diff your agent produced (uncommitted, branch, last turn
+or commits) beside the chat; select lines with `v`, comment with `c`, and send
+all comments into the agent's input with `s`. It never edits files or posts to a
+PR. The PR tab needs `gh` logged in. It also opens by itself when Herdr creates a
+worktree workspace. Its theme is set to dracula in
+`~/.config/herdr/plugins/config/persiyanov.reviewr/config.toml`.
+
+Plugins live in `~/.config/herdr`, so activation reconciles them: it installs
+when the pinned ref is missing, replaces a different ref, leaves a matching one
+alone, and only warns if the download fails. Bump the tag in the module to
+update. The installer downloads the release binary and checks its published
+checksum.
 
 ## Kubernetes configuration maintenance
 

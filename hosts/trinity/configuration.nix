@@ -2,6 +2,7 @@
   hostname,
   userConfig,
   inputs,
+  pkgs,
   ...
 }: {
   imports = [
@@ -56,6 +57,7 @@
     };
   };
 
+  programs.zsh.enable = true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   services.qemuGuest.enable = true;
@@ -68,6 +70,7 @@
   };
   users.users.${userConfig.name} = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     extraGroups = ["wheel"];
     openssh.authorizedKeys.keys = userConfig.sshKeys;
   };

@@ -20,8 +20,8 @@
   sharedAgentInstructions = ''
     ## Knowledge base (permanent wiki)
 
-    - Wiki root: `${homeDir}/Documents/repositories/documentation/obsidian-vaults/online-vault`
-    - BEFORE answering preference-, person-, or domain-specific questions: search the wiki first (`rg -il "<topic>" wiki/`, then read the best matches). Do not infer personal facts when the wiki may hold them.
+    - On neo, the wiki root is `/Users/${userConfig.name}/obsidian-vaults/online-vault`. On other hosts, use a local copy only if it exists; do not assume it is synced over the network.
+    - BEFORE answering preference-, person-, or domain-specific questions: search an available local wiki (`rg -il "<topic>" wiki/`, then read the best matches). If no local copy exists, skip the lookup rather than searching a stale path. Do not infer personal facts when the wiki is available.
     - When working inside the vault, or reading/writing its notes: follow the vault's own `CLAUDE.md` and `.codex/references/ai-first-rules.md` (PARA layout, AI-first frontmatter, `## For future agent` preambles, wikilinks, dated/source-backed claims).
     - AFTER learning something durable about the user, their systems, or their preferences: offer to ingest it into the wiki per those rules (correct PARA folder, update `wiki/index.md`, append to `wiki/log.md`). Do not write without approval.
     - `raw/daily/` and `raw/from-the-internet/` are permanent and immutable — never move, edit, or delete their content. Attachments belong in vault-root `files/`.

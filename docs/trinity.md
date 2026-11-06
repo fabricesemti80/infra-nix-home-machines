@@ -41,3 +41,30 @@ just nixos-switch trinity
 just nixos-home-build trinity
 just nixos-home-switch trinity
 ```
+
+## AI terminal workstation
+
+Trinity's Home Manager profile imports the shared terminal-workstation setup:
+Zsh, Starship prompt, shell aliases, Herdr, OMP, Claude Code, Codex, Git, tmux,
+and the command-line tools. Claude Code and Codex are native Linux Nix packages;
+credentials are deliberately not stored in Nix. Log in on Trinity with `claude`
+and `codex login`. OMP profiles are available through `omp-codex`,
+`omp-opencode`, `omp-claude` and `omp-mixed`; authenticate each provider on this
+host. Ghostty is intentionally omitted: Trinity is headless, so connect from the
+terminal app on your current machine over SSH.
+
+Connect from the trusted network over SSH, then start Herdr's terminal UI:
+
+```sh
+ssh fs@10.0.40.50
+herdr
+```
+
+Herdr reviewr is installed at user scope and opens for worktree workspaces; use
+the review pane to inspect diffs and send line comments back to the active agent.
+The Herdr desktop app is not installed on this headless VM; use it on neo to
+attach to remote work if preferred.
+
+Preview the changes with `just nixos-build trinity`; apply them with
+`just nixos-switch trinity`. The switch also activates Home Manager. No disk
+repartitioning runs during a normal switch.
