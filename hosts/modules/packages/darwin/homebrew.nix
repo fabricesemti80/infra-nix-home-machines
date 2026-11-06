@@ -16,6 +16,7 @@
       #* AI Tools
       "claude" # Claude AI client — https://claude.com/download
       "claude-code" # Claude CLI — https://claude.com/product/claude-code
+      "herdr-app" # Herdr desktop app for terminals and coding agents — https://herdr.dev/download/
       # "chatgpt" # ChatGPT desktop client — https://chatgpt.com/
       # "kiro" # AI editor — https://kiro.dev/
       "antigravity-cli" # Google Antigravity CLI (agy); Homebrew is its sole owner.
@@ -43,7 +44,7 @@
       # "tolaria" # https://tolaria.md/
       "fliqlo" # Digital clock screensaver — https://fliqlo.com/
       # "keycastr" # https://github.com/keycastr/keycastr
-      # "hyperkey" # https://hyperkey.app/
+      "hyperkey" # https://hyperkey.app/
       "keyclu" # https://sergii.tatarenkov.name/apps/keyclu/
       "logi-options+" # Logitech MX Master 3 button and scrolling settings — https://www.logitech.com/software/logi-options-plus.html
       "notion" # Workspace and note-taking app — https://www.notion.com/
@@ -89,6 +90,7 @@
       #* Browsers & Communication
       # "vivaldi" # https://vivaldi.com/
       "discord" # Communication platform — https://discord.com/
+      "slack" # Team messaging — https://slack.com/
       "brave-browser" # Privacy-focused web browser — https://brave.com/
       "netdownloadhelpercoapp" # https://www.downloadhelper.net/w/CoApp-Installation
       "telegram" # Messaging application — https://macos.telegram.org/
