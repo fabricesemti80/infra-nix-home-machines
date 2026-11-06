@@ -28,6 +28,8 @@ System outputs are declared in `flake.nix`.
 - `neo`: macOS host.
 - `apoc`: NixOS VM host (Parallels).
 
+- `trinity`: headless Proxmox NixOS VM; see [bootstrap and installation](docs/trinity.md).
+
 ## Common Commands
 
 ```sh

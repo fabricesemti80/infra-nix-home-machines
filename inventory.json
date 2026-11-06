@@ -12,5 +12,12 @@
     "lane": "nixos",
     "enabled": true,
     "target": "fs@10.211.55.8"
+  },
+  "trinity": {
+    "platform": "x86_64-linux",
+    "user": "fs",
+    "lane": "nixos",
+    "enabled": true,
+    "target": "fs@10.0.40.50"
   }
 }
