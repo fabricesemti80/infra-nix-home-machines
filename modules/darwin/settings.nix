@@ -19,6 +19,7 @@
     hostPlatform = "aarch64-darwin";
     overlays = [
       outputs.overlays.direnv-no-tests
+      outputs.overlays.opencode-darwin-hash
     ];
     config.allowUnfree = true;
   };

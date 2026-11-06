@@ -15,6 +15,20 @@ _: {
     });
   };
 
+  # nixpkgs' opencode 2.2.5 node_modules fixed-output hash does not match the
+  # Darwin build. Applies only to that version, so it expires on the next bump.
+  opencode-darwin-hash = _final: prev: {
+    opencode =
+      if prev.opencode.version == "2.2.5"
+      then
+        prev.opencode.overrideAttrs (old: {
+          node_modules = old.node_modules.overrideAttrs (_: {
+            outputHash = "sha256-dIveiaiPFGSItwLyeMuPDxTE9gpvvnlTCB/+nG24qCc=";
+          });
+        })
+      else prev.opencode;
+  };
+
   # Herdr is installed only on Darwin. Preserve omp's process name there while
   # leaving the Linux package derivation unchanged for apoc's binary cache.
   omp-herdr-fix = _final: prev:
