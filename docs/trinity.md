@@ -45,10 +45,10 @@ just nixos-home-switch trinity
 ## AI terminal workstation
 
 Trinity's Home Manager profile imports the shared terminal-workstation setup:
-Zsh, Starship prompt, shell aliases, Herdr, OMP, Claude Code, Codex, Git, tmux,
-and the command-line tools. Claude Code and Codex are native Linux Nix packages;
-credentials are deliberately not stored in Nix. Log in on Trinity with `claude`
-and `codex login`. OMP profiles are available through `omp-codex`,
+Zsh, Starship prompt, shell aliases, Herdr/`hc`, OMP, Claude Code, Codex, Git,
+tmux and the command-line tools. It adds Claude Code and Codex as native Linux
+Nix packages; credentials are deliberately not stored in Nix. Log in on Trinity
+with `claude` and `codex login`. OMP profiles are available through `omp-codex`,
 `omp-opencode`, `omp-claude` and `omp-mixed`; authenticate each provider on this
 host. Ghostty is intentionally omitted: Trinity is headless, so connect from the
 terminal app on your current machine over SSH.

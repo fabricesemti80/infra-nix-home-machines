@@ -25,8 +25,10 @@ Worktrunk's merge/remove operations remain explicit commands.
 
 ## Herdr
 
-Herdr Core v0.1.14 is installed separately as `herdr-core` and `hc` on macOS.
-Its release archive and checksum are pinned in the Darwin system packages.
+Herdr Core is installed separately from Herdr on macOS and Trinity. Darwin pins
+v0.1.14 in `hosts/modules/packages/darwin/system.nix`; Trinity pins Linux x86_64
+v0.1.18 in `hosts/modules/packages/linux/herdr-core.nix`. Both expose `hc` and
+`herdr-core` as system commands with release checksums pinned in Nix.
 Use `hc --help` for commands and `hc --skill` for the agent guide. Update the
 Nix package pin rather than running `hc update` against the Nix store.
 

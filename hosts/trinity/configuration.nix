@@ -8,6 +8,7 @@
   imports = [
     inputs.disko.nixosModules.disko
     "${inputs.nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+    ../modules/packages/linux/herdr-core.nix
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
