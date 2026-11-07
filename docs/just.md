@@ -8,6 +8,7 @@ and `tasks/quality.just`.
 | Command | Purpose |
 | --- | --- |
 | `just quick-update neo` | Update inputs, build and switch after successful builds |
+| `just quick-update all` | Update inputs once, then build and switch each enabled machine in turn |
 | `just darwin-build neo` | Build system and home without activation |
 | `just darwin-switch neo` | Switch using the current lockfile |
 | `just home-build neo` / `just home-switch neo` | Build/switch only the home |
@@ -18,16 +19,18 @@ and `tasks/quality.just`.
 | `just hosts` | Show machine platforms and SSH destinations |
 | `just show-config` | Show local configuration/generation information |
 | `just brew-update` | Intentionally upgrade Homebrew packages |
-| `just clean` | Prune >30-day local system/user generations and enabled NixOS hosts, including apoc |
+| `just clean` | Prune >30-day local generations and enabled NixOS hosts, including Apoc and Trinity |
 
-`quick-update neo` checks the source tree and `nom`, updates shared flake inputs,
-then builds and switches only the selected hosts. It does not clean generations.
-`just update` alone only updates flake inputs.
+`quick-update neo` checks the source and `nom`, updates inputs, then builds and
+switches Neo. `quick-update all` prints enabled hosts from inventory, updates
+inputs once, then builds and switches each selected host separately. Current
+enabled targets are Neo, Apoc, and Trinity. A failure on one host does not stop
+later hosts; successful earlier hosts may already be switched. Neither command
+cleans generations. `just update` alone only updates inputs.
 
-`just clean` is a separate task. It uses sudo for root-owned Darwin system
-generations, expires local Home Manager generations, and collects Nix garbage;
-it also cleans enabled NixOS hosts, including apoc. The 30-day retention keeps
-current and recent generations. A cleanup failure stops `just clean`.
+`just clean` is separate. It uses sudo for root-owned Darwin generations, expires
+local Home Manager generations, collects Nix garbage, and cleans enabled NixOS
+hosts, currently including Apoc and Trinity. A cleanup failure stops `just clean`.
 
 Nix build and switch commands pass output through `nom` (`nix-output-monitor`):
 successful builds are summarized as a dependency/progress tree, while failed
@@ -50,10 +53,10 @@ nix develop --command just quick-update neo
 This runs the full update workflow—input update, build, and switch—but not
 generation cleanup. Run `just clean` separately when you want to reclaim space.
 
-`quick-update` without a host still targets every enabled machine. Host filters
-accept comma-separated names. The remote NixOS commands remain available:
-`just nixos-build apoc`, `just nixos-switch apoc`, `just nixos-home-build apoc`
-and `just nixos-home-switch apoc`.
+`quick-update` without a host targets every enabled machine. Host filters accept
+comma-separated names. Current enabled machines are Neo, Apoc, and Trinity. The
+remote NixOS commands include `just nixos-build trinity`, `just nixos-switch
+trinity`, `just nixos-home-build trinity`, and `just nixos-home-switch trinity`.
 
 Advanced recipes include `repl`, `lint`, `lint-fix`, `deadnix`, `deadnix-fix` and
 `install-hooks`. Existing `*-all`, `darwin-switch-neo` and

@@ -24,11 +24,11 @@ in {
     theme = "dracula"
   '';
 
-  # Plugins are installed by `herdr plugin` into ~/.config/herdr, so activation
-  # reconciles them idempotently. The install step downloads the release binary
-  # and verifies its published checksum. A failed fetch only warns.
+  # Plugins are reconciled during activation; the install step downloads,
+  # verifies, and extracts the release. Declare its tools because activation
+  # runs before home.packages are linked.
   home.activation.herdrReviewr = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    export PATH="${lib.makeBinPath [pkgs.curl pkgs.git pkgs.coreutils pkgs.gnugrep]}:$PATH"
+    export PATH="${lib.makeBinPath [pkgs.curl pkgs.git pkgs.coreutils pkgs.gnugrep pkgs.gawk pkgs.gnused pkgs.gnutar pkgs.gzip]}:$PATH"
     if ! ${herdr} plugin list 2>/dev/null | grep -qF '[github:persiyanov/herdr-reviewr@${reviewrRef}]'; then
       if ${herdr} plugin list 2>/dev/null | grep -qF 'persiyanov.reviewr'; then
         $DRY_RUN_CMD ${herdr} plugin uninstall persiyanov.reviewr \

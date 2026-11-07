@@ -42,6 +42,11 @@ just nixos-home-build trinity
 just nixos-home-switch trinity
 ```
 
+Trinity's `fs` account now accepts its dedicated `id_trinity` public key in
+addition to the legacy keys. The public key is declared in `users/fs.nix` and
+installed by `just nixos-switch trinity`; root access continues to use the legacy
+keys. Keep the old client key until the separate cleanup task.
+
 ## AI terminal workstation
 
 Trinity's Home Manager profile imports the shared terminal-workstation setup:

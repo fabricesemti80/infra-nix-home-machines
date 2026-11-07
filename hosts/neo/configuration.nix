@@ -23,24 +23,37 @@
     orientation = "left";
     autohide = false;
     persistent-apps = [
-      # "/Applications/cmux.app"
-      # "/Applications/LM Studio.app"
-      # "/Applications/1Password.app"
+      # Browsers
       "/Applications/Brave Browser.app"
-      "/Applications/Commander One.app"
-      "/Applications/Ghostty.app"
+      "/Applications/Safari.app"
+      {spacer = {small = true;};}
+
+      # Terminals and development
+      # "/Applications/cmux.app"
       # "/Applications/Kiro.app"
+      # "/Applications/LM Studio.app"
+      # "/Applications/Nix Apps/OpenCode.app"
+      "/Applications/Ghostty.app"
+      "/Applications/Warp.app"
+      "/Applications/Herdr.app"
+      "/Applications/Visual Studio Code.app"
       # "/Applications/Lens.app"
+      "/Applications/Freelens.app"
+      {spacer = {small = true;};}
+
+      # Communication
+      "/Applications/Slack.app"
+      "/Applications/WhatsApp.app"
+      {spacer = {small = true;};}
+
+      # Files and virtualization
+      "/Applications/Commander One.app"
       # "/Applications/OrbStack.app"
       "/Applications/Parallels Desktop.app"
-      "/Applications/Safari.app"
-      "/Applications/Nix Apps/Submarine.app"
-      "/Applications/Nix Apps/ChatGPT.app"
-      "/Applications/Warp.app"
-      "/Applications/WhatsApp.app"
-      "/Applications/Freelens.app"
-      "/Applications/Visual Studio Code.app"
-      # "/Applications/Nix Apps/OpenCode.app"
+      {spacer = {small = true;};}
+
+      # Notes
+      # "/Applications/1Password.app"
       "/Applications/Obsidian.app"
     ];
   };
