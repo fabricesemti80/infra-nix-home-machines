@@ -44,7 +44,7 @@ in {
         IdentityFile ~/.ssh/id_trinity.pub
         IdentitiesOnly yes
 
-      Host apoc
+      Host apoc 10.211.55.8
         HostName 10.211.55.8
         User fs
         Port 22
@@ -108,10 +108,6 @@ in {
 
       [[ssh-keys]]
       item = "macbook-fs"
-      vault = "ssh-keys"
-
-      [[ssh-keys]]
-      item = "id_proxmox"
       vault = "ssh-keys"
 
       [[ssh-keys]]

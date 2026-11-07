@@ -58,6 +58,11 @@ vault. Legacy private-key files remain as fallback until the separate cleanup
 task is completed. Git remotes remain HTTPS; GitHub/GitLab SSH entries are for
 repositories configured to use SSH.
 
+Deploy recipes connect to the `target` in `inventory.json` (for example
+`fs@10.211.55.8`), not to the host alias. Each managed `Host` block must
+therefore also list that IP (`Host apoc 10.211.55.8`); otherwise SSH ignores the
+block, falls back to default `~/.ssh/id_*` files, and the host looks offline.
+
 QNAP's client stanza offers `id_qnap` first with password fallback. The public
 key is installed at `/share/homes/admin-fabrice/.ssh/authorized_keys`, and a
 key-only login succeeded. Persistence across a NAS reboot remains untested.
