@@ -110,7 +110,7 @@
     description = userConfig.fullName;
     extraGroups = ["networkmanager" "wheel"];
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = userConfig.sshKeys;
+    openssh.authorizedKeys.keys = userConfig.sshKeys ++ [userConfig.sshKeysByHost.apoc];
   };
 
   # Passwordless sudo → enables nixos-rebuild over SSH without a tty.

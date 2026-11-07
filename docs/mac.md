@@ -40,10 +40,29 @@ For the Mac explicitly:
 just quick-update neo
 ```
 
-`quick-update` updates flake inputs, builds and switches the selected Mac after
-successful builds. Generation cleanup remains separate: run `just clean` when
-you want to reclaim space. It retains current and 30-day generations and includes
-enabled NixOS hosts such as apoc.
+`quick-update neo` updates inputs, then builds and switches Neo. `quick-update all`
+prints the enabled hosts from inventory and builds/switches them one at a time:
+Neo, Apoc, and Trinity. Inputs update once. A failure can leave earlier hosts
+updated; `just clean` remains separate and covers all enabled NixOS hosts.
+
+## SSH
+
+Home Manager on Neo declares the SSH client identities in `home/modules/ssh.nix`
+and links `~/.ssh/nix-managed.conf`. The existing `~/.ssh/config` includes that
+fragment after OrbStack's generated include; its LazySSH-managed PBS entry remains
+in place. Keep this include when restoring or migrating the local SSH config.
+
+Nix contains only public keys. The private keys are held in 1Password, whose SSH
+agent is limited to the configured 1Password items and the existing Personal
+vault. Legacy private-key files remain as fallback until the separate cleanup
+task is completed. Git remotes remain HTTPS; GitHub/GitLab SSH entries are for
+repositories configured to use SSH.
+
+QNAP's client stanza offers `id_qnap` first with password fallback. The public
+key is installed at `/share/homes/admin-fabrice/.ssh/authorized_keys`, and a
+key-only login succeeded. Persistence across a NAS reboot remains untested.
+
+Windows/WSL support is tracked separately because Nix is not installed in WSL.
 
 ## Build Without Switching
 

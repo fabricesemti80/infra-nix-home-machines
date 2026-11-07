@@ -73,7 +73,7 @@
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = ["wheel"];
-    openssh.authorizedKeys.keys = userConfig.sshKeys;
+    openssh.authorizedKeys.keys = userConfig.sshKeys ++ [userConfig.sshKeysByHost.trinity];
   };
   users.users.root.openssh.authorizedKeys.keys = userConfig.sshKeys;
   security.sudo.wheelNeedsPassword = false;

@@ -6,9 +6,9 @@ Your daily command remains:
 just quick-update neo
 ```
 
-`quick-update` updates the lockfile, builds, then switches only selected hosts.
-It does not run generation cleanup. Run `just clean` separately when you need
-disk space; cleanup failures stop that task, and build failures prevent switching.
+`quick-update` updates the lockfile once, then builds and switches selected hosts
+individually. A host's failed build skips its switch; later selected hosts are
+still attempted. It does not run generation cleanup. Run `just clean` separately.
 
 ## First run on this branch
 

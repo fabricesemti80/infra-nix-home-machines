@@ -2,6 +2,7 @@
   imports = [
     ../modules/home.nix
     ../profiles/workstation.nix
+    ../modules/ssh.nix
     ../modules/darwin-aerospace.nix
     ../modules/raycast.nix
   ];

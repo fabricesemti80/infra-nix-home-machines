@@ -104,38 +104,56 @@ _check-source:
 # ============================================================================
 
 # Host filters limit deployments; cleanup remains an explicit `just clean` task.
-# Update inputs, build selected lanes, then switch after successful builds.
+# Resolve enabled hosts from the inventory, update inputs once, then process hosts individually.
 quick-update hosts="all":
     #!/usr/bin/env bash
     set -euo pipefail
     just _validate-hosts "{{hosts}}"
     just _check-source
     just _require-nom
-    just update
 
-    # Build a per-lane filter (silently dropping cross-lane entries) and call each lane
-    # that has at least one host to process.
-    darwin_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_darwin_hosts}}" "{{darwin_hosts}}")
-    nixos_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
+    if [ "{{hosts}}" = "all" ]; then
+      darwin_filter=$(python3 tasks/inventory.py hosts darwin --enabled | tr ' ' ',')
+      nixos_filter=$(python3 tasks/inventory.py hosts nixos --enabled | tr ' ' ',')
+    else
+      darwin_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_darwin_hosts}}" "{{darwin_hosts}}")
+      nixos_filter=$(just _quick-update-filter "{{hosts}}" "{{enabled_nixos_hosts}}" "{{nixos_hosts}}")
+    fi
+
+    printf 'Quick-update targets: Darwin [%s], NixOS [%s]\n' "${darwin_filter:-none}" "${nixos_filter:-none}"
+    just update
 
     failed=0
     if [ -n "$darwin_filter" ]; then
-      if just darwin-build "$darwin_filter"; then
-        just darwin-switch "$darwin_filter" || failed=1
-      else
-        echo "Darwin build failed; skipping switch for $darwin_filter" >&2
-        failed=1
-      fi
+      IFS=',' read -r -a darwin_targets <<< "$darwin_filter"
+      for h in "${darwin_targets[@]}"; do
+        if just _darwin-build-one "$h"; then
+          if ! just _darwin-switch-one "$h"; then
+            just _skip 36 darwin "$h" "switch failed"
+            failed=1
+          fi
+        else
+          just _skip 36 darwin "$h" "build failed; switch skipped"
+          failed=1
+        fi
+      done
     fi
     if [ -n "$nixos_filter" ]; then
-      if just nixos-build "$nixos_filter"; then
-        just nixos-switch "$nixos_filter" || failed=1
-      else
-        echo "NixOS build failed; skipping switch for $nixos_filter" >&2
-        failed=1
-      fi
+      IFS=',' read -r -a nixos_targets <<< "$nixos_filter"
+      for h in "${nixos_targets[@]}"; do
+        if just _nixos-build-one "$h"; then
+          if ! just _nixos-switch-one "$h"; then
+            just _skip 32 nixos "$h" "switch failed"
+            failed=1
+          fi
+        else
+          just _skip 32 nixos "$h" "build failed; switch skipped"
+          failed=1
+        fi
+      done
     fi
     exit "$failed"
+
 
 # ============================================================================
 # Flake Management

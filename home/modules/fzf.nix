@@ -16,8 +16,8 @@ in {
     enable = true;
     historyWidget.command = "";
     defaultCommand = "${pkgs.fd}/bin/fd --type f --hidden --exclude .git";
-    fileWidgetCommand = "${pkgs.fd}/bin/fd --type f --hidden --exclude .git";
-    changeDirWidgetCommand = "${pkgs.fd}/bin/fd --type d --hidden --exclude .git";
+    fileWidget.command = "${pkgs.fd}/bin/fd --type f --hidden --exclude .git";
+    changeDirWidget.command = "${pkgs.fd}/bin/fd --type d --hidden --exclude .git";
     defaultOptions = [
       "--bind '?:toggle-preview'"
       "--bind 'ctrl-a:select-all'"
