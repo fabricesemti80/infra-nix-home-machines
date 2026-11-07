@@ -106,7 +106,8 @@ existing Pi data are not migrated or deleted.
 [Diagram Design skill](https://github.com/cathrynlavery/diagram-design) for
 OMP, Codex (`~/.agents/skills`), Claude Code, and OpenCode on neo's workstation profile.
 It is pinned to version 2.6.120; update its revision and hash together.
-No marketplace installer or automatic upstream update runs during activation.
+No marketplace installer or automatic upstream update runs for this skill
+during activation.
 
 Restart the agent after switching, then ask it to use `diagram-design` for an
 HTML/SVG diagram. This installs the skill and its supporting files, not native
