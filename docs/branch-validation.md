@@ -42,6 +42,20 @@ before activating them. Inspect the lock diff even when deploying one host.
 - The shared shell only uses the Mac Tailscale application path on Darwin and
   checks that kubectl/direnv exist before loading their shell hooks.
 
+## CI disk capacity
+
+CI still builds the full native system and standalone Home Manager outputs.
+On GitHub-hosted macOS runners, it first removes the preinstalled Android
+SDK/NDK bundle at `~/Library/Android/sdk`, which these Nix builds do not use.
+It preserves Xcode and the selected Apple SDK. Darwin CI limits Nix to one
+concurrent build with two cores per build to reduce peak temporary disk use;
+Linux and local deployment commands are unchanged. Disk usage is printed
+before and after cleanup and at the end of the native job, including failures.
+
+This addresses runner disk pressure seen while building Packer, not a Packer
+source defect. A successful hosted run is still required to establish that
+the available capacity is sufficient for a cold build.
+
 ## Recovery
 
 Before switching, note the existing generations:

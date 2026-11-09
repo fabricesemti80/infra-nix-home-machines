@@ -44,10 +44,22 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v7
+      # Native Nix builds do not use the image's large Android SDK/NDK bundle.
+      # Reclaim it only on disposable GitHub-hosted macOS runners.
+      - name: Reclaim unused Android tooling
+        if: runner.os == 'macOS' && runner.environment == 'github-hosted'
+        shell: bash
+        run: |
+          set -euo pipefail
+          df -h /
+          rm -rf -- "$HOME/Library/Android/sdk"
+          df -h /
       - uses: cachix/install-nix-action@v31
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
+            ${{ runner.os == 'macOS' && 'max-jobs = 1' || '' }}
+            ${{ runner.os == 'macOS' && 'cores = 2' || '' }}
       # Derivation evaluation is explicit: flake check alone does not cover
       # standalone Home Manager and Darwin outputs.
       - name: Evaluate native system and home
@@ -58,3 +70,6 @@ jobs:
         run: |
           nix build --no-link --no-update-lock-file '.#${{ matrix.system_output }}'
           nix build --no-link --no-update-lock-file '.#homeConfigurations."fs@${{ matrix.host }}".activationPackage'
+      - name: Report disk space
+        if: always()
+        run: df -h / /nix
