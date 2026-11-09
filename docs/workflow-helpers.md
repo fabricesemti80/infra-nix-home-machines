@@ -45,6 +45,14 @@ are separate programs; the settings and plugin below configure the terminal one.
 Add future local settings there before switching. Reload the configuration in
 Herdr with its default Ctrl+B, Shift+R binding.
 
+Home Manager installs the release-matched `herdr` agent skill from the pinned
+Herdr input into `~/.agents/skills`, `~/.claude/skills`,
+`~/.omp/agent/skills`, and `~/.config/opencode/skills`. Supported agents
+discover it automatically after activation and a new agent session. The skill
+operates only inside Herdr panes (`HERDR_ENV=1`); it does not control the
+separate Herdr Core desktop runtime. See the
+[upstream skill guide](https://herdr.dev/tui/docs/agent-skill/).
+
 - Ctrl+B, Alt+P / Alt+N: previous/next agent.
 - Ctrl+B, Alt+1–9: focus agent by index.
 - Ctrl+B, Alt+G: popup GitHub dashboard (`gh dash`).

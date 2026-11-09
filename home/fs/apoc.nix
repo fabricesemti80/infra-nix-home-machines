@@ -2,6 +2,7 @@
   imports = [
     ../modules/home.nix
     ../profiles/test-vm.nix
+    ../modules/ssh.nix
     ../modules/plasma.nix
   ];
 
