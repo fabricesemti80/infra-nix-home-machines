@@ -86,11 +86,11 @@ public keys under `~/.ssh`.
   agent. Do not remove the sockets in `~/.ssh/agent`.
 
 Nix contains only public keys. The managed SSH identities use private keys held
-in 1Password. The Mac's agent configuration exposes the named items from the
-`ssh-keys` vault **and SSH keys in the Personal vault**; it is not restricted to
-the named items alone. `macbook-fs`, `fs-home-rsa`, and `git-signing-fs` remain
-listed for legacy access and signing. These declarations do not archive keys
-or remove local private-key files.
+in 1Password. The Mac's agent configuration exposes only the named items from
+the `ssh-keys` vault; it no longer includes the whole Personal vault.
+`macbook-fs`, `fs-home-rsa`, and `git-signing-fs` remain listed for legacy
+access and signing. These declarations do not archive keys or remove local
+private-key files.
 Git remotes remain HTTPS; GitHub/GitLab SSH entries are for repositories
 configured to use SSH.
 
@@ -103,21 +103,19 @@ QNAP's client stanza offers `id_qnap` first with password fallback. The public
 key is installed at `/share/homes/admin-fabrice/.ssh/authorized_keys`, and a
 key-only login succeeded. Persistence across a NAS reboot remains untested.
 
-The managed PBS block connects the alias `proxmox-pbs-0` to `10.0.40.20` as
-root and selects `id_proxmox_pbs_0.pub` (`sshKeysByHost.pbs`). It currently
-matches **only the alias**, not the IP: use `ssh proxmox-pbs-0` to select this
-identity. Direct connections to `10.0.40.20` do not receive the managed block's
-identity settings. This is an exception to the IP-matching requirement above.
+The managed PBS block matches both `proxmox-pbs-0` and `10.0.40.20`, connects
+as root, and selects `id_proxmox_pbs_0.pub` (`sshKeysByHost.pbs`). Alias and
+direct-IP connections therefore use the same managed identity settings.
 The client configuration does not install or replace keys on PBS; server-side
 key enrollment must be verified separately.
 
-Git commit signing in this PR still sets `user.signingkey` to
-`~/.ssh/id_gitsign_fs`, with signing enabled and the default SSH signing
-program. This configuration does not declare a `.pub` signing-key file or a
-1Password signer wrapper. **Keep the existing signing key available; do not
-archive or delete `~/.ssh/id_gitsign_fs` based on this deployment.** A separate
-public-key/agent signing migration must be included, activated, and verified
-with an actual signed commit before retiring the local key.
+Git commit signing sets `user.signingkey` to the managed public-key file
+`~/.ssh/id_gitsign_fs.pub`, generated from `sshKeysByHost.gitsign`.
+On macOS, a signer wrapper points `ssh-keygen` at the 1Password agent socket;
+on Linux, signing uses the forwarded agent through `SSH_AUTH_SOCK`.
+The private signing key must be available in the agent. Keep any existing
+private-key copy until activation and an actual signed commit have verified
+the migration on each required host. Nix does not archive or delete that copy.
 
 Windows/WSL support is tracked separately because Nix is not installed in WSL.
 

@@ -106,7 +106,7 @@
         "IdentitiesOnly yes"
       ]))
 
-    (block "proxmox-pbs-0" ([
+    (block "proxmox-pbs-0 10.0.40.20" ([
         "HostName 10.0.40.20"
         "User root"
         "Port 22"
@@ -124,6 +124,7 @@ in {
       ".ssh/id_qnap.pub".text = "${sshKeysByHost.qnap}\n";
       ".ssh/id_github_fs.pub".text = "${sshKeysByHost.github}\n";
       ".ssh/id_gitlab_fs.pub".text = "${sshKeysByHost.gitlab}\n";
+      ".ssh/id_gitsign_fs.pub".text = "${sshKeysByHost.gitsign}\n";
       ".ssh/id_proxmox_pbs_0.pub".text = "${sshKeysByHost.pbs}\n";
       ".ssh/id_pve_00.pub".text = "${sshKeysByHost.pve00}\n";
       ".ssh/id_trinity.pub".text = "${sshKeysByHost.trinity}\n";
@@ -210,9 +211,6 @@ in {
         [[ssh-keys]]
         item = "git-signing-fs"
         vault = "ssh-keys"
-
-        [[ssh-keys]]
-        vault = "Personal"
       '';
     };
 
