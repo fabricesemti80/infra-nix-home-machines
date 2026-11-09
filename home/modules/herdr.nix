@@ -10,16 +10,20 @@
   # Diff-review pane for agent changes — https://github.com/persiyanov/herdr-reviewr
   # Bump the tag here; activation replaces a plugin installed at a different ref.
   reviewrRef = "v0.49.1";
+  skillRoots = [
+    ".agents/skills"
+    ".claude/skills"
+    ".omp/agent/skills"
+    ".config/opencode/skills"
+  ];
 in {
   # Use the same pinned source as the CLI, with automatic agent discovery.
   home.file =
-    lib.genAttrs [
-      ".agents/skills/herdr"
-      ".claude/skills/herdr"
-      ".omp/agent/skills/herdr"
-      ".config/opencode/skills/herdr"
-    ] (_: {
+    lib.genAttrs (map (root: "${root}/herdr") skillRoots) (_: {
       source = "${inputs.herdr}/skills/herdr";
+    })
+    // lib.genAttrs (map (root: "${root}/ticket") skillRoots) (_: {
+      source = ../../files/skills/ticket;
     });
 
   home.packages =

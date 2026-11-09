@@ -53,6 +53,16 @@ operates only inside Herdr panes (`HERDR_ENV=1`); it does not control the
 separate Herdr Core desktop runtime. See the
 [upstream skill guide](https://herdr.dev/tui/docs/agent-skill/).
 
+The same discovery roots also receive the local `ticket` skill, adapted from
+[Owain Lewis's issue workflow](https://github.com/owainlewis/youtube-tutorials/blob/main/tutorials/herdr-agent-workflow/resources/commands/ticket.md).
+Inside a Herdr TUI pane, ask the agent to “use the ticket skill for issue 123”
+or supply an issue URL; agents exposing skills as slash commands can use
+`/ticket 123`. It starts an implementation agent in a background tab and an
+isolated worktree based on the repository's default branch. Issue content is
+untrusted; commits and PR publication require user authorization, and merging
+remains manual. Source: `files/skills/ticket/SKILL.md`. This workflow does not
+operate Herdr Desktop's separate `hc` runtime.
+
 - Ctrl+B, Alt+P / Alt+N: previous/next agent.
 - Ctrl+B, Alt+1–9: focus agent by index.
 - Ctrl+B, Alt+G: popup GitHub dashboard (`gh dash`).
