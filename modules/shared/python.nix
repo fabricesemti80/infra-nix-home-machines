@@ -42,9 +42,6 @@
       # Data/Query
       jmespath # JSON query language for Python — https://github.com/jmespath/jmespath.py
 
-      # Document conversion
-      markitdown # Convert files and office documents to Markdown — https://github.com/microsoft/markitdown
-
       # Development
       pip # Python package installer — https://pip.pypa.io/
       virtualenv # Python virtual environment creator — https://virtualenv.pypa.io/
@@ -59,6 +56,5 @@ in {
   environment.systemPackages = [
     litellmProxy # Local CLI wrapper for LiteLLM — https://docs.litellm.ai/
     pythonEnv # Python environment with the packages listed above — https://www.python.org/
-    pkgs.ffmpeg # Runtime dependency for markitdown audio conversion — https://ffmpeg.org/
   ];
 }

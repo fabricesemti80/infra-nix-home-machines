@@ -2,7 +2,7 @@
   description = "NixOS and nix-darwin configs for my machines";
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # Herdr terminal workspace (keep upstream's locked build dependencies)
     herdr.url = "github:herdrdev/herdr/v0.9.5";

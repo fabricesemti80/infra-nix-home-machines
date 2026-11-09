@@ -47,16 +47,52 @@ updated; `just clean` remains separate and covers all enabled NixOS hosts.
 
 ## SSH
 
-Home Manager on Neo declares the SSH client identities in `home/modules/ssh.nix`
-and links `~/.ssh/nix-managed.conf`. The existing `~/.ssh/config` includes that
-fragment after OrbStack's generated include; its LazySSH-managed PBS entry remains
-in place. Keep this include when restoring or migrating the local SSH config.
+`home/modules/ssh.nix` declares the same SSH host blocks for every machine (Neo,
+Trinity, Apoc) through the shared terminal profile, so you connect to a target
+the same way from any of them. It writes `~/.ssh/nix-managed.conf` and the
+public keys under `~/.ssh`.
 
-Nix contains only public keys. The private keys are held in 1Password, whose SSH
-agent is limited to the configured 1Password items and the existing Personal
-vault. Legacy private-key files remain as fallback until the separate cleanup
-task is completed. Git remotes remain HTTPS; GitHub/GitLab SSH entries are for
-repositories configured to use SSH.
+- **Neo:** `~/.ssh/config` is hand-maintained and includes that fragment after
+  OrbStack's include; its LazySSH-managed PBS entry remains. Keep the include
+  when restoring the file. Blocks set `IdentityAgent` to the 1Password app, and
+  `ForwardAgent` names the 1Password socket explicitly (a bare `yes` forwards
+  `$SSH_AUTH_SOCK`, which can be unset) for Trinity and Apoc only. 1Password must
+  be running and unlocked with its SSH agent on. If its socket refuses
+  connections, no agent is forwarded. Only Apoc's managed block explicitly
+  includes a legacy private-key fallback (`~/.ssh/id_macbook_fs`); do not assume
+  the other managed blocks can fall back to local private keys.
+- **Trinity and Apoc:** no 1Password app (and its agent cannot run headless), so
+  they use the agent forwarded from Neo. Nix owns their `~/.ssh/config`. SSH Neo
+  to the host first (`ssh trinity`), then connect onward from there; each key use
+  prompts for approval in 1Password on Neo.
+
+  **Herdr:** panes and `hc exec` commands run under the long-lived `herdr-core`
+  daemon on Trinity (parent: systemd), not under the SSH login that connected the
+  app, so they never inherit that login's agent. Every Linux host therefore uses a
+  stable link, `~/.ssh/auth-sock`, as its `IdentityAgent` and `SSH_AUTH_SOCK`.
+  `~/.ssh/agent-link` repoints it at a live forwarded socket when it dangles. It
+  runs from `~/.ssh/rc` (every login, including Herdr's transport), from the zsh
+  prompt, and from a `Match exec` in the ssh config (every `ssh` invocation).
+  Onward SSH from a pane works while Herdr or any `ssh trinity` session is open.
+  With no live forwarded session the link dangles and SSH reports
+  `Load key ...: invalid format` before asking for a password. Run `exec zsh` in
+  a pane that started before this change. A new host also needs its host key
+  trusted once (`known_hosts` is not managed).
+
+  Recovery currently checks whether `~/.ssh/auth-sock` points to a socket,
+  not whether that agent responds. A nonresponsive socket that still exists can
+  prevent recovery. With a live forwarded session open, remove only the stale
+  `~/.ssh/auth-sock` symlink and run `~/.ssh/agent-link` to select a responding
+  agent. Do not remove the sockets in `~/.ssh/agent`.
+
+Nix contains only public keys. The managed SSH identities use private keys held
+in 1Password. The Mac's agent configuration exposes only the named items from
+the `ssh-keys` vault; it no longer includes the whole Personal vault.
+`macbook-fs`, `fs-home-rsa`, and `git-signing-fs` remain listed for legacy
+access and signing. These declarations do not archive keys or remove local
+private-key files.
+Git remotes remain HTTPS; GitHub/GitLab SSH entries are for repositories
+configured to use SSH.
 
 Deploy recipes connect to the `target` in `inventory.json` (for example
 `fs@10.211.55.8`), not to the host alias. Each managed `Host` block must
@@ -66,6 +102,20 @@ block, falls back to default `~/.ssh/id_*` files, and the host looks offline.
 QNAP's client stanza offers `id_qnap` first with password fallback. The public
 key is installed at `/share/homes/admin-fabrice/.ssh/authorized_keys`, and a
 key-only login succeeded. Persistence across a NAS reboot remains untested.
+
+The managed PBS block matches both `proxmox-pbs-0` and `10.0.40.20`, connects
+as root, and selects `id_proxmox_pbs_0.pub` (`sshKeysByHost.pbs`). Alias and
+direct-IP connections therefore use the same managed identity settings.
+The client configuration does not install or replace keys on PBS; server-side
+key enrollment must be verified separately.
+
+Git commit signing sets `user.signingkey` to the managed public-key file
+`~/.ssh/id_gitsign_fs.pub`, generated from `sshKeysByHost.gitsign`.
+On macOS, a signer wrapper points `ssh-keygen` at the 1Password agent socket;
+on Linux, signing uses the forwarded agent through `SSH_AUTH_SOCK`.
+The private signing key must be available in the agent. Keep any existing
+private-key copy until activation and an actual signed commit have verified
+the migration on each required host. Nix does not archive or delete that copy.
 
 Windows/WSL support is tracked separately because Nix is not installed in WSL.
 

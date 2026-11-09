@@ -19,6 +19,7 @@
     ../modules/kubeconfig.nix
     ../modules/lazygit.nix
     ../modules/neovim.nix
+    ../modules/ssh.nix
     ../modules/scripts.nix
     ../modules/starship.nix
     ../modules/tmux.nix

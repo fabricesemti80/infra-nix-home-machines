@@ -11,6 +11,17 @@
   # Bump the tag here; activation replaces a plugin installed at a different ref.
   reviewrRef = "v0.49.1";
 in {
+  # Use the same pinned source as the CLI, with automatic agent discovery.
+  home.file =
+    lib.genAttrs [
+      ".agents/skills/herdr"
+      ".claude/skills/herdr"
+      ".omp/agent/skills/herdr"
+      ".config/opencode/skills/herdr"
+    ] (_: {
+      source = "${inputs.herdr}/skills/herdr";
+    });
+
   home.packages =
     [pkgs.gh pkgs.gh-dash]
     ++ lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default];
