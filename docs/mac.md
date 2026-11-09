@@ -57,9 +57,10 @@ public keys under `~/.ssh`.
   when restoring the file. Blocks set `IdentityAgent` to the 1Password app, and
   `ForwardAgent` names the 1Password socket explicitly (a bare `yes` forwards
   `$SSH_AUTH_SOCK`, which can be unset) for Trinity and Apoc only. 1Password must
-  be running and unlocked with its SSH agent on; if its socket refuses
-  connections, SSH silently falls back to the legacy key files and forwards no
-  agent.
+  be running and unlocked with its SSH agent on. If its socket refuses
+  connections, no agent is forwarded. Only Apoc's managed block explicitly
+  includes a legacy private-key fallback (`~/.ssh/id_macbook_fs`); do not assume
+  the other managed blocks can fall back to local private keys.
 - **Trinity and Apoc:** no 1Password app (and its agent cannot run headless), so
   they use the agent forwarded from Neo. Nix owns their `~/.ssh/config`. SSH Neo
   to the host first (`ssh trinity`), then connect onward from there; each key use
@@ -78,11 +79,18 @@ public keys under `~/.ssh`.
   a pane that started before this change. A new host also needs its host key
   trusted once (`known_hosts` is not managed).
 
-Nix contains only public keys. The private keys are held in 1Password, whose SSH
-agent is limited to the configured items of the `ssh-keys` vault; the Personal
-vault is no longer exposed. Retired keys are archived in 1Password and their
-private key files were moved to `~/.ssh/archive`. `macbook-fs`, `fs-home-rsa`
-and `git-signing-fs` stay served on purpose (legacy fallback and commit signing).
+  Recovery currently checks whether `~/.ssh/auth-sock` points to a socket,
+  not whether that agent responds. A nonresponsive socket that still exists can
+  prevent recovery. With a live forwarded session open, remove only the stale
+  `~/.ssh/auth-sock` symlink and run `~/.ssh/agent-link` to select a responding
+  agent. Do not remove the sockets in `~/.ssh/agent`.
+
+Nix contains only public keys. The managed SSH identities use private keys held
+in 1Password. The Mac's agent configuration exposes the named items from the
+`ssh-keys` vault **and SSH keys in the Personal vault**; it is not restricted to
+the named items alone. `macbook-fs`, `fs-home-rsa`, and `git-signing-fs` remain
+listed for legacy access and signing. These declarations do not archive keys
+or remove local private-key files.
 Git remotes remain HTTPS; GitHub/GitLab SSH entries are for repositories
 configured to use SSH.
 
@@ -95,25 +103,21 @@ QNAP's client stanza offers `id_qnap` first with password fallback. The public
 key is installed at `/share/homes/admin-fabrice/.ssh/authorized_keys`, and a
 key-only login succeeded. Persistence across a NAS reboot remains untested.
 
-The PBS LXC (`10.0.40.20`) has its own dedicated key, `id_proxmox_pbs_0`
-(`sshKeysByHost.pbs`), like `pve-00` and Trinity. Its Host block lists the IP
-(`Host proxmox-pbs-0 10.0.40.20`) so scripts and Terraform that connect to the IP
-get that key. Nix cannot install it in the container: `home-dc-terraform`'s
-`pbs-apply` does (`terraform_data.pbs_ssh_key`, through `pve-00` with `pct`) and
-makes it the only key the container accepts for root. Until that apply,
-use `ssh -t root@pve-00 pct enter 4020`.
+The managed PBS block connects the alias `proxmox-pbs-0` to `10.0.40.20` as
+root and selects `id_proxmox_pbs_0.pub` (`sshKeysByHost.pbs`). It currently
+matches **only the alias**, not the IP: use `ssh proxmox-pbs-0` to select this
+identity. Direct connections to `10.0.40.20` do not receive the managed block's
+identity settings. This is an exception to the IP-matching requirement above.
+The client configuration does not install or replace keys on PBS; server-side
+key enrollment must be verified separately.
 
-Git commit signing uses the 1Password item `git-signing-fs`; no private key file
-is kept on disk. `sshKeysByHost.gitsign` is written to `~/.ssh/id_gitsign_fs.pub`
-and `user.signingkey` points at it. On the Mac, Git's signer is a small wrapper
-that points `ssh-keygen` at the 1Password agent socket (the system shell's
-`SSH_AUTH_SOCK` is not that agent), so signing works from any terminal; the first
-use per session shows a 1Password approval prompt. 1Password's own `op-ssh-sign`
-helper failed from a non-GUI shell and is not used. On Trinity and Apoc the
-forwarded agent is already `SSH_AUTH_SOCK`. Before the first switch that adds
-this, move any loose `~/.ssh/id_gitsign_fs.pub` aside (Home Manager refuses to
-overwrite it); after the switch the old `~/.ssh/id_gitsign_fs` private key file is
-no longer used and can be archived.
+Git commit signing in this PR still sets `user.signingkey` to
+`~/.ssh/id_gitsign_fs`, with signing enabled and the default SSH signing
+program. This configuration does not declare a `.pub` signing-key file or a
+1Password signer wrapper. **Keep the existing signing key available; do not
+archive or delete `~/.ssh/id_gitsign_fs` based on this deployment.** A separate
+public-key/agent signing migration must be included, activated, and verified
+with an actual signed commit before retiring the local key.
 
 Windows/WSL support is tracked separately because Nix is not installed in WSL.
 
