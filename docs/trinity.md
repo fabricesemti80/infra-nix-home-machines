@@ -58,6 +58,12 @@ with `claude` and `codex login`. OMP profiles are available through `omp-codex`,
 host. Ghostty is intentionally omitted: Trinity is headless, so connect from the
 terminal app on your current machine over SSH.
 
+Trinity also installs `direnv`. In a trusted Kubernetes project with an `.envrc`,
+run `direnv allow` once and start a new shell after Home Manager activation if
+needed. For `home-dc-kubernetes`, `.envrc` selects the project's `kubeconfig`;
+without it, `kubectl` can fall back to `localhost:8080`. The kubeconfig and
+other credentials remain outside this repository and are not provisioned by Nix.
+
 Connect from the trusted network over SSH, then start Herdr's terminal UI:
 
 ```sh

@@ -9,6 +9,7 @@
   home.packages = with pkgs; [
     claude-code
     codex
+    direnv
     eza
     kubectl
     lazydocker
