@@ -64,24 +64,24 @@
         alternate = "@smol";
       };
     };
-    # Cost first: luna for routine roles, terra as the driver, Opus only to plan.
-    # Catalog bench (4 runs): terra ~4x cheaper than sonnet-5-5 at similar speed;
-    # gpt-6.1-sol was slower and costlier than terra. Anthropic is used only for plan.
+    # Split recurring work across providers without using Opus for routine plans.
+    # Keep Terra as driver/reviewer, Sonnet for implementation/planning, Haiku for helpers.
     mixed = {
       providers = ["openai-codex" "anthropic"];
       disabledProviders = ["openai" "opencode-go" "opencode"];
       modelRoles = {
         default = "openai-codex/gpt-6.1-terra:medium";
-        smol = "openai-codex/gpt-6-luna:low";
+        smol = "anthropic/claude-haiku-5-5:low";
         tiny = "@smol";
         memory = "@smol";
-        task = "openai-codex/gpt-6-luna:medium";
+        task = "anthropic/claude-sonnet-5-5:medium";
         commit = "@smol";
-        vision = "@smol";
+        vision = "openai-codex/gpt-6-luna:low";
         widget = "@smol";
         slow = "openai-codex/gpt-6.1-terra:high";
-        plan = "anthropic/claude-opus-5-5:high";
+        plan = "anthropic/claude-sonnet-5-5:high";
         advisor = "@smol";
+        alternate = "@smol";
       };
     };
   };
@@ -97,7 +97,6 @@
     advisor.enabled = true;
     advisor.reviewMode = "agent-end";
     advisor.continueSeverity = "blocker";
-    prewalk.enabled = true;
     task = {
       showResolvedModelBadge = true;
       # Route named agents through this setup's roles rather than personal pins.
@@ -118,6 +117,8 @@
       // {
         inherit (profile) modelRoles disabledProviders;
         enabledProviders = profile.providers;
+        # Mixed keeps its driver through implementation; cheap helpers are explicit.
+        prewalk.enabled = name != "mixed";
       }))
   profiles;
 

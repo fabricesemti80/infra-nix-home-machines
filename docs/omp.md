@@ -25,7 +25,7 @@ when resuming a conversation whose previous main model used another provider:
 omp-codex
 omp-opencode
 omp-claude
-omp-opencode-mixed
+omp-mixed
 omp-opencode -c
 omp-codex -c
 ```
@@ -35,26 +35,29 @@ stores. Authentication, sessions, skills, and extensions remain shared. Log in
 to OpenCode Go separately using `/login` before relying on the fallback; the
 Codex subscription does not fund OpenCode usage. Switching is manual, not an
 automatic retry after quota exhaustion. The **claude** setup needs an
-Anthropic login (`/login` → Anthropic) before use; **opencode-mixed** needs both
+Anthropic login (`/login` → Anthropic) before use; **mixed** needs both
 the Codex and Anthropic logins.
 
-| Role | codex (`openai-codex`) | opencode (`opencode-go`) | claude (`anthropic`) | opencode-mixed (`openai-codex` + `anthropic`) |
+| Role | codex (`openai-codex`) | opencode (`opencode-go`) | claude (`anthropic`) | mixed (`openai-codex` + `anthropic`) |
 | --- | --- | --- | --- | --- |
 | default | gpt-6.1-sol (low) | gpt-6-luna (medium) | sonnet-5-5 (low) | gpt-6.1-terra (medium) |
-| smol, tiny, memory, widget, alternate | gpt-6-luna (low) | gpt-6-luna (low) | haiku-5-5 (low) | gpt-6-luna (low) |
-| commit, vision | gpt-6-luna (low) | gpt-6-luna (low) | haiku-5-5 (low) | gpt-6-luna (low) |
+| smol, tiny, memory, widget, alternate | gpt-6-luna (low) | gpt-6-luna (low) | haiku-5-5 (low) | haiku-5-5 (low) |
+| commit | gpt-6-luna (low) | gpt-6-luna (low) | haiku-5-5 (low) | haiku-5-5 (low) |
+| vision | gpt-6-luna (low) | gpt-6-luna (low) | haiku-5-5 (low) | gpt-6-luna (low) |
 | slow | gpt-6.1-sol (high) | gpt-6-luna (high) | opus-5-5 (high) | gpt-6.1-terra (high) |
-| advisor | gpt-6.1-sol (high) | gpt-6-luna (low) | sonnet-5-5 (low) | gpt-6-luna (low) |
-| plan | gpt-6-astra (high) | glm-5.3 (high) | opus-5-5 (high) | opus-5-5 (high) |
-| task | gpt-6-luna (medium) | gpt-6-luna (medium) | sonnet-5-5 (medium) | gpt-6-luna (medium) |
+| advisor | gpt-6.1-sol (high) | gpt-6-luna (low) | sonnet-5-5 (low) | haiku-5-5 (low) |
+| plan | gpt-6-astra (high) | glm-5.3 (high) | opus-5-5 (high) | sonnet-5-5 (high) |
+| task | gpt-6-luna (medium) | gpt-6-luna (medium) | sonnet-5-5 (medium) | sonnet-5-5 (medium) |
 
-The **opencode-mixed** setup ranks cost above speed. Routine roles use OpenAI's
-cheapest model, `gpt-6-luna`; the interactive driver and deep review use
-`gpt-6.1-terra`; and only `plan` uses Claude (`opus-5-5`, the cheaper of the two
-Opus 5 tiers). Over four chat runs `gpt-6.1-terra:medium` cost about a quarter of
-`claude-sonnet-5-5:medium` at similar speed, and `gpt-6.1-sol:low` was both
-slower and costlier than terra, so Sol is not used. It runs on the Codex
-subscription allowance for OpenAI roles and on Anthropic billing for `plan`.
+The **mixed** setup distributes recurring work across providers: Terra drives
+the interactive session and explicit deep reviews; Sonnet handles delegated
+implementation and planning; Haiku handles lightweight helpers and the
+frequent low-thinking advisor. Luna remains the vision model. Opus is not
+used by default in mixed; the Claude-only setup retains it for planning/review.
+This is a workload split, not a spending cap or a guaranteed 50/50 bill.
+OpenAI roles use the Codex allowance; Anthropic roles use Anthropic billing.
+Actual cost depends on context size, task volume, and provider billing.
+The allocation has not been benchmarked for end-to-end task quality or spend.
 
 Astra is reserved for Codex planning. The OpenCode Go setup stays on
 `gpt-6-luna` for every routine role and reserves `glm-5.3` for planning.
@@ -80,24 +83,26 @@ This limits repeated review depth, not a demonstrated TTFT win: the fixed-output
 bench measured similar gpt-6-luna TTFT at low and high (748ms vs 711ms p50).
 Routine helpers do not use the planning model.
 
-Prewalk remains enabled: post-plan implementation can switch to the selected
-setup's `smol` model. Use `--no-prewalk` to retain the main model for harder
-implementation work. Named scout/sonic/task/init/review agents route through
-these roles using `task.agentModelOverrides`. OMP's source-session model
+Prewalk is disabled in **mixed**, so the Terra driver remains active during
+implementation instead of automatically switching to Haiku. The other setups
+retain prewalk: post-plan implementation can switch to their `smol` model;
+use `--no-prewalk` to retain their main model for harder work. Named
+scout/sonic/task/init/review agents route through these roles using
+`task.agentModelOverrides`. OMP's source-session model
 selection for historical agents, project config, extensions, environment, and
 explicit launch overrides can affect routing; provider filters are not a
 network sandbox.
 
 Home Manager manages the default `~/.omp/agent/config.yml` and
-`~/.omp/agent/model-configs/{codex,opencode,claude,opencode-mixed}.yml` as read-only symlinks.
+`~/.omp/agent/model-configs/{codex,opencode,claude,mixed}.yml` as read-only symlinks.
 The launchers use the corresponding Nix-store config and explicitly select its
 main model. Each setup enables only its own providers and disables the rest.
 The old `sol-default-economical` preset, which mixed providers without a launcher, is removed.
 Edit the Nix module and reapply Home Manager to change allocations; do not use
 `omp config set` or `/modelpreset switch` to modify these managed files.
 
-The existing symbols, composer, themes, advisor cadence, prewalk, and denied
-AutoQA consent are retained. Sessions, provider credentials, extensions, and
+The existing symbols, composer, themes, advisor cadence, and denied AutoQA
+consent are retained. Sessions, provider credentials, extensions, and
 existing Pi data are not migrated or deleted.
 
 ## Diagram Design skill
